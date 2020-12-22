@@ -3,6 +3,17 @@ const pty = require("node-pty");
 const os = require("os");
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 
+const path = require('path') 
+const is_dev = process.env.NODE_ENV || 'development'; 
+  
+// If development environment 
+if (is_dev === 'development') { 
+	require('electron-reload')(__dirname, { 
+        electron: path.join(__dirname, 'node_modules', '.bin', 'electron'), 
+        hardResetMethod: 'exit'
+    }); 
+}
+
 let mainWindow;
 function createWindow() {
 	mainWindow = new BrowserWindow({
@@ -16,9 +27,6 @@ function createWindow() {
 	mainWindow.on("closed", function () {
 		mainWindow = null;
 	});
-
-
-	//ipcing
 
 	var ptyProcess = pty.spawn(shell, [], {
 		name: "xterm-color",
