@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html style="position: fixed;">
 
 <head>
 	<link rel="stylesheet" href="index.css">
 	<link rel="stylesheet" href="xterm.css">
 	<script src="node_modules/xterm/lib/xterm.js"></script>
-<body>
-	<div class="splitter">
-		<ul id="first" style="overflow: scroll; overflow-y: auto; overflow-x: auto;">
+<body style="position: fixed;">
+
+	
+	<div class="splitter" style="position: fixed; height: 100%;">
+		<ul id="first" style="overflow: scroll; margin: 0px; position: relative;">
 			<li><a href="">This session</a></li>
 			<li><a href="">asdasd</a></li>
 			<li><a href="">asdaaaaaaaaaaaa</a></li>
@@ -24,12 +26,20 @@
 			<li><a href="">Session</a></li>
 		</ul>
 		<div id="separator"></div>
-		<div id="second" style="max-height: 500px; height: 500px;">
-			<div id="terminal" style="height: 500px;"></div>
+		<div id="second">
+			<div id="terminal" style="width: 100%; height: 100%; min-width: 100%; min-height: 100%; position: fixed;"></div>
 			<script src="index.js"></script>
 		</div>
 	</div>
 	<script src="split.js"></script>
+	
+	<!--
+
+		<div id="terminal" style="width: 100%; height: 100%; min-width: 100%; min-height: 100%; position: fixed;"></div>
+	<script src="index.js"></script>
+
+	-->
+	
 </body>
 
 </html>
