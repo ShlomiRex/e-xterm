@@ -5,13 +5,16 @@
 	<link rel="stylesheet" href="index.css">
 	<link rel="stylesheet" href="xterm.css">
 	<script src="node_modules/xterm/lib/xterm.js"></script>
-</head>
-
 <body>
-
-	<header>headasasder area</header>
-	<nav>
-		<ul>
+	<div class="splitter">
+		<ul id="first" style="overflow: scroll; overflow-y: auto; overflow-x: auto;">
+			<li><a href="">This session</a></li>
+			<li><a href="">asdasd</a></li>
+			<li><a href="">asdaaaaaaaaaaaa</a></li>
+			<li><a href="">Session</a></li>
+			<li><a href="">Session</a></li>
+			<li><a href="">Session</a></li>
+			<li><a href="">Sessasdasdion</a></li>
 			<li><a href="">Session</a></li>
 			<li><a href="">Session</a></li>
 			<li><a href="">Session</a></li>
@@ -19,25 +22,14 @@
 			<li><a href="">Session</a></li>
 			<li><a href="">Session</a></li>
 			<li><a href="">Session</a></li>
-			<li><a href="">Session</a></li>
-			<li><a href="">Session</a></li>
-			<li><a href="">Session</a></li>
-			<li><a href="">Session</a></li>
-			<li><a href="">Session</a></li>
-			<li><a href="">Session</a></li>
-			<li><a href="">Session</a></li>
-
 		</ul>
-	</nav>
-	
-	<div style="display: block; background-color: red; border:blue">
-		<div>
-			<div id="terminal"></div>
+		<div id="separator"></div>
+		<div id="second" style="max-height: 500px; height: 500px;">
+			<div id="terminal" style="height: 500px;"></div>
 			<script src="index.js"></script>
 		</div>
 	</div>
-
-	<footer>footer area</footer>	
+	<script src="split.js"></script>
 </body>
 
 </html>

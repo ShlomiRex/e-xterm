@@ -11,3 +11,10 @@ ipc.on("terminal.incomingData", (event, data) => {
 term.onData(e => {
     ipc.send("terminal.keystroke", e);
 });
+
+
+const fitAddon = require("xterm-addon-fit")
+//import { FitAddon } from 'xterm-addon-fit';
+const fitAddon2 = new fitAddon.FitAddon();
+term.loadAddon(fitAddon2);
+fitAddon2.fit();

@@ -39,10 +39,11 @@
 
  .xterm {
     font-feature-settings: "liga" 0;
-    position: relative;
+	position: inherit;
+	
     user-select: none;
     -ms-user-select: none;
-    -webkit-user-select: none;
+	-webkit-user-select: none;
 }
 
 .xterm.focus,
@@ -63,7 +64,8 @@
 .xterm .xterm-helper-textarea {
     padding: 0;
     border: 0;
-    margin: 0;
+	margin: 0;
+	
     /* Move textarea out of the screen to the far left, so that the cursor is not visible */
     position: absolute;
     opacity: 0;
@@ -71,7 +73,7 @@
     top: 0;
     width: 0;
     height: 0;
-    z-index: -5;
+	z-index: -5;
     /** Prevent wrapping so the IME appears against the textarea at the correct position */
     white-space: nowrap;
     overflow: hidden;
@@ -88,30 +90,37 @@
     z-index: 1;
 }
 
+/*
 .xterm .composition-view.active {
     display: block;
 }
+*/
 
 .xterm .xterm-viewport {
     /* On OS X this is required in order for the scroll bar to appear fully opaque */
     background-color: #000;
     overflow-y: scroll;
     cursor: default;
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 0;
-    bottom: 0;
+	position: static;
+}
+
+.xterm .xterm-scroll-area {
+	position: absolute;
+	width: 100%;
+	max-height: 500px;
+
 }
 
 .xterm .xterm-screen {
-    position: relative;
+	position: absolute;
+	max-height: 500px;
+	height: 500px;
 }
 
 .xterm .xterm-screen canvas {
     position: absolute;
     left: 0;
-    top: 0;
+	top: 0;
 }
 
 

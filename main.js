@@ -17,8 +17,8 @@ if (is_dev === 'development') {
 let mainWindow;
 function createWindow() {
 	mainWindow = new BrowserWindow({
-		height: 600,
-		width: 800,
+		height: 800,
+		width: 1200,
 		webPreferences: {
 			nodeIntegration: true
 		}
@@ -36,10 +36,12 @@ function createWindow() {
 		env: process.env
 	});
 
-	ptyProcess.on('data', function (data) {
+	ptyProcess.onData(function(data) {
 		mainWindow.webContents.send("terminal.incomingData", data);
 		console.log("Data sent");
+		console.log(data);
 	});
+
 	ipcMain.on("terminal.keystroke", (event, key) => {
 		ptyProcess.write(key);
 	});
@@ -62,3 +64,4 @@ app.on("activate", function () {
 		createWindow();
 	}
 });
+
