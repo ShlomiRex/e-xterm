@@ -9,7 +9,7 @@ app.on('ready', function () {
       webviewTag: true
     }
   });
-  mainWindow.loadURL('file://' + __dirname + '/terminal.html'); //TODO: Change back to electron-tabs.html
+  mainWindow.loadURL('file://' + __dirname + '/index.html');
   mainWindow.on('ready-to-show', function () {
     mainWindow.show();
     mainWindow.focus();
