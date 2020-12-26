@@ -1,3 +1,4 @@
+
 const electron = require('electron');
 const app = electron.app;
 
@@ -14,3 +15,4 @@ app.on('ready', function () {
     mainWindow.focus();
   });
 });
+
