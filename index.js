@@ -1,5 +1,5 @@
 const ipc = require("electron").ipcRenderer;
-
+const TabGroup = require("electron-tabs");
 
 var term = new Terminal();
 term.open(document.getElementById('terminal'));

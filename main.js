@@ -20,7 +20,8 @@ function createWindow() {
 		height: 800,
 		width: 1200,
 		webPreferences: {
-			nodeIntegration: true
+			nodeIntegration: true,
+			webviewTag: true
 		}
 	});
 	mainWindow.loadURL(`file://${__dirname}/index.html`);
@@ -68,3 +69,12 @@ app.on("activate", function () {
 	}
 });
 
+const TabGroup = require("electron-tabs");
+/*
+let tabGroup = new TabGroup();
+let tab = tabGroup.addTab({
+  title: "Electron",
+  src: "http://electron.atom.io",
+  visible: true
+});
+*/

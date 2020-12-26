@@ -4,12 +4,13 @@
   "description": "YES",
   "main": "main.js",
   "scripts": {
-    "start": "set NODE_ENV=development && electron .",
+    "start": "set NODE_ENV=development && electron ./app",
     "rebuild": "electron-rebuild"
   },
   "author": "Vince Richter",
   "license": "MIT",
   "dependencies": {
+    "electron-tabs": "^0.15.0",
     "electron-tools": "^2.4.2",
     "node-pty": "^0.9.0",
     "xterm": "^4.8.1",
