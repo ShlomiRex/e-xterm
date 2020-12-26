@@ -27,6 +27,9 @@ function createWindow() {
 	mainWindow.on("closed", function () {
 		mainWindow = null;
 	});
+	mainWindow.on('resize', function(event) {
+		console.log(mainWindow.siz);
+	});
 
 	var ptyProcess = pty.spawn(shell, [], {
 		name: "xterm-color",
