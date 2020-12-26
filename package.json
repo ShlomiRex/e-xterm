@@ -2,7 +2,7 @@
   "name": "shadowengineterminaltest",
   "version": "1.0.0",
   "description": "YES",
-  "main": "main.js",
+  "main": "./app/app.js",
   "scripts": {
     "start": "set NODE_ENV=development && electron ./app",
     "rebuild": "electron-rebuild"
