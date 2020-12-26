@@ -18,3 +18,8 @@ tabGroup.addTab({
 	visible: true,
 	active: true
 });
+
+tabGroup.addTab({
+	title: "Terminal",
+	src: "./terminal.html"
+})
