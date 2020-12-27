@@ -14,7 +14,7 @@ app.on('ready', function () {
 		mainWindow.show();
 		mainWindow.focus();
 	});
-	/*
+	
 	//This works
 	var os = require('os');
 	var pty = require('node-pty');
@@ -38,7 +38,7 @@ app.on('ready', function () {
 	ptyProcess.write('ls\r');
 	
 	console.log("Pty process:" , ptyProcess)
-	*/
+	
 
 
 	/*

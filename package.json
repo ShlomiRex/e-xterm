@@ -1,13 +1,14 @@
 {
-  "name": "shadowengineterminaltest",
+  "name": "e-xterm",
   "version": "1.0.0",
-  "description": "YES",
+  "description": "e-xterm is free open source cross-platform electron SSH and SFTP program, which aims to be used for commercial/professional users.",
   "main": "./app/app.js",
   "scripts": {
     "start": "set NODE_ENV=development && electron ./app",
-    "rebuild": "electron-rebuild"
+    "rebuild": "electron-rebuild",
+    "macRebuild": "electron-rebuild -f -w node-pty"
   },
-  "author": "Vince Richter",
+  "author": "Shlomi Domnenko",
   "license": "MIT",
   "dependencies": {
     "electron-tabs": "^0.15.0",
