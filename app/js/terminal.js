@@ -1,7 +1,6 @@
 
 
 const term = new Terminal();
-//exports.term = term;
 term.open(document.getElementById('terminal'));
 
 var shellprompt = '$ ';
