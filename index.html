@@ -5,6 +5,7 @@
 	<title>e-xterm</title>
 	<link rel="stylesheet" href="./css/electron-tabs.css">
 	<link rel="stylesheet" href="./css/seperator.css">
+	<link rel="Stylesheet" href="./node_modules/xterm/css/xterm.css">
 </head>
 
 <body style="box-sizing: border-box; display: flex; overflow: hidden; margin-right: 0px;">
@@ -42,15 +43,21 @@
 	<div id="separator"></div>
 
 	<div id="second" style="width: 80%; flex: 1; height: 100%;">
+		<!--
+		<iframe src="./terminal.html" nodeintegration="true"></iframe>
+		-->
 		<div class="etabs-tabgroup">
 			<div class="etabs-tabs"></div>
 			<div class="etabs-buttons"></div>
 		</div>
-		<div class="etabs-views"></div>
+		<div class="etabs-views"></div>	
 	</div>
 
-	<script src="./js/tabbed.js"></script>
-	<script src="./js/split.js"></script>
+	<script>
+		window.api.loadscript("./js/tabbed.js")
+		window.api.loadscript("./js/split.js")
+	</script>
+	
 </body>
 
 </html>
