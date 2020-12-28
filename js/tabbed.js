@@ -23,10 +23,10 @@ tabGroup.addTab({
 
 tabGroup.addTab({
 	title: "Terminal",
-	src: "terminal.html",
+	src: "../html/terminal.html",
 	visible: true,
 	active: true,
 	webviewAttributes: {
-		preload: path.join(__dirname, '../preload.js')
+		preload: path.join(__dirname, './preload.js')
 	}
 })

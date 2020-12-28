@@ -2,7 +2,7 @@
   "name": "e-xterm",
   "version": "1.0.0",
   "description": "e-xterm is cross-platform electron SSH and SFTP program, which aims to be used for commercial/professional users.",
-  "main": "main.js",
+  "main": "js/main.js",
   "scripts": {
     "start": "export ELECTRON_ENABLE_LOGGING=true && export ELECTRON_DISABLE_SECURITY_WARNINGS=true && electron . --ignore-gpu-blacklist"
   },
