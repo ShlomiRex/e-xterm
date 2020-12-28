@@ -1,7 +1,7 @@
 
 
 // A function is used for dragging and moving
-function dragElement(element, direction) {
+function dragElement(element) {
 	var md; // remember mouse down info
 	const first = document.getElementById("first");
 	const second = document.getElementById("second");
@@ -9,7 +9,7 @@ function dragElement(element, direction) {
 	element.onmousedown = onMouseDown;
 
 	function onMouseDown(e) {
-		console.log("mouse down: " + e.clientX);
+		//console.log("mouse down: " + e.clientX);
 		md = {
 			e,
 			offsetLeft: element.offsetLeft,
@@ -20,30 +20,27 @@ function dragElement(element, direction) {
 
 		document.onmousemove = onMouseMove;
 		document.onmouseup = () => {
-		console.log("mouse up");
+			//console.log("mouse up");
 			document.onmousemove = document.onmouseup = null;
 		}
 	}
 
 	function onMouseMove(e) {
-		console.log("mouse move: " + e.clientX);
+		//console.log("mouse move: " + e.clientX);
 		var delta = {
 			x: e.clientX - md.e.clientX,
 			y: e.clientY - md.e.clientY
 		};
 
-		if (direction === "H") // Horizontal
-		{
-			// Prevent negative-sized elements
-			delta.x = Math.min(Math.max(delta.x, -md.firstWidth),
-				md.secondWidth);
+		// Prevent negative-sized elements
+		delta.x = Math.min(Math.max(delta.x, -md.firstWidth),
+			md.secondWidth);
 
-			element.style.left = md.offsetLeft + delta.x + "px";
-			first.style.width = (md.firstWidth + delta.x) + "px";
-			second.style.width = (md.secondWidth - delta.x) + "px";
-		}
+		element.style.left = md.offsetLeft + delta.x + "px";
+		first.style.width = (md.firstWidth + delta.x) + "px";
+		second.style.width = (md.secondWidth - delta.x) + "px";
 	}
 }
 
 
-dragElement(document.getElementById("separator"), "H");
+dragElement(document.getElementById("separator"));
