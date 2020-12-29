@@ -4,7 +4,8 @@
   "description": "e-xterm is cross-platform electron SSH and SFTP program, which aims to be used for commercial/professional users.",
   "main": "js/main.js",
   "scripts": {
-    "start": "export ELECTRON_ENABLE_LOGGING=true && export ELECTRON_DISABLE_SECURITY_WARNINGS=true && electron . --ignore-gpu-blacklist"
+    "start": "export ELECTRON_ENABLE_LOGGING=true && export ELECTRON_DISABLE_SECURITY_WARNINGS=true && electron . --ignore-gpu-blacklist",
+    "start_windows": "set ELECTRON_ENABLE_LOGGING=true && set ELECTRON_DISABLE_SECURITY_WARNINGS=true && electron ."
   },
   "repository": "https://github.com/ShlomiRex/e-xterm",
   "author": "Shlomi Domnenko",
@@ -13,5 +14,8 @@
     "electron-tabs": "^0.15.0",
     "node-pty": "^0.9.0",
     "xterm": "4.2.0"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^2.3.4"
   }
 }
