@@ -21,61 +21,63 @@
 
 	<div id="content" style="size: 100px 100px; margin-top: 10px;">
 		<div id="hidden_content_SSH" style="display: none;">
-			<div style="border-style: inset; background-color: whitesmoke;">
-				Basic Settings
-				<hr>
-				<br>
-				<form action="" id="basic_settings">
-					<span style="color: red;">*</span>Remote host:
-					<input type="text" id="remote_host" title="Host name or IP address">
+			<form id="form" onsubmit="submitForm()">
+				<div style="border-style: inset; background-color: whitesmoke;">
+					Basic Settings
+					<hr>
+					<br>
 
-					<input type="checkbox" id="chkbx_username" onchange="on_chkbx_username()">
+					<span style="color: red;">*</span>Remote host:
+					<input type="text" title="Host name or IP address" name="remote_host">
+
+					<input type="checkbox" id="chkbx_username" onchange="on_chkbx_username()" name="username_checkbox">
 					Specify username:
-					<input type="text" id="username" title="Default is your username" disabled>
+					<input type="text" title="Default is your username" id="username" name="username" disabled>
 
 					<span style="color: red;">*</span>Port:
-					<input type="number" min=1 max=65535 value="22">
-				</form>
-			</div>
+					<input type="number" min=1 max=65535 value="22" name="port">
 
-			<br>
+				</div>
 
-			<div style="border-style: inset; background-color: whitesmoke;">
-				Advanced Settings
-				<hr>
 				<br>
-				<form action="" id="advanced_settings" style="">
+
+				<div style="border-style: inset; background-color: whitesmoke;">
+					Advanced Settings
+					<hr>
+					<br>
+
 					<span
 						title="X11 forwarding allows executing a program remotly through SSH and the GUI will run locally.">
-						<input type="checkbox" id="chkbx_x11_forwarding" checked> X11 Forwarding
+						<input type="checkbox" name="x11_forwarding" checked> X11 Forwarding
 					</span>
 					<span title="Compression is useful when the connection speed is slow.">
-						<input type="checkbox" id="chkbx_ssh_compression" checked> SSH Compression
+						<input type="checkbox" name="ssh_compression" checked> SSH Compression
 					</span>
-				</form>
-			</div>
 
-			<br>
+				</div>
 
-			<div style="border-style: inset; background-color: whitesmoke;">
-				Bookmark Settings
-				<hr>
 				<br>
-				<form action="" id="bookmark_settings" style="">
+
+				<div style="border-style: inset; background-color: whitesmoke;">
+					Bookmark Settings
+					<hr>
+					<br>
+
 					Session name:
-					<input type="text" id="session_name" title="Give it a meaningful name.">
+					<input type="text" name="session_name" title="Give it a meaningful name.">
 					<br>
 					Description:
 					<br>
-					<textarea rows="4" cols="50" id="session_description"></textarea>
-				</form>
-			</div>
+					<textarea rows="4" cols="50" name="session_description"></textarea>
+
+				</div>
+			</form>
 
 			<br>
 
 			<div style="display: flex; align-items: center; justify-content: center;">
-				<div>
-					<button onclick="ok()">OK</button>
+				<div style="transform: scale(1.25);">
+					<input type="submit" value="OK" form="form"/>
 					<button onclick="cancel()">Cancel</button>
 				</div>
 			</div>
@@ -142,26 +144,26 @@
 	});
 
 	function on_chkbx_username() {
-		if (document.getElementById("chkbx_username").checked) {
-			//Checked
-			document.getElementById("username").disabled = false;
-		} else {
-			//Not checked
-			document.getElementById("username").disabled = true;
-		}
+		document.getElementById("username").disabled = ! document.getElementById("chkbx_username").checked
 
-	}
-
-	function ok() {
-		console.log("ok clicked")
-
-		window.NewSession.OK("{\"Key\":\"Value\"}")
 	}
 
 	function cancel() {
-		console.log("cacnel clicked")
+		window.NewSession.closeWindow()
+	}
 
-		window.NewSession.CANCEL()
+	function submitForm() {
+		console.log("Submit form")
+
+		const form = document.getElementById("form")
+		for (var element of form) {
+			var name = element["name"]
+			var value = element["value"]
+
+			console.log("NAME: " + name + " VALUE: " + value)
+		}
+
+		window.NewSession.closeWindow()
 	}
 </script>
 

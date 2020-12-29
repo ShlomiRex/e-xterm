@@ -20,6 +20,7 @@ document.querySelector('#btn_newSession').addEventListener('click', () => {
 		}
 	})
 	child.setMenu(null)
+	child.webContents.openDevTools()
 	child.loadURL(url.format({
 		pathname: path.join(__dirname, '../html/new_session.html'),
 		protocol: 'file',

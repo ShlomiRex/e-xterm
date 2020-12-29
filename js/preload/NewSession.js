@@ -6,11 +6,13 @@ const {
 
 contextBridge.exposeInMainWorld(
 	"NewSession", {
-	OK(json) {
-		console.log("Got OK from NewSession:", json)
-	},
-	CANCEL() {
-		console.log("Got CANCEL from NewSession")
+	closeWindow() {
+		console.log("Closing NewSession window")
+
+		//Get current window
+		const remote = require('electron').remote;
+		var window = remote.getCurrentWindow();
+		window.close()
 	}
 }
 );
