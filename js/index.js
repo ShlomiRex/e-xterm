@@ -9,9 +9,15 @@ const remote = require ("electron").remote;
 document.querySelector('#btn_newSession').addEventListener('click', () => {
 	const mainWindow = remote.getCurrentWindow ();
 
-	let child = new BrowserWindow({parent: mainWindow, modal: true, show: false})
+	let child = new BrowserWindow({
+		parent: mainWindow, 
+		modal: true, 
+		show: false,
+		title: "Session settings"
+	})
+	child.setMenu(null)
 	child.loadURL(url.format({
-		pathname: path.join(__dirname, '../html/dummy.html'),
+		pathname: path.join(__dirname, '../html/new_session.html'),
 		protocol: 'file',
 		slashes: true
 	}))

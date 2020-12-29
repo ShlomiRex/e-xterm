@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js'></script>
+	<script type='text/javascript' src='js/jquery.ba-hashchange.min.js'></script>
+	<script type='text/javascript' src='js/dynamicpage.js'></script>
+</head>
+
+<body>
+	Choose protocol:
+	<br>
+	<button id="btn_SSH">SSH</button>
+	<button>SFTP</button>
+	<button>Telnet</button>
+	<button>FTP</button>
+	<button>RDP</button>
+	<button>VNC</button>
+	<button>WSL</button>
+
+	<div id="content" style="background-color: silver; size: 100px 100px;">
+		test content
+	</div>
+</body>
+
+<script>
+	//window.api.loadscript("../js/new_session.js")
+</script>
+
+<script>
+	document.querySelector('#btn_SSH').addEventListener('click', () => {
+	//Change content
+	document.getElementById("content").innerHTML = "Hello JavaScript!";
+})
+</script>
+
+</html>
