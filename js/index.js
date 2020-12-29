@@ -13,7 +13,11 @@ document.querySelector('#btn_newSession').addEventListener('click', () => {
 		parent: mainWindow, 
 		modal: true, 
 		show: false,
-		title: "Session settings"
+		title: "New Session",
+		webPreferences: {
+			contextIsolation: true,
+			preload: path.join(__dirname, './preload/NewSession.js')
+		}
 	})
 	child.setMenu(null)
 	child.loadURL(url.format({

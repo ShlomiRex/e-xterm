@@ -22,7 +22,8 @@
 	<div id="content" style="size: 100px 100px; margin-top: 10px;">
 		<div id="hidden_content_SSH" style="display: none;">
 			<div style="border-style: inset; background-color: whitesmoke;">
-				Basic Settings<hr>
+				Basic Settings
+				<hr>
 				<br>
 				<form action="" id="basic_settings">
 					<span style="color: red;">*</span>Remote host:
@@ -40,14 +41,15 @@
 			<br>
 
 			<div style="border-style: inset; background-color: whitesmoke;">
-				Advanced Settings<hr>
+				Advanced Settings
+				<hr>
 				<br>
 				<form action="" id="advanced_settings" style="">
 					<span
 						title="X11 forwarding allows executing a program remotly through SSH and the GUI will run locally.">
 						<input type="checkbox" id="chkbx_x11_forwarding" checked> X11 Forwarding
 					</span>
-					<span title="Test">
+					<span title="Compression is useful when the connection speed is slow.">
 						<input type="checkbox" id="chkbx_ssh_compression" checked> SSH Compression
 					</span>
 				</form>
@@ -56,7 +58,8 @@
 			<br>
 
 			<div style="border-style: inset; background-color: whitesmoke;">
-				Bookmark Settings<hr>
+				Bookmark Settings
+				<hr>
 				<br>
 				<form action="" id="bookmark_settings" style="">
 					Session name:
@@ -66,6 +69,15 @@
 					<br>
 					<textarea rows="4" cols="50" id="session_description"></textarea>
 				</form>
+			</div>
+
+			<br>
+
+			<div style="display: flex; align-items: center; justify-content: center;">
+				<div>
+					<button onclick="ok()">OK</button>
+					<button onclick="cancel()">Cancel</button>
+				</div>
 			</div>
 		</div>
 
@@ -138,6 +150,18 @@
 			document.getElementById("username").disabled = true;
 		}
 
+	}
+
+	function ok() {
+		console.log("ok clicked")
+
+		window.NewSession.OK("{\"Key\":\"Value\"}")
+	}
+
+	function cancel() {
+		console.log("cacnel clicked")
+
+		window.NewSession.CANCEL()
 	}
 </script>
 
