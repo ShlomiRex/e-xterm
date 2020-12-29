@@ -2,25 +2,54 @@
 <html>
 
 <head>
-	<script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js'></script>
-	<script type='text/javascript' src='js/jquery.ba-hashchange.min.js'></script>
-	<script type='text/javascript' src='js/dynamicpage.js'></script>
+	<link rel="stylesheet" href="../css/new_session.css">
 </head>
 
 <body>
-	Choose protocol:
-	<br>
-	<button id="btn_SSH">SSH</button>
-	<button>SFTP</button>
-	<button>Telnet</button>
-	<button>FTP</button>
-	<button>RDP</button>
-	<button>VNC</button>
-	<button>WSL</button>
+	<div id="choose_protocol" style="display: block;">
+		Choose protocol:
+		<br>
+		<div class="btn-group" style="width:100%">
+			<button id="SSH" class="btn_protocol">SSH</button>
+			<button id="SFTP" class="btn_protocol">SFTP</button>
+			<button id="Telnet" class="btn_protocol">Telnet</button>
+			<button id="FTP" class="btn_protocol">FTP</button>
+			<button id="RDP" class="btn_protocol">RDP</button>
+			<button id="VNC" class="btn_protocol">VNC</button>
+			<button id="WSL" class="btn_protocol">WSL</button>
+		</div>
+	</div>
 
 	<div id="content" style="background-color: silver; size: 100px 100px;">
-		test content
+		<div id="hidden_content_SSH" style="display: none;">
+			Hidden content SSH!
+		</div>
+
+		<div id="hidden_content_SFTP" style="display: none;">
+			Hidden content SFTP!
+		</div>
+
+		<div id="hidden_content_Telnet" style="display: none;">
+			Hidden content Telnet!
+		</div>
+
+		<div id="hidden_content_FTP" style="display: none;">
+			Hidden content FTP!
+		</div>
+
+		<div id="hidden_content_RDP" style="display: none;">
+			Hidden content RDP!
+		</div>
+
+		<div id="hidden_content_VNC" style="display: none;">
+			Hidden content VNC!
+		</div>
+
+		<div id="hidden_content_WSL" style="display: none;">
+			Hidden content WSL!
+		</div>
 	</div>
+
 </body>
 
 <script>
@@ -28,10 +57,34 @@
 </script>
 
 <script>
-	document.querySelector('#btn_SSH').addEventListener('click', () => {
-	//Change content
-	document.getElementById("content").innerHTML = "Hello JavaScript!";
-})
+	var selected = null;
+	var buttons = document.querySelectorAll('.btn_protocol');
+	buttons.forEach((button) => {
+		button.addEventListener('click', (e) => {
+			var mouseEvent = e;
+			var buttonClicked = mouseEvent.target;
+			var buttonId = buttonClicked.id;
+
+			//If chosen diffirent protocol
+			if (buttonId != selected) {
+				//If selected != null (i.e. some hidden content is already shown) then hide it again.
+				if (selected) {
+					//Hide previous content
+					document.getElementById("hidden_content_" + selected).style.display = "none";
+				}
+
+				selected = buttonId;
+
+				//Show hidden content for selected protocol
+				document.getElementById("hidden_content_" + buttonId).style.display = "block";
+
+				//Hide protocol buttons
+				//document.getElementById("choose_protocol").style.display = "none";
+			} 
+			//else do nothing, selected same button/protocol
+		});
+	});
+
 </script>
 
 </html>
