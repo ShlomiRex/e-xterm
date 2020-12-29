@@ -3,7 +3,6 @@ const BrowserWindow = electron.remote.BrowserWindow
 const path = require('path')
 const url = require('url')
 const remote = require ("electron").remote;
-
 const ipcRenderer = electron.ipcRenderer;
 
 document.querySelector('#btn_newSession').addEventListener('click', () => {
@@ -40,6 +39,15 @@ ipcRenderer.on("LoadSessions", (event, sessions) => {
 		if (! name) {
 			name = session["remote_host"]
 		}
-		console.log("Loading session: " + name)
+		console.log("Loading session: " + name);
+		
+		var session_dom = document.createElement("li");
+		session_dom.setAttribute("class", "session_item");
+		session_dom.setAttribute("onclick", "javascript:alert('event has been triggered');");
+
+		session_dom.appendChild(document.createTextNode(name));
+
+		var parent = document.getElementById("first");
+		parent.appendChild(session_dom);
 	});
 })
