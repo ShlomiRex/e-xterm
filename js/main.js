@@ -1,7 +1,8 @@
 const {
 	app,
 	BrowserWindow,
-	ipcMain
+	ipcMain,
+	nativeTheme
 } = require("electron");
 
 
@@ -10,7 +11,11 @@ const url = require('url');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
+//Sessions are saved locally and loaded to bookmarks
 const sessionFolder = path.join(app.getAppPath(), "storage", "sessions")
+
+//For now force light theme
+nativeTheme.themeSource = 'light';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -65,6 +70,11 @@ function createWindow() {
 		});
 		mainWindow.webContents.send("LoadSessions", sessions);
 	})
+}
+
+//Create nessesery folders (persistance storage) before opening the program.
+if (!fs.existsSync(sessionFolder)) {
+	fs.mkdirSync(sessionFolder, { recursive: true });
 }
 
 // This method will be called when Electron has finished
