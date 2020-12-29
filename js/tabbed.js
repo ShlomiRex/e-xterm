@@ -9,18 +9,6 @@ let tabGroup = new TabGroup({
 	}
 });
 
-
-tabGroup.addTab({
-	title: 'Google',
-	src: 'http://google.com'
-});
-
-tabGroup.addTab({
-	title: "Electron",
-	src: "http://electron.atom.io"
-});
-
-
 tabGroup.addTab({
 	title: "Terminal",
 	src: "../html/terminal.html",

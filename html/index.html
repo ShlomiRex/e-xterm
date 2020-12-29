@@ -6,52 +6,51 @@
 	<link rel="stylesheet" href="../css/electron-tabs.css">
 	<link rel="stylesheet" href="../css/seperator.css">
 	<link rel="Stylesheet" href="../node_modules/xterm/css/xterm.css">
-
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../css/session_pane.css">
 </head>
 
 <body style="box-sizing: border-box; display: flex; overflow: hidden; margin-right: 0px;">
 	<div id="first" style="width: 20%; height: 100%;">
-		<nav style="overflow-x: hidden; overflow-y: auto; ">
-			<header class="nav-header">
-				header
-			</header>
 
-			<div>
-				inside
-				<li><a href="">SSH Session 1</a></li>
-				<li><a href="">SFTP Session 1</a></li>
-				<li><a href="">SSH Session 2</a></li>
-				<li><a href="">VNC Session</a></li>
-				<li><a href="">wsl</a></li>
-				<li><a href="">root@10.0.0.8</a></li>
-				end inside
-			</div>
 
-			<div class="panel-group">
-				<div class="panel panel-default">
-				  <div class="panel-heading">
-					<h4 class="panel-title">
-					  <a data-toggle="collapse" href="#collapse1">Collapsible list group</a>
-					</h4>
-				  </div>
-				  <div id="collapse1" class="panel-collapse collapse">
-					<ul class="list-group">
-					  <li class="list-group-item">One</li>
-					  <li class="list-group-item">Two</li>
-					  <li class="list-group-item">Three</li>
-					</ul>
-					<div class="panel-footer">Footer</div>
-				  </div>
-				</div>
-			  </div>
 
-			<footer class="nav-footer">
-				footer
-			</footer>
-		</nav>
+		<button class="collapsible">Open Collapsible</button>
+		<div class="content">
+				<li class="session_item"><button>Session 1</button></li>
+				<li class="session_item"><button>SFTP Session 1</button></li>
+				<li class="session_item"><button>SSH Session 2</button></li>
+				<li class="session_item"><button>wsl</button></li>
+				<li class="session_item"><button>root@10.0.0.8</button></li>
+				
+		</div>
+
+		<button class="collapsible">Open Collapsible 2</button>
+		<div class="content">
+				<li class="session_item" onclick="javascript:alert('event has been triggered');">Session 1</li>
+				<li class="session_item"><button>SFTP Session 1</button></li>
+				<li class="session_item"><button>SSH Session 2</button></li>
+				<li class="session_item"><button>wsl</button></li>
+				<li class="session_item"><button>root@10.0.0.8</button></li>
+		</div>
+
+		<script>
+			var coll = document.getElementsByClassName("collapsible");
+			var i;
+
+			//If clicked on outer list
+			for (i = 0; i < coll.length; i++) {
+				coll[i].addEventListener("click", function () {
+					console.log("Clicked on collapsable")
+					this.classList.toggle("active");
+					var content = this.nextElementSibling;
+					if (content.style.maxHeight) {
+						content.style.maxHeight = null;
+					} else {
+						content.style.maxHeight = content.scrollHeight + "px";
+					}
+				});
+			}
+		</script>
 	</div>
 
 	<div id="separator"></div>
@@ -61,14 +60,14 @@
 			<div class="etabs-tabs"></div>
 			<div class="etabs-buttons"></div>
 		</div>
-		<div class="etabs-views"></div>	
+		<div class="etabs-views"></div>
 	</div>
 
 	<script>
 		window.api.loadscript("../js/tabbed.js")
 		window.api.loadscript("../js/split.js")
 	</script>
-	
+
 </body>
 
 </html>
