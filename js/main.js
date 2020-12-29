@@ -10,17 +10,20 @@ const url = require('url');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
+const sessionFolder = path.join(app.getAppPath(), "storage", "sessions")
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow;
 
-// node-pty is not yet context aware
+// node-pty is not yet context aware (this must be false or else i dont see terminal)
 app.allowRendererProcessReuse = false;
 
 function createWindow() {
 	mainWindow = new BrowserWindow({
 		width: 1600,
 		height: 800,
+		show: false,
 		webPreferences: {
 			nodeIntegration: false,
 			contextIsolation: true,
@@ -35,12 +38,6 @@ function createWindow() {
 		slashes: true
 	}))
 
-	mainWindow.webContents.send('add-tab', {
-		title: 'Electron',
-		src: 'http://electron.atom.io',
-		visible: true
-	})
-
 	// Open the DevTools.
 	mainWindow.webContents.openDevTools()
 
@@ -50,6 +47,23 @@ function createWindow() {
 		// in an array if your app supports multi windows, this is the time
 		// when you should delete the corresponding element.
 		mainWindow = null
+	})
+
+	mainWindow.once('ready-to-show', () => {
+		mainWindow.show();
+	});
+
+	mainWindow.webContents.on('did-finish-load', () => {
+		console.log("Reading session directory: " + sessionFolder)
+		var sessions = [];
+
+		var files = fs.readdirSync(sessionFolder, null);
+		files.forEach(filename => {
+			var filePath = path.join(sessionFolder, filename)
+			var contents = fs.readFileSync(filePath, "utf-8");
+			sessions.push(JSON.parse(contents));
+		});
+		mainWindow.webContents.send("LoadSessions", sessions);
 	})
 }
 

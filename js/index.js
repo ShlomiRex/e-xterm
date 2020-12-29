@@ -4,7 +4,7 @@ const path = require('path')
 const url = require('url')
 const remote = require ("electron").remote;
 
-
+const ipcRenderer = electron.ipcRenderer;
 
 document.querySelector('#btn_newSession').addEventListener('click', () => {
 	const mainWindow = remote.getCurrentWindow ();
@@ -30,4 +30,16 @@ document.querySelector('#btn_newSession').addEventListener('click', () => {
 		child.show()
 	})
 	child.on('close', function () { child = null })
+})
+
+//ipcRenderer.send("LoadSessionsRequest", "ping")
+
+ipcRenderer.on("LoadSessions", (event, sessions) => {
+	sessions.forEach(session => {
+		var name = session["session_name"];
+		if (! name) {
+			name = session["remote_host"]
+		}
+		console.log("Loading session: " + name)
+	});
 })

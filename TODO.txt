@@ -1,3 +1,5 @@
 Change default app menus (top menu - file, help..)
 
 Find a way to "save" ssh sessions when user uses ssh
+
+Open session file when program starts, then read session file and display on index.html
