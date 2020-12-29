@@ -1,5 +1,3 @@
-Add collapsable list - for session tab - when you click on "Folder" (which is a UL list) then it opens and closes the list that contain <li> which are the clickable sessions
-
 Create window when clicked on button in electron - it opens new session window
 
 Change default app menus (top menu - file, help..)
