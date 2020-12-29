@@ -1,7 +1,8 @@
 console.log("preload: NewSession")
 
 const {
-	contextBridge
+	contextBridge,
+	ipcRenderer
 } = require("electron");
 
 contextBridge.exposeInMainWorld(
@@ -13,6 +14,12 @@ contextBridge.exposeInMainWorld(
 		const remote = require('electron').remote;
 		var window = remote.getCurrentWindow();
 		window.close()
+	},
+
+	saveSession(json) {
+		//Save session to local disk from given json
+
+		ipcRenderer.send('SaveSession', json);
 	}
 }
 );

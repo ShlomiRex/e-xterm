@@ -1,5 +1,3 @@
-Create window when clicked on button in electron - it opens new session window
-
 Change default app menus (top menu - file, help..)
 
 Find a way to "save" ssh sessions when user uses ssh

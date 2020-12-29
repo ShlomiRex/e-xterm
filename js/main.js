@@ -5,8 +5,9 @@ const {
 } = require("electron");
 
 
-const path = require('path')
-const url = require('url')
+const path = require('path');
+const url = require('url');
+const fs = require('fs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -72,3 +73,16 @@ app.on('activate', function () {
 		createWindow()
 	}
 })
+
+
+
+
+ipcMain.on('SaveSession', (event, json) => {
+	var contents = JSON.stringify(json);
+	console.log("MainProcess: Got SaveSession: " + event + " CONTENTS: " + contents)
+
+	fs.writeFile("test.txt", contents, (err) => {
+		console.error(err)
+	});
+	console.log("Saved")
+});

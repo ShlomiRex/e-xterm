@@ -156,13 +156,22 @@
 		console.log("Submit form")
 
 		const form = document.getElementById("form")
+		var json = {}
 		for (var element of form) {
 			var name = element["name"]
 			var value = element["value"]
 
-			console.log("NAME: " + name + " VALUE: " + value)
-		}
+			//Value of checkbox is "on" always... idk maybe it's because I set it to checked initially.
+			//TODO: Investiage why value of checkbox is "on" always, so we don't need this 'if'.
+			if(element.type == "checkbox") {
+				value = element.checked;
+			}
 
+			console.log("NAME: " + name + " VALUE: " + value)
+
+			json[name] = value;
+		}
+		window.NewSession.saveSession(json)
 		window.NewSession.closeWindow()
 	}
 </script>
