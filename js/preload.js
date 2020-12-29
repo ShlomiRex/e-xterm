@@ -1,16 +1,13 @@
-console.log("preload.js")
+console.log("preload: preload.js")
 
 const {
-    contextBridge,
-    ipcRenderer
+	contextBridge
 } = require("electron");
 
 contextBridge.exposeInMainWorld(
-    "api", {
-        loadscript(filename){
-            require(filename);
-        }
-    }
+	"api", {
+	loadscript(filename) {
+		require(filename);
+	}
+}
 );
-
-console.log("preload success")
