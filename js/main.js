@@ -8,6 +8,7 @@ const {
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
+const uuidv4 = require('uuid/v4');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -79,10 +80,11 @@ app.on('activate', function () {
 
 ipcMain.on('SaveSession', (event, json) => {
 	var contents = JSON.stringify(json);
-	console.log("MainProcess: Got SaveSession: " + event + " CONTENTS: " + contents)
 
-	fs.writeFile("test.txt", contents, (err) => {
+	var filename = uuidv4() + '.json';
+	var filePath = path.join(app.getAppPath(), "storage", "sessions", filename);
+	fs.writeFile(filePath, contents, (err) => {
 		console.error(err)
 	});
-	console.log("Saved")
+	console.log("Session saved to: " + filePath)
 });
