@@ -7,8 +7,7 @@
 
 <body>
 	<div id="choose_protocol" style="display: block;">
-		Choose protocol:
-		<br>
+		<h2>Choose protocol</h2>
 		<div class="btn-group" style="width:100%">
 			<button id="SSH" class="btn_protocol">SSH</button>
 			<button id="SFTP" class="btn_protocol">SFTP</button>
@@ -20,9 +19,54 @@
 		</div>
 	</div>
 
-	<div id="content" style="background-color: silver; size: 100px 100px;">
+	<div id="content" style="size: 100px 100px; margin-top: 10px;">
 		<div id="hidden_content_SSH" style="display: none;">
-			Hidden content SSH!
+			<div style="border-style: inset; background-color: whitesmoke;">
+				Basic Settings<hr>
+				<br>
+				<form action="" id="basic_settings">
+					<span style="color: red;">*</span>Remote host:
+					<input type="text" id="remote_host" title="Host name or IP address">
+
+					<input type="checkbox" id="chkbx_username" onchange="on_chkbx_username()">
+					Specify username:
+					<input type="text" id="username" title="Default is your username" disabled>
+
+					<span style="color: red;">*</span>Port:
+					<input type="number" min=1 max=65535 value="22">
+				</form>
+			</div>
+
+			<br>
+
+			<div style="border-style: inset; background-color: whitesmoke;">
+				Advanced Settings<hr>
+				<br>
+				<form action="" id="advanced_settings" style="">
+					<span
+						title="X11 forwarding allows executing a program remotly through SSH and the GUI will run locally.">
+						<input type="checkbox" id="chkbx_x11_forwarding" checked> X11 Forwarding
+					</span>
+					<span title="Test">
+						<input type="checkbox" id="chkbx_ssh_compression" checked> SSH Compression
+					</span>
+				</form>
+			</div>
+
+			<br>
+
+			<div style="border-style: inset; background-color: whitesmoke;">
+				Bookmark Settings<hr>
+				<br>
+				<form action="" id="bookmark_settings" style="">
+					Session name:
+					<input type="text" id="session_name" title="Give it a meaningful name.">
+					<br>
+					Description:
+					<br>
+					<textarea rows="4" cols="50" id="session_description"></textarea>
+				</form>
+			</div>
 		</div>
 
 		<div id="hidden_content_SFTP" style="display: none;">
@@ -80,11 +124,21 @@
 
 				//Hide protocol buttons
 				//document.getElementById("choose_protocol").style.display = "none";
-			} 
+			}
 			//else do nothing, selected same button/protocol
 		});
 	});
 
+	function on_chkbx_username() {
+		if (document.getElementById("chkbx_username").checked) {
+			//Checked
+			document.getElementById("username").disabled = false;
+		} else {
+			//Not checked
+			document.getElementById("username").disabled = true;
+		}
+
+	}
 </script>
 
 </html>
