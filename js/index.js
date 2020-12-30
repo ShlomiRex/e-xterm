@@ -50,14 +50,15 @@ ipcRenderer.once("LoadSessions", (event, sessions) => {
 		session_dom.setAttribute("data-session_id", session["session_id"]);
 		session_dom.onclick = function() {
 			var session_id = this.dataset["session_id"];
-			console.log("Opening a session: " + session_id)
+			console.log("Sending main process a request to open a session: " + session_id)
 
 			for(var _session of sessions) {
 				if (_session["session_id"] == session_id) {
 					console.log("Session details: ")
 					console.dir(_session)
 
-					//TODO: Tell xterm to open session: _session
+					//TODO: Tell xterm to open session: _session 
+					ipcRenderer.send("OpenSession", _session);
 
 					break;
 				}

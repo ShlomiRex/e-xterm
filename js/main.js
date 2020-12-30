@@ -114,3 +114,9 @@ ipcMain.on('SaveSession', (event, json) => {
 	});
 	console.log("Session saved to: " + filePath)
 });
+
+//Called from index.js - tell tabbed.js to open
+ipcMain.on("OpenSession", (event, session) => {
+	console.log("Got open session request")
+	mainWindow.webContents.send("OpenSession", "test")
+});
