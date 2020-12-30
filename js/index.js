@@ -31,19 +31,38 @@ document.querySelector('#btn_newSession').addEventListener('click', () => {
 	child.on('close', function () { child = null })
 })
 
-//ipcRenderer.send("LoadSessionsRequest", "ping")
+function onSessionOpen(button) {
+	console.log("Opening session with button : " + button)
+}
 
-ipcRenderer.on("LoadSessions", (event, sessions) => {
+//Load in bookmarks (session pane) the saved sessions user saved on disk (/storage/sessions)
+ipcRenderer.once("LoadSessions", (event, sessions) => {
 	sessions.forEach(session => {
 		var name = session["session_name"];
+		//If user did not give session name, use the hostname instead
 		if (! name) {
 			name = session["remote_host"]
 		}
 		console.log("Loading session: " + name);
 		
-		var session_dom = document.createElement("li");
+		var session_dom = document.createElement("button");
 		session_dom.setAttribute("class", "session_item");
-		session_dom.setAttribute("onclick", "javascript:alert('event has been triggered');");
+		session_dom.setAttribute("data-session_id", session["session_id"]);
+		session_dom.onclick = function() {
+			var session_id = this.dataset["session_id"];
+			console.log("Opening a session: " + session_id)
+
+			for(var _session of sessions) {
+				if (_session["session_id"] == session_id) {
+					console.log("Session details: ")
+					console.dir(_session)
+
+					//TODO: Tell xterm to open session: _session
+
+					break;
+				}
+			}
+		}
 
 		session_dom.appendChild(document.createTextNode(name));
 

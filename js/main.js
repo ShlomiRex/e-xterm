@@ -66,7 +66,9 @@ function createWindow() {
 		files.forEach(filename => {
 			var filePath = path.join(sessionFolder, filename)
 			var contents = fs.readFileSync(filePath, "utf-8");
-			sessions.push(JSON.parse(contents));
+			var json = JSON.parse(contents)
+			json["session_id"] = filename; //This is ID while the program is running (ram) instead of disk (saving id on disk).
+			sessions.push(json);
 		});
 		mainWindow.webContents.send("LoadSessions", sessions);
 	})

@@ -6,3 +6,6 @@ Open session file when program starts, then read session file and display on ind
 
 Add support for Dark Mode (like in macOS) (For now it's light force)
 
+Support "folders" in bookmarks and also recursive folders
+
+In electron tabs - on selected tab - you can see next to the 'X' button to close it, you can see '-'. In HTML element inspector it's the content for '::after' . Need to fix this.
