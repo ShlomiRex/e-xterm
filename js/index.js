@@ -5,6 +5,8 @@ const url = require('url')
 const remote = require ("electron").remote;
 const ipcRenderer = electron.ipcRenderer;
 
+const CHANNEL = "Index";
+
 document.querySelector('#btn_newSession').addEventListener('click', () => {
 	const mainWindow = remote.getCurrentWindow ();
 
@@ -54,11 +56,9 @@ ipcRenderer.once("LoadSessions", (event, sessions) => {
 
 			for(var _session of sessions) {
 				if (_session["session_id"] == session_id) {
-					console.log("Session details: ")
-					console.dir(_session)
 
 					//TODO: Tell xterm to open session: _session 
-					ipcRenderer.send("OpenSession", _session);
+					ipcRenderer.send(CHANNEL, _session);
 
 					break;
 				}

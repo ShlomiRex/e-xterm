@@ -102,6 +102,9 @@ app.on('activate', function () {
 })
 
 
+const CHANNEL_TABS = "Tabs";
+const CHANNEL_INDEX = "Index";
+const CHANNEL_RENDERER = "Renderer";
 
 
 ipcMain.on('SaveSession', (event, json) => {
@@ -116,7 +119,16 @@ ipcMain.on('SaveSession', (event, json) => {
 });
 
 //Called from index.js - tell tabbed.js to open
-ipcMain.on("OpenSession", (event, session) => {
-	console.log("Got open session request")
-	mainWindow.webContents.send("OpenSession", "test")
+ipcMain.on(CHANNEL_TABS, (event, session) => {
+	console.log("Main got message - channel: [" + CHANNEL_TABS + "]");
+});
+
+ipcMain.on(CHANNEL_INDEX, (event, args) => {
+	console.log("Main got message - channel: [" + CHANNEL_INDEX + "]");
+	mainWindow.webContents.send(CHANNEL_TABS, "OpenSession", args)
+});
+
+ipcMain.on(CHANNEL_RENDERER, (event, args) => {
+	console.log("Main got message - channel: [" + CHANNEL_INDEX + "]");
+
 });
