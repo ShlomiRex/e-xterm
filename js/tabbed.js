@@ -20,8 +20,18 @@ tabGroup.addTab({
 });
 module.exports = {
 	openTerminal: function (session) {
+		var tab_name = null;
+		tab_name = session["session_name"]
+		if (! tab_name) {
+			if (session["username"]) {
+				tab_name = session["username"] + "@" + session["remote_host"];
+			} else {
+				tab_name = session["remote_host"]
+			}
+		}
+
 		tabGroup.addTab({
-			title: "Terminal",
+			title: tab_name,
 			src: "../html/terminal.html",
 			visible: true,
 			active: true,
