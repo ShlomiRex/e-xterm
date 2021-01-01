@@ -81,7 +81,7 @@ function loadSessions(sessions) {
 }
 
 //Load in bookmarks (session pane) the saved sessions user saved on disk (/storage/sessions)
-ipcRenderer.once("LoadSessions", (event, sessions) => {
+ipcRenderer.once("IndexLoadSessions", (event, sessions) => {
 	console.log("index.js got LoadSession from main")
 	loadSessions(sessions, () => {});
 

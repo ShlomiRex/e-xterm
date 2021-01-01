@@ -62,6 +62,7 @@ function createWindow() {
 	});
 
 	mainWindow.webContents.on('did-finish-load', () => {
+		//Load sessions in session pane
 		console.log("Reading session directory: " + sessionFolder)
 		var sessions = [];
 
@@ -73,7 +74,7 @@ function createWindow() {
 			json["session_id"] = filename; //This is ID while the program is running (ram) instead of disk (saving id on disk).
 			sessions.push(json);
 		});
-		mainWindow.webContents.send("LoadSessions", sessions);
+		mainWindow.webContents.send("IndexLoadSessions", sessions);
 	})
 }
 
@@ -129,9 +130,13 @@ ipcMain.on(CHANNEL_TABS, (event, args) => {
 ipcMain.on(CHANNEL_RENDERER, (event, args) => {
 	console.log("Main got message - channel: [" + CHANNEL_RENDERER + "]");
 	console.log(args)
-	console.log("Sending to channel renderer")
-
-	mainWindow.webContents.send("test", "")
+	if (args == "GetSessionToOpoen") {
+		event.returnValue = session_to_open
+		session_to_open = null;
+	} else {
+		console.log("Couldn't parse args:");
+		console.dir(args)
+	}
 });
 
 ipcMain.on(CHANNEL_SaveSession, (event, json) => {
@@ -143,11 +148,4 @@ ipcMain.on(CHANNEL_SaveSession, (event, json) => {
 		console.error(err)
 	});
 	console.log("Session saved to: " + filePath)
-});
-
-ipcMain.on("test", (event, args) => {
-	console.log("Main got: " + args);
-
-	event.returnValue = session_to_open
-	session_to_open = null;
 });

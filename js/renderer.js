@@ -17,7 +17,7 @@ const CHANNEL = "Renderer";
 
 
 
-var session = ipcRenderer.sendSync("test", "test");
+var session = ipcRenderer.sendSync(CHANNEL, "GetSessionToOpoen");
 
 const remote_host = session["remote_host"];
 console.log("Remote host: " + remote_host)
