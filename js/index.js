@@ -36,13 +36,9 @@ document.querySelector('#btn_newSession').addEventListener('click', () => {
 	child.on('close', function () { child = null })
 })
 
-function onSessionOpen(button) {
-	console.log("Opening session with button : " + button)
-}
-
+//Populate session/bookmarks pane with buttons
 //Sessions - list of sessions
-//openSessionCallback - when button is pressed (gui seesion button) then call this
-function loadSessions(sessions, openSessionCallback) {
+function loadSessions(sessions) {
 	sessions.forEach(session => {
 		var name = session["session_name"];
 		//If user did not give session name, use the hostname instead
@@ -54,6 +50,8 @@ function loadSessions(sessions, openSessionCallback) {
 		var session_dom = document.createElement("button");
 		session_dom.setAttribute("class", "session_item");
 		session_dom.setAttribute("data-session_id", session["session_id"]);
+		session_dom.style.cssText = "padding: 0px;"
+
 		session_dom.onclick = function() {
 			var session_id = this.dataset["session_id"];
 			console.log("Clicked on open session: " + session_id);
@@ -63,9 +61,14 @@ function loadSessions(sessions, openSessionCallback) {
 					break;
 				}
 			}
-			//ipcRenderer.send(CHANNEL, session_id);
 		}
 
+		var img = document.createElement("img");
+		img.setAttribute("src", "../resources/ssh.png");
+		img.setAttribute("width", "24px");
+		img.setAttribute("height", "24px");
+
+		session_dom.appendChild(img);
 		session_dom.appendChild(document.createTextNode(name));
 
 		var parent = document.getElementById("first");

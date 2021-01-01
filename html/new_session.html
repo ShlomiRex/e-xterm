@@ -117,11 +117,17 @@
 <script>
 	var selected = null;
 	var buttons = document.querySelectorAll('.btn_protocol');
+
+	var selectedButton = null;
+
 	buttons.forEach((button) => {
 		button.addEventListener('click', (e) => {
 			var mouseEvent = e;
 			var buttonClicked = mouseEvent.target;
 			var buttonId = buttonClicked.id;
+
+			selectedButton = buttonClicked;
+			console.log("Selected protocol: " + selectedButton)
 
 			//If chosen diffirent protocol
 			if (buttonId != selected) {
@@ -156,7 +162,10 @@
 		console.log("Submit form")
 
 		const form = document.getElementById("form")
-		var json = {}
+		
+		var json = {
+			"protocol": selectedButton.id
+		}
 		for (var element of form) {
 			var name = element["name"]
 			var value = element["value"]
@@ -171,6 +180,7 @@
 
 			json[name] = value;
 		}
+
 		window.NewSession.saveSession(json)
 		window.NewSession.closeWindow()
 	}

@@ -19,12 +19,15 @@ const CHANNEL = "Renderer";
 
 var session = ipcRenderer.sendSync("test", "test");
 
+const remote_host = session["remote_host"];
+console.log("Remote host: " + remote_host)
+
 console.log("Got instructions from main process");
 
 // Initialize node-pty with an appropriate shell
 const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
 
-const ptyProcess = pty.spawn(shell, ["1.1.1.1"], {
+const ptyProcess = pty.spawn(shell, ["ping", "1.1.1.1"], {
 	name: 'xterm-color',
 	cols: 80,
 	rows: 30,
@@ -32,7 +35,6 @@ const ptyProcess = pty.spawn(shell, ["1.1.1.1"], {
 	env: process.env
 });
 
-console.log("A")
 
 // Initialize xterm.js and attach it to the DOM
 const xterm = new Terminal();

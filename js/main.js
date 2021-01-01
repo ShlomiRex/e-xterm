@@ -104,10 +104,10 @@ app.on('activate', function () {
 	}
 })
 
-
 const CHANNEL_TABS = "Tabs";
 const CHANNEL_INDEX = "Index";
 const CHANNEL_RENDERER = "Renderer";
+const CHANNEL_SaveSession = "SaveSession";
 
 
 //Holds session json object to open. When it is opened, it turns back to null.
@@ -132,6 +132,17 @@ ipcMain.on(CHANNEL_RENDERER, (event, args) => {
 	console.log("Sending to channel renderer")
 
 	mainWindow.webContents.send("test", "")
+});
+
+ipcMain.on(CHANNEL_SaveSession, (event, json) => {
+	var filename = uuidv4() + '.json';
+	var filePath = path.join(app.getAppPath(), "storage", "sessions", filename);
+
+	var contents = JSON.stringify(json);
+	fs.writeFile(filePath, contents, (err) => {
+		console.error(err)
+	});
+	console.log("Session saved to: " + filePath)
 });
 
 ipcMain.on("test", (event, args) => {
