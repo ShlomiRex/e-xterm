@@ -17,7 +17,7 @@ var pty = require('node-pty');
 //Sessions are saved locally and loaded to bookmarks
 const sessionFolder = path.join(app.getAppPath(), "storage", "sessions")
 
-//For now force light theme
+//For now force light theme. Later make it compatiable
 nativeTheme.themeSource = 'light';
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -131,6 +131,7 @@ ipcMain.on(CHANNEL_RENDERER, (event, args) => {
 	console.log("Main got message - channel: [" + CHANNEL_RENDERER + "]");
 	console.log(args)
 	if (args == "GetSessionToOpoen") {
+		//Even if user clicks on "+" button in the tabs, session_to_open is null, so it doesn't use session (json) but instead opens regular terminal.
 		event.returnValue = session_to_open
 		session_to_open = null;
 	} else {

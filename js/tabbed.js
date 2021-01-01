@@ -3,21 +3,23 @@ const { ipcRenderer } = require('electron');
 const TabGroup = require('electron-tabs')
 
 const path = require('path')
-const url = require('url')
 
 const CHANNEL = "Tabs";
 
 let tabGroup = new TabGroup({
 	newTab: {
-		title: 'New Tab'
+		title: "Terminal",
+		visible: true,
+		active: true,
+		src: "../html/terminal.html",
+		webviewAttributes: {
+			preload: path.join(__dirname, './preload.js')
+		}
 	}
 });
 
-tabGroup.addTab({
-	title: "Empty",
-	visible: true,
-	active: true
-});
+tabGroup.addTab()
+
 module.exports = {
 	openTerminal: function (session) {
 		var tab_name = null;

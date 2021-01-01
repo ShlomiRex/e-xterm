@@ -12,22 +12,23 @@ var Terminal = require('xterm').Terminal;
 
 
 var Terminal = require('xterm').Terminal;
+const { removeListener, removeAllListeners } = require('process');
 
 const CHANNEL = "Renderer";
 
 
 
 var session = ipcRenderer.sendSync(CHANNEL, "GetSessionToOpoen");
-
-const remote_host = session["remote_host"];
-console.log("Remote host: " + remote_host)
+//const remote_host = session["remote_host"];
+//console.log("Remote host: " + remote_host)
 
 console.log("Got instructions from main process");
 
 // Initialize node-pty with an appropriate shell
-const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
+const WINDOWS = os.platform() === 'win32';
+const shell = process.env[WINDOWS ? 'COMSPEC' : 'SHELL'];
 
-const ptyProcess = pty.spawn(shell, ["ping", "1.1.1.1"], {
+const ptyProcess = pty.spawn(shell, [], {
 	name: 'xterm-color',
 	cols: 80,
 	rows: 30,
@@ -35,6 +36,28 @@ const ptyProcess = pty.spawn(shell, ["ping", "1.1.1.1"], {
 	env: process.env
 });
 
+const PROTOCOL = session["protocol"];
+const REMOTE_HOST = session["remote_host"];
+const USERNAME = session["username_checkbox"] == "true" ? session["username"] : null;
+
+if (PROTOCOL == "SSH") {
+	if (USERNAME) {
+		ptyProcess.write("ssh " + USERNAME + "@" + REMOTE_HOST + "\n\r");
+	} else {
+		ptyProcess.write("ssh " + REMOTE_HOST + "\n\r");
+	}
+}
+
+const IDisposable = ptyProcess.onData((data) => {
+	if (data) {
+		console.log(data);
+		if (data.endsWith("password: ")) {
+			console.log("Writing password")
+			ptyProcess.write("<your password goes here>\n\r");
+			IDisposable.dispose();
+		}
+	}
+});
 
 // Initialize xterm.js and attach it to the DOM
 const xterm = new Terminal();
