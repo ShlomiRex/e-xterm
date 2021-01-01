@@ -43,7 +43,11 @@ function loadSessions(sessions) {
 		var name = session["session_name"];
 		//If user did not give session name, use the hostname instead
 		if (! name) {
-			name = session["remote_host"]
+			if (session["username"]) {
+				name = session["username"] + "@" + session["remote_host"];
+			} else {
+				name = session["remote_host"];
+			}
 		}
 		console.log("Loading session: " + name);
 		
