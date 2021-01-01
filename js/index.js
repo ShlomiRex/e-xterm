@@ -13,9 +13,10 @@ const CHANNEL = "Index";
 document.querySelector('#btn_newSession').addEventListener('click', () => {
 	const mainWindow = remote.getCurrentWindow ();
 
+	//TODO: Deal with macOS modal no closing / minimize / maximize
 	let child = new BrowserWindow({
 		parent: mainWindow, 
-		modal: true, 
+		modal: false, 
 		show: false,
 		title: "New Session",
 		webPreferences: {

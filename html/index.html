@@ -7,30 +7,71 @@
 	<link rel="stylesheet" href="../css/seperator.css">
 	<link rel="Stylesheet" href="../node_modules/xterm/css/xterm.css">
 	<link rel="stylesheet" href="../css/session_pane.css">
+
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+
 </head>
 
 <body style="box-sizing: border-box; display: flex; overflow: hidden; margin-right: 0px;">
-	<div id="first" style="width: 20%; height: 100%; padding: 5px;">
+	<div id="first" style="width: 40%; height: 100%; padding: 5px;">
 
-		<button id="btn_newSession">New session</button>
-		<script>
-			var coll = document.getElementsByClassName("collapsible");
-			var i;
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+			integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+			crossorigin="anonymous"></script>
 
-			//If clicked on outer list
-			for (i = 0; i < coll.length; i++) {
-				coll[i].addEventListener("click", function () {
-					console.log("Clicked on collapsable")
-					this.classList.toggle("active");
-					var content = this.nextElementSibling;
-					if (content.style.maxHeight) {
-						content.style.maxHeight = null;
-					} else {
-						content.style.maxHeight = content.scrollHeight + "px";
-					}
-				});
-			}
-		</script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+			crossorigin="anonymous"></script>
+
+
+		<p>
+			<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button"
+				aria-expanded="false" aria-controls="collapseExample">
+				Expand / Collapse
+			</a>
+		</p>
+		<div class="collapse" id="collapseExample">
+			<div class="card card-body">
+				<p>
+					<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button"
+						aria-expanded="false" aria-controls="collapseExample">
+						Expand / Collapse
+					</a>
+				</p>
+				<div class="row">
+					<div>
+						<div class="list-group" id="list-tab" role="tablist">
+							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+								id="list-home-list" data-toggle="list" href="#list-home" role="tab"
+								aria-controls="home">
+								root@localhost
+								<span class="badge badge-primary badge-pill" style="background-color: blue;">SSH</span>
+							</a>
+							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+								id="list-profile-list" data-toggle="list" href="#list-profile" role="tab"
+								aria-controls="profile">
+								Insert session name here
+								<span class="badge badge-primary badge-pill" style="background-color: blue;">SSH</span>
+							</a>
+							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+								id="list-messages-list" data-toggle="list" href="#list-messages" role="tab"
+								aria-controls="messages">
+								shlomid R80.40 GW 172.23.13.204
+								<span class="badge badge-primary badge-pill"
+									style="background-color: chartreuse; color: black;">FTP</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<a id="btn_newSession" class="btn btn-primary" role="button">
+			New session
+		</a>
 	</div>
 
 	<div id="separator"></div>

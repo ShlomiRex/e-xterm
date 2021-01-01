@@ -18,7 +18,7 @@ var pty = require('node-pty');
 const sessionFolder = path.join(app.getAppPath(), "storage", "sessions")
 
 //For now force light theme. Later make it compatiable
-nativeTheme.themeSource = 'light';
+nativeTheme.themeSource = 'dark';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

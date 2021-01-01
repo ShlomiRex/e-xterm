@@ -10,6 +10,7 @@
   "repository": "https://github.com/ShlomiRex/e-xterm",
   "author": "Shlomi Domnenko",
   "dependencies": {
+    "bootstrap": "^5.0.0-beta1",
     "electron": "^9.1.0",
     "electron-tabs": "^0.15.0",
     "node-pty": "^0.9.0",
