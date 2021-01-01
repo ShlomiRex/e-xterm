@@ -48,6 +48,8 @@ if (PROTOCOL == "SSH") {
 	}
 }
 
+// Never use this to automate ssh logins!
+/*
 const IDisposable = ptyProcess.onData((data) => {
 	if (data) {
 		console.log(data);
@@ -58,6 +60,7 @@ const IDisposable = ptyProcess.onData((data) => {
 		}
 	}
 });
+*/
 
 // Initialize xterm.js and attach it to the DOM
 const xterm = new Terminal();
