@@ -11,6 +11,9 @@ const url = require('url');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
+var os = require('os');
+var pty = require('node-pty');
+
 //Sessions are saved locally and loaded to bookmarks
 const sessionFolder = path.join(app.getAppPath(), "storage", "sessions")
 
@@ -107,28 +110,33 @@ const CHANNEL_INDEX = "Index";
 const CHANNEL_RENDERER = "Renderer";
 
 
-ipcMain.on('SaveSession', (event, json) => {
-	var contents = JSON.stringify(json);
-
-	var filename = uuidv4() + '.json';
-	var filePath = path.join(app.getAppPath(), "storage", "sessions", filename);
-	fs.writeFile(filePath, contents, (err) => {
-		console.error(err)
-	});
-	console.log("Session saved to: " + filePath)
-});
-
-//Called from index.js - tell tabbed.js to open
-ipcMain.on(CHANNEL_TABS, (event, session) => {
-	console.log("Main got message - channel: [" + CHANNEL_TABS + "]");
-});
+//Holds session json object to open. When it is opened, it turns back to null.
+var session_to_open = null;
 
 ipcMain.on(CHANNEL_INDEX, (event, args) => {
 	console.log("Main got message - channel: [" + CHANNEL_INDEX + "]");
-	mainWindow.webContents.send(CHANNEL_TABS, "OpenSession", args)
+	console.log(args);
+	mainWindow.webContents.send(CHANNEL_INDEX, "OpenSession", args);
 });
 
-ipcMain.on(CHANNEL_RENDERER, (event, args) => {
-	console.log("Main got message - channel: [" + CHANNEL_INDEX + "]");
+ipcMain.on(CHANNEL_TABS, (event, args) => {
+	console.log("Main got message - channel: [" + CHANNEL_TABS + "]");
+	console.log(args);
+	session_to_open = args;
+});
 
+
+ipcMain.on(CHANNEL_RENDERER, (event, args) => {
+	console.log("Main got message - channel: [" + CHANNEL_RENDERER + "]");
+	console.log(args)
+	console.log("Sending to channel renderer")
+
+	mainWindow.webContents.send("test", "")
+});
+
+ipcMain.on("test", (event, args) => {
+	console.log("Main got: " + args);
+
+	event.returnValue = session_to_open
+	session_to_open = null;
 });

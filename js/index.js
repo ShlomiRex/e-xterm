@@ -5,6 +5,9 @@ const url = require('url')
 const remote = require ("electron").remote;
 const ipcRenderer = electron.ipcRenderer;
 
+const tabbed = require('./tabbed');
+
+
 const CHANNEL = "Index";
 
 document.querySelector('#btn_newSession').addEventListener('click', () => {
@@ -37,8 +40,9 @@ function onSessionOpen(button) {
 	console.log("Opening session with button : " + button)
 }
 
-//Load in bookmarks (session pane) the saved sessions user saved on disk (/storage/sessions)
-ipcRenderer.once("LoadSessions", (event, sessions) => {
+//Sessions - list of sessions
+//openSessionCallback - when button is pressed (gui seesion button) then call this
+function loadSessions(sessions, openSessionCallback) {
 	sessions.forEach(session => {
 		var name = session["session_name"];
 		//If user did not give session name, use the hostname instead
@@ -52,17 +56,14 @@ ipcRenderer.once("LoadSessions", (event, sessions) => {
 		session_dom.setAttribute("data-session_id", session["session_id"]);
 		session_dom.onclick = function() {
 			var session_id = this.dataset["session_id"];
-			console.log("Sending main process a request to open a session: " + session_id)
-
+			console.log("Clicked on open session: " + session_id);
 			for(var _session of sessions) {
-				if (_session["session_id"] == session_id) {
-
-					//TODO: Tell xterm to open session: _session 
-					ipcRenderer.send(CHANNEL, _session);
-
+				if(_session["session_id"] == session_id) {
+					tabbed.openTerminal(_session);
 					break;
 				}
 			}
+			//ipcRenderer.send(CHANNEL, session_id);
 		}
 
 		session_dom.appendChild(document.createTextNode(name));
@@ -70,4 +71,11 @@ ipcRenderer.once("LoadSessions", (event, sessions) => {
 		var parent = document.getElementById("first");
 		parent.appendChild(session_dom);
 	});
-})
+}
+
+//Load in bookmarks (session pane) the saved sessions user saved on disk (/storage/sessions)
+ipcRenderer.once("LoadSessions", (event, sessions) => {
+	console.log("index.js got LoadSession from main")
+	loadSessions(sessions, () => {});
+
+});

@@ -1,4 +1,4 @@
-console.log("preload: preload.js")
+console.log("preload.js exetuing")
 
 const {
 	contextBridge
@@ -11,3 +11,5 @@ contextBridge.exposeInMainWorld(
 	}
 }
 );
+
+console.log("preload.js done")
