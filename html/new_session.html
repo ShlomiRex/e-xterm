@@ -2,110 +2,294 @@
 <html>
 
 <head>
-	<link rel="stylesheet" href="../css/new_session.css">
+
+	<link rel="stylesheet" href="../bootstrap-5.0.0-beta1-dist/bootstrap-5.0.0-beta1-dist/css/bootstrap.min.css">
+
+
+	<script src="../bootstrap-5.0.0-beta1-dist/bootstrap-5.0.0-beta1-dist/js/bootstrap.min.js"></script>
 </head>
 
-<body>
+<body class="container">
 	<div id="choose_protocol" style="display: block;">
-		<h2>Choose protocol</h2>
-		<div class="btn-group" style="width:100%">
-			<button id="SSH" class="btn_protocol">SSH</button>
-			<button id="SFTP" class="btn_protocol">SFTP</button>
-			<button id="Telnet" class="btn_protocol">Telnet</button>
-			<button id="FTP" class="btn_protocol">FTP</button>
-			<button id="RDP" class="btn_protocol">RDP</button>
-			<button id="VNC" class="btn_protocol">VNC</button>
-			<button id="WSL" class="btn_protocol">WSL</button>
+		<h1>Choose protocol</h1>
+		<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+			<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+			<label class="btn btn-outline-primary" for="btnradio1">SSH</label>
+
+			<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+			<label class="btn btn-outline-primary" for="btnradio2">SFTP</label>
+
+			<input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+			<label class="btn btn-outline-primary" for="btnradio3">FTP</label>
+
+			<input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+			<label class="btn btn-outline-primary" for="btnradio4">RDP</label>
+
+			<input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+			<label class="btn btn-outline-primary" for="btnradio5">VNC</label>
+
+			<input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off">
+			<label class="btn btn-outline-primary" for="btnradio6">Radio 6</label>
+
+			<input type="radio" class="btn-check" name="btnradio" id="btnradio7" autocomplete="off">
+			<label class="btn btn-outline-primary" for="btnradio7">WSL</label>
 		</div>
 	</div>
+	<!--
+	<template id="BasicSettings">
+		<div style="border-style: inset; background-color: whitesmoke;">
+			Basic Settings
+			<hr>
 
-	<div id="content" style="size: 100px 100px; margin-top: 10px;">
-		<div id="hidden_content_SSH" style="display: none;">
-			<form id="form" onsubmit="submitForm()">
-				<div style="border-style: inset; background-color: whitesmoke;">
-					Basic Settings
-					<hr>
-					<br>
+			<span style="color: red;">*</span>
+			Remote host:
+			<input type="text" title="Host name or IP address" name="remote_host">
 
-					<span style="color: red;">*</span>Remote host:
-					<input type="text" title="Host name or IP address" name="remote_host">
+			<input type="checkbox" onchange="onUsername()" name="username_checkbox">
+			Specify username:
+			<input type="text" title="Default is your username" name="username" disabled>
 
-					<input type="checkbox" id="chkbx_username" onchange="on_chkbx_username()" name="username_checkbox">
-					Specify username:
-					<input type="text" title="Default is your username" id="username" name="username" disabled>
+			<span style="color: red;">*</span>
+			Port:
+			<input type="number" min=1 max=65535 value="22" name="port">
+		</div>
+	</template>
 
-					<span style="color: red;">*</span>Port:
-					<input type="number" min=1 max=65535 value="22" name="port">
+	<template id="BookmarkSettings">
+		<div style="border-style: inset; background-color: whitesmoke;">
+			Bookmark Settings
+			<hr>
 
-				</div>
-
-				<br>
-
-				<div style="border-style: inset; background-color: whitesmoke;">
-					Advanced Settings
-					<hr>
-					<br>
-
-					<span
-						title="X11 forwarding allows executing a program remotly through SSH and the GUI will run locally.">
-						<input type="checkbox" name="x11_forwarding" checked> X11 Forwarding
-					</span>
-					<span title="Compression is useful when the connection speed is slow.">
-						<input type="checkbox" name="ssh_compression" checked> SSH Compression
-					</span>
-
-				</div>
-
-				<br>
-
-				<div style="border-style: inset; background-color: whitesmoke;">
-					Bookmark Settings
-					<hr>
-					<br>
-
-					Session name:
-					<input type="text" name="session_name" title="Give it a meaningful name.">
-					<br>
-					Description:
-					<br>
-					<textarea rows="4" cols="50" name="session_description"></textarea>
-
-				</div>
-			</form>
-
+			Session name:
+			<input type="text" name="session_name" title="Give it a meaningful name.">
 			<br>
+			Description:
+			<br>
+			<textarea rows="4" cols="50" name="session_description"></textarea>
+		</div>
+	</template>
+-->
 
-			<div style="display: flex; align-items: center; justify-content: center;">
-				<div style="transform: scale(1.25);">
-					<input type="submit" value="OK" form="form"/>
-					<button onclick="cancel()">Cancel</button>
+	<div id="content" style="margin-top: 10px;">
+		<div id="hidden_content_SSH" style="display: none;">
+			<form onsubmit="onSubmit()">
+				<div class="accordion">
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+								data-bs-target="#BasicSettings" aria-expanded="true">
+								Basic Settings
+							</button>
+						</h2>
+						<div id="BasicSettings" class="accordion-collapse collapse show"
+							data-bs-parent="#BasicSettings">
+							<div class="accordion-body">
+								<div class="list-group" id="list-tab" role="tablist">
+									<div class="row">
+										<div class="col">
+											<label for="remote_host" class="form-label">
+												<span style="color: red;">*</span>
+												Remote host:
+											</label>
+										</div>
+										<div class="col">
+											<input type="text" class="form-control" id="remote_host"
+												title="Host name or IP address" placeholder="Example: pi@raspberrypi"
+												required>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<label for="username" class="form-label">
+												Username:
+											</label>
+										</div>
+										<div class="col">
+											<input type="text" class="form-control" id="username"
+												title="Username to use" placeholder="Example: root">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<label for="port" class="form-label">
+												<span style="color: red;">*</span>
+												Port:
+											</label>
+										</div>
+										<div class="col">
+											<input type="number" class="form-control" id="port" title="Port to use"
+												value="22" required>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
+
+				<div class="accordion">
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+								data-bs-target="#AdvancedSettings" aria-expanded="true">
+								Advanced SSH Settings
+							</button>
+						</h2>
+						<div id="AdvancedSettings" class="accordion-collapse collapse show"
+							data-bs-parent="#AdvancedSettings">
+							<div class="accordion-body">
+								<div class="list-group" id="list-tab" role="tablist">
+									<div class="row">
+										<div class="col">
+											<input class="form-check-input" type="checkbox" value="" id="x11_forwarding"
+												checked />
+											<label class="form-check-label" for="x11_forwarding">
+												X11-Forwarding
+											</label>
+										</div>
+										<div class="col">
+											<input class="form-check-input" type="checkbox" value="" id="compression"
+												checked />
+											<label class="form-check-label" for="compression">
+												Compression
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<br>
+				<button type="submit" class="btn btn-primary">Submit</button>
+				<a id="cancel" name="cancel" class="btn btn-outline-danger" onclick="cancel()">Cancel</a>
+
+			</form>
+		</div>
+
+		<!--
+		<div id="hidden_content_SFTP" style="display: none;">
+
+		</div>
+
+
+		<div id="hidden_content_Telnet" style="display: none;">
+			<div>
+				<script>
+					var temp = document.getElementById("BasicSettings");
+					var clon = temp.content.cloneNode(true);
+
+					clon.getElementById("port").value = "23";
+
+					/*
+						<span style="color: red;">*</span>
+					*/
+					var span = document.createElement("span");
+					span.style = "color: red;";
+					span.innerText = "*";
+
+					//Remove checkbox
+					var toRemove = clon.getElementById("chkbx_username");
+					toRemove.parentElement.removeChild(toRemove);
+
+					//Append red star '*' to beginning
+					var usernameSection = clon.getElementById("username_section");
+					usernameSection.prepend(span);
+
+					//Set text box active
+					var txtbox = clon.getElementById("username");
+					txtbox.disabled = null;
+
+					var thisScript = document.currentScript;
+					thisScript.parentElement.appendChild(clon);
+				</script>
+			</div>
+
+			<div>
+				<script>
+					var temp = document.getElementById("BookmarkSettings");
+					var clon = temp.content.cloneNode(true);
+					var thisScript = document.currentScript;
+					thisScript.parentElement.appendChild(clon);
+				</script>
 			</div>
 		</div>
 
-		<div id="hidden_content_SFTP" style="display: none;">
-			Hidden content SFTP!
-		</div>
-
-		<div id="hidden_content_Telnet" style="display: none;">
-			Hidden content Telnet!
-		</div>
-
 		<div id="hidden_content_FTP" style="display: none;">
-			Hidden content FTP!
+			<div>
+				<script>
+					var temp = document.getElementById("BasicSettings");
+					var clon = temp.content.cloneNode(true);
+					clon.getElementById("port").value = "21";
+					var thisScript = document.currentScript;
+					thisScript.parentElement.appendChild(clon);
+				</script>
+			</div>
+
+			<div>
+				<script>
+					var temp = document.getElementById("BookmarkSettings");
+					var clon = temp.content.cloneNode(true);
+					var thisScript = document.currentScript;
+					thisScript.parentElement.appendChild(clon);
+				</script>
+			</div>
 		</div>
 
 		<div id="hidden_content_RDP" style="display: none;">
-			Hidden content RDP!
+			<div>
+				<script>
+					var temp = document.getElementById("BasicSettings");
+					var clon = temp.content.cloneNode(true);
+					clon.getElementById("port").value = "3389";
+					var thisScript = document.currentScript;
+					thisScript.parentElement.appendChild(clon);
+				</script>
+			</div>
+
+			<div>
+				<script>
+					var temp = document.getElementById("BookmarkSettings");
+					var clon = temp.content.cloneNode(true);
+					var thisScript = document.currentScript;
+					thisScript.parentElement.appendChild(clon);
+				</script>
+			</div>
 		</div>
 
 		<div id="hidden_content_VNC" style="display: none;">
-			Hidden content VNC!
+			<div>
+				<script>
+					var temp = document.getElementById("BasicSettings");
+					var clon = temp.content.cloneNode(true);
+
+					clon.getElementById("port").value = "5900";
+
+					var toRemove = clon.getElementById("username_section");
+					toRemove.parentElement.removeChild(toRemove);
+
+					var thisScript = document.currentScript;
+					thisScript.parentElement.appendChild(clon);
+				</script>
+			</div>
+
+			<div>
+				<script>
+					var temp = document.getElementById("BookmarkSettings");
+					var clon = temp.content.cloneNode(true);
+					var thisScript = document.currentScript;
+					thisScript.parentElement.appendChild(clon);
+				</script>
+			</div>
 		</div>
 
 		<div id="hidden_content_WSL" style="display: none;">
 			Hidden content WSL!
 		</div>
+		-->
 	</div>
 
 </body>
@@ -127,7 +311,6 @@
 			var buttonId = buttonClicked.id;
 
 			selectedButton = buttonClicked;
-			console.log("Selected protocol: " + selectedButton)
 
 			//If chosen diffirent protocol
 			if (buttonId != selected) {
@@ -138,21 +321,26 @@
 				}
 
 				selected = buttonId;
+				console.log("Selected protocol: " + selected)
 
 				//Show hidden content for selected protocol
 				document.getElementById("hidden_content_" + buttonId).style.display = "block";
-
-				//Hide protocol buttons
-				//document.getElementById("choose_protocol").style.display = "none";
 			}
 			//else do nothing, selected same button/protocol
 		});
 	});
 
+	/*
+	//Disable / enable text box when checkbox is toggled
 	function on_chkbx_username() {
-		document.getElementById("username").disabled = ! document.getElementById("chkbx_username").checked
+		var content = document.getElementById("hidden_content_" + selected);
+		console.dir(content);
+		var txtbox = content.getElementById("username");
+		var chkbx = content.getElementById("chkbx_username");
 
+		txtbox.disabled = ! chkbx.checked;
 	}
+	*/
 
 	function cancel() {
 		window.NewSession.closeWindow()
@@ -162,7 +350,7 @@
 		console.log("Submit form")
 
 		const form = document.getElementById("form")
-		
+
 		var json = {
 			"protocol": selectedButton.id
 		}
@@ -172,7 +360,7 @@
 
 			//Value of checkbox is "on" always... idk maybe it's because I set it to checked initially.
 			//TODO: Investiage why value of checkbox is "on" always, so we don't need this 'if'.
-			if(element.type == "checkbox") {
+			if (element.type == "checkbox") {
 				value = element.checked;
 			}
 
