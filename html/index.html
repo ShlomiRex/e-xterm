@@ -29,44 +29,69 @@
 <body style="box-sizing: border-box; display: flex; overflow: hidden; margin-right: 0px;">
 
 
-	<div id="first" style="width: 90%; height: 100%; padding: 5px;">
+	<div id="first" style="width: 50%; height: 100%; padding: 5px;">
 		<div class="accordion" id="accordionExample2">
 			<div class="accordion-item">
 				<h2 class="accordion-header" id="headingOne">
 					<button class="accordion-button" type="button" data-bs-toggle="collapse"
 						data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-						My AWS machines
+						All Sessions
 					</button>
 				</h2>
-				<div id="collapseTwo" class="accordion-collapse collapse show"
-					aria-labelledby="headingOne" data-bs-parent="#accordionExample2">
+				<div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+					data-bs-parent="#accordionExample2">
 					<div class="accordion-body">
 
 
 						<div class="list-group" id="list-tab" role="tablist">
-							<a class="list-group-item list-group-item-action active d-flex justify-content-between align-items-center" id="list-home-list"
-								data-toggle="list" href="#list-home" role="tab"
+							<a class="list-group-item list-group-item-action active d-flex justify-content-between align-items-center"
+								id="list-home-list" data-toggle="list" href="#list-home" role="tab"
 								aria-controls="home">
 								root@10.0.0.9
-								<span class="badge rounded-pill" style="background-color:black; color: white;">SSH</span>
+								<span class="badge rounded-pill"
+									style="background-color:black; color: white;">SSH</span>
 							</a>
-							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" id="list-profile-list"
-								data-toggle="list" href="#list-profile" role="tab"
+							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+								id="list-profile-list" data-toggle="list" href="#list-profile" role="tab"
 								aria-controls="profile">
 								shlomid R80.40 GW 172.23.13.204
-								<span class="badge rounded-pill" style="background-color: chartreuse; color: black;">FTP</span>
+								<span class="badge rounded-pill"
+									style="background-color: chartreuse; color: black;">FTP</span>
 							</a>
-							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" id="list-messages-list"
-								data-toggle="list" href="#list-messages" role="tab"
+							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+								id="list-messages-list" data-toggle="list" href="#list-messages" role="tab"
 								aria-controls="messages">
 								attacker
-								<span class="badge rounded-pill" style="background-color:yellow; color: black;">SFTP</span>
+								<span class="badge rounded-pill"
+									style="background-color:yellow; color: black;">SFTP</span>
 							</a>
-							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" id="list-settings-list"
-								data-toggle="list" href="#list-settings" role="tab"
+							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+								id="list-settings-list" data-toggle="list" href="#list-settings" role="tab"
 								aria-controls="settings">
 								localhost
-								<span class="badge rounded-pill" style="background-color:darkgreen; color:white">VNC</span>
+								<span class="badge rounded-pill"
+									style="background-color:darkgreen; color:white;">VNC</span>
+							</a>
+							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+								id="list-settings-list" data-toggle="list" href="#list-settings" role="tab"
+								aria-controls="settings">
+								test@raspberrypi
+								<span class="badge rounded-pill"
+									style="background-color:springgreen; color:black;">Telnet</span>
+							</a>
+							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+								id="list-settings-list" data-toggle="list" href="#list-settings" role="tab"
+								aria-controls="settings">
+								Windows95
+								<span class="badge rounded-pill"
+									style="background-color: rgb(0, 164, 239); color: white;">RDP</span>
+							</a>
+							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+								id="list-settings-list" data-toggle="list" href="#list-settings" role="tab"
+								aria-controls="settings">
+								Ubuntu 20.04
+								<span class="badge rounded-pill"
+									style="background-color:orangered; color:white">WSL</span>
 							</a>
 						</div>
 
