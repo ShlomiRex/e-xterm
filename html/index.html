@@ -8,39 +8,66 @@
 	<link rel="Stylesheet" href="../node_modules/xterm/css/xterm.css">
 	<link rel="stylesheet" href="../css/session_pane.css">
 	<link rel="stylesheet" href="../bootstrap-5.0.0-beta1-dist/bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
+
+	<!--
+	Bug in beta1 - list-group is not active when clicked
+	Github issue:
+	https://github.com/twbs/bootstrap/issues/32655
+	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+	
+	-->
+	<script src="../bootstrap-5.0.0-beta1-dist/bootstrap-5.0.0-beta1-dist/js/bootstrap.min.js"></script>
+	<!-- For now use alpha 1 -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+		integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+		crossorigin="anonymous"></script>
+
 </head>
 
 <body style="box-sizing: border-box; display: flex; overflow: hidden; margin-right: 0px;">
-	<script src="../bootstrap-5.0.0-beta1-dist/bootstrap-5.0.0-beta1-dist/js/bootstrap.bundle.js"></script>
+
+
 	<div id="first" style="width: 90%; height: 100%; padding: 5px;">
-		<div class="accordion" id="accordionExample">
+		<div class="accordion" id="accordionExample2">
 			<div class="accordion-item">
 				<h2 class="accordion-header" id="headingOne">
 					<button class="accordion-button" type="button" data-bs-toggle="collapse"
-						data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-						Accordion Item #1
+						data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+						My AWS machines
 					</button>
 				</h2>
-				<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-					data-bs-parent="#accordionExample">
+				<div id="collapseTwo" class="accordion-collapse collapse show"
+					aria-labelledby="headingOne" data-bs-parent="#accordionExample2">
 					<div class="accordion-body">
 
 
-						<div class="accordion" id="accordionExample2">
-							<div class="accordion-item">
-								<h2 class="accordion-header" id="headingOne">
-									<button class="accordion-button" type="button" data-bs-toggle="collapse"
-										data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-										Accordion Item #1
-									</button>
-								</h2>
-								<div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-									data-bs-parent="#accordionExample2">
-									<div class="accordion-body">
-										test
-									</div>
-								</div>
-							</div>
+						<div class="list-group" id="list-tab" role="tablist">
+							<a class="list-group-item list-group-item-action active d-flex justify-content-between align-items-center" id="list-home-list"
+								data-toggle="list" href="#list-home" role="tab"
+								aria-controls="home">
+								root@10.0.0.9
+								<span class="badge rounded-pill" style="background-color:black; color: white;">SSH</span>
+							</a>
+							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" id="list-profile-list"
+								data-toggle="list" href="#list-profile" role="tab"
+								aria-controls="profile">
+								shlomid R80.40 GW 172.23.13.204
+								<span class="badge rounded-pill" style="background-color: chartreuse; color: black;">FTP</span>
+							</a>
+							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" id="list-messages-list"
+								data-toggle="list" href="#list-messages" role="tab"
+								aria-controls="messages">
+								attacker
+								<span class="badge rounded-pill" style="background-color:yellow; color: black;">SFTP</span>
+							</a>
+							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" id="list-settings-list"
+								data-toggle="list" href="#list-settings" role="tab"
+								aria-controls="settings">
+								localhost
+								<span class="badge rounded-pill" style="background-color:darkgreen; color:white">VNC</span>
+							</a>
 						</div>
 
 
