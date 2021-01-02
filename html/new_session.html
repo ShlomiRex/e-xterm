@@ -10,65 +10,29 @@
 </head>
 
 <body class="container">
-	<div id="choose_protocol" style="display: block;">
-		<h1>Choose protocol</h1>
-		<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-			<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
-			<label class="btn btn-outline-primary" for="btnradio1">SSH</label>
+	<h1>Choose protocol</h1>
+	<div id="choose_protocol" class="btn-group" role="group" aria-label="Basic radio toggle button group">
+		<input type="radio" class="btn-check" name="btnradio" id="SSH" autocomplete="off">
+		<label class="btn btn-outline-primary" for="SSH">SSH</label>
 
-			<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-			<label class="btn btn-outline-primary" for="btnradio2">SFTP</label>
+		<input type="radio" class="btn-check" name="btnradio" id="SFTP" autocomplete="off" disabled aria-disabled="true">
+		<label class="btn btn-outline-primary" for="SFTP">SFTP</label>
 
-			<input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-			<label class="btn btn-outline-primary" for="btnradio3">FTP</label>
+		<input type="radio" class="btn-check" name="btnradio" id="FTP" autocomplete="off" disabled aria-disabled="true">
+		<label class="btn btn-outline-primary" for="FTP">FTP</label>
 
-			<input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
-			<label class="btn btn-outline-primary" for="btnradio4">RDP</label>
+		<input type="radio" class="btn-check" name="btnradio" id="RDP" autocomplete="off" disabled aria-disabled="true">
+		<label class="btn btn-outline-primary" for="RDP">RDP</label>
 
-			<input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
-			<label class="btn btn-outline-primary" for="btnradio5">VNC</label>
+		<input type="radio" class="btn-check" name="btnradio" id="VNC" autocomplete="off" disabled aria-disabled="true">
+		<label class="btn btn-outline-primary" for="VNC">VNC</label>
 
-			<input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off">
-			<label class="btn btn-outline-primary" for="btnradio6">Radio 6</label>
+		<input type="radio" class="btn-check" name="btnradio" id="Telnet" autocomplete="off" disabled aria-disabled="true">
+		<label class="btn btn-outline-primary" for="Telnet">Telnet</label>
 
-			<input type="radio" class="btn-check" name="btnradio" id="btnradio7" autocomplete="off">
-			<label class="btn btn-outline-primary" for="btnradio7">WSL</label>
-		</div>
+		<input type="radio" class="btn-check" name="btnradio" id="WSL" autocomplete="off" disabled aria-disabled="true">
+		<label class="btn btn-outline-primary" for="WSL">WSL</label>
 	</div>
-	<!--
-	<template id="BasicSettings">
-		<div style="border-style: inset; background-color: whitesmoke;">
-			Basic Settings
-			<hr>
-
-			<span style="color: red;">*</span>
-			Remote host:
-			<input type="text" title="Host name or IP address" name="remote_host">
-
-			<input type="checkbox" onchange="onUsername()" name="username_checkbox">
-			Specify username:
-			<input type="text" title="Default is your username" name="username" disabled>
-
-			<span style="color: red;">*</span>
-			Port:
-			<input type="number" min=1 max=65535 value="22" name="port">
-		</div>
-	</template>
-
-	<template id="BookmarkSettings">
-		<div style="border-style: inset; background-color: whitesmoke;">
-			Bookmark Settings
-			<hr>
-
-			Session name:
-			<input type="text" name="session_name" title="Give it a meaningful name.">
-			<br>
-			Description:
-			<br>
-			<textarea rows="4" cols="50" name="session_description"></textarea>
-		</div>
-	</template>
--->
 
 	<div id="content" style="margin-top: 10px;">
 		<div id="hidden_content_SSH" style="display: none;">
@@ -166,181 +130,24 @@
 				<br>
 				<button type="submit" class="btn btn-primary">Submit</button>
 				<a id="cancel" name="cancel" class="btn btn-outline-danger" onclick="cancel()">Cancel</a>
-
 			</form>
 		</div>
-
-		<!--
-		<div id="hidden_content_SFTP" style="display: none;">
-
-		</div>
-
-
-		<div id="hidden_content_Telnet" style="display: none;">
-			<div>
-				<script>
-					var temp = document.getElementById("BasicSettings");
-					var clon = temp.content.cloneNode(true);
-
-					clon.getElementById("port").value = "23";
-
-					/*
-						<span style="color: red;">*</span>
-					*/
-					var span = document.createElement("span");
-					span.style = "color: red;";
-					span.innerText = "*";
-
-					//Remove checkbox
-					var toRemove = clon.getElementById("chkbx_username");
-					toRemove.parentElement.removeChild(toRemove);
-
-					//Append red star '*' to beginning
-					var usernameSection = clon.getElementById("username_section");
-					usernameSection.prepend(span);
-
-					//Set text box active
-					var txtbox = clon.getElementById("username");
-					txtbox.disabled = null;
-
-					var thisScript = document.currentScript;
-					thisScript.parentElement.appendChild(clon);
-				</script>
-			</div>
-
-			<div>
-				<script>
-					var temp = document.getElementById("BookmarkSettings");
-					var clon = temp.content.cloneNode(true);
-					var thisScript = document.currentScript;
-					thisScript.parentElement.appendChild(clon);
-				</script>
-			</div>
-		</div>
-
-		<div id="hidden_content_FTP" style="display: none;">
-			<div>
-				<script>
-					var temp = document.getElementById("BasicSettings");
-					var clon = temp.content.cloneNode(true);
-					clon.getElementById("port").value = "21";
-					var thisScript = document.currentScript;
-					thisScript.parentElement.appendChild(clon);
-				</script>
-			</div>
-
-			<div>
-				<script>
-					var temp = document.getElementById("BookmarkSettings");
-					var clon = temp.content.cloneNode(true);
-					var thisScript = document.currentScript;
-					thisScript.parentElement.appendChild(clon);
-				</script>
-			</div>
-		</div>
-
-		<div id="hidden_content_RDP" style="display: none;">
-			<div>
-				<script>
-					var temp = document.getElementById("BasicSettings");
-					var clon = temp.content.cloneNode(true);
-					clon.getElementById("port").value = "3389";
-					var thisScript = document.currentScript;
-					thisScript.parentElement.appendChild(clon);
-				</script>
-			</div>
-
-			<div>
-				<script>
-					var temp = document.getElementById("BookmarkSettings");
-					var clon = temp.content.cloneNode(true);
-					var thisScript = document.currentScript;
-					thisScript.parentElement.appendChild(clon);
-				</script>
-			</div>
-		</div>
-
-		<div id="hidden_content_VNC" style="display: none;">
-			<div>
-				<script>
-					var temp = document.getElementById("BasicSettings");
-					var clon = temp.content.cloneNode(true);
-
-					clon.getElementById("port").value = "5900";
-
-					var toRemove = clon.getElementById("username_section");
-					toRemove.parentElement.removeChild(toRemove);
-
-					var thisScript = document.currentScript;
-					thisScript.parentElement.appendChild(clon);
-				</script>
-			</div>
-
-			<div>
-				<script>
-					var temp = document.getElementById("BookmarkSettings");
-					var clon = temp.content.cloneNode(true);
-					var thisScript = document.currentScript;
-					thisScript.parentElement.appendChild(clon);
-				</script>
-			</div>
-		</div>
-
-		<div id="hidden_content_WSL" style="display: none;">
-			Hidden content WSL!
-		</div>
-		-->
 	</div>
 
 </body>
 
 <script>
-	//window.api.loadscript("../js/new_session.js")
-</script>
-
-<script>
 	var selected = null;
-	var buttons = document.querySelectorAll('.btn_protocol');
 
-	var selectedButton = null;
-
-	buttons.forEach((button) => {
-		button.addEventListener('click', (e) => {
-			var mouseEvent = e;
-			var buttonClicked = mouseEvent.target;
-			var buttonId = buttonClicked.id;
-
-			selectedButton = buttonClicked;
-
-			//If chosen diffirent protocol
-			if (buttonId != selected) {
-				//If selected != null (i.e. some hidden content is already shown) then hide it again.
-				if (selected) {
-					//Hide previous content
-					document.getElementById("hidden_content_" + selected).style.display = "none";
-				}
-
-				selected = buttonId;
-				console.log("Selected protocol: " + selected)
-
-				//Show hidden content for selected protocol
-				document.getElementById("hidden_content_" + buttonId).style.display = "block";
-			}
-			//else do nothing, selected same button/protocol
-		});
+	const btnGroup = document.getElementById("choose_protocol");
+	btnGroup.addEventListener('click', ({ target }) => { // handler fires on root container click
+		if (target.getAttribute('name') === 'btnradio') { // check if user clicks right element
+			selected = target.id;
+			//TODO: For now display only SSH form
+			//Show hidden content for selected protocol
+			document.getElementById("hidden_content_" + selected).style.display = "block";
+		}
 	});
-
-	/*
-	//Disable / enable text box when checkbox is toggled
-	function on_chkbx_username() {
-		var content = document.getElementById("hidden_content_" + selected);
-		console.dir(content);
-		var txtbox = content.getElementById("username");
-		var chkbx = content.getElementById("chkbx_username");
-
-		txtbox.disabled = ! chkbx.checked;
-	}
-	*/
 
 	function cancel() {
 		window.NewSession.closeWindow()
