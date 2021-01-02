@@ -1,9 +1,13 @@
-Change default app menus (top menu - file, help..)
+High Priority:
+* IMPORTANT: Use SSH-KEYGEN to automate SSH logins.  Or find another way.
+* Learn how other programs, like Hyper or other pgorams that use xterm.js are saving / using SSH sessions.
+    Link for programs that use xterm.js: https://github.com/xtermjs/xterm.js/
 
-Add support for Dark Mode (like in macOS) (For now it's light force)
 
-Support "folders" in bookmarks and also recursive folders
+Medium Priority:
+* In macOS , creating new seesion window - it's frameless. No close or minimize buttons. Investigate (on windows - yes)
 
-In macOS , creating new seesion window - it's frameless. No close or minimize buttons. Investigate (on windows - yes)
-
-IMPORTANT: Use SSH-KEYGEN to automate SSH logins.  Or find another way.
+Low Priority:
+* Support "folders" in bookmarks and also recursive folders
+* Add support for Dark Mode (like in macOS) (For now it's light force)
+* Change default app menus (top menu - file, help..)
