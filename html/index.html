@@ -7,63 +7,43 @@
 	<link rel="stylesheet" href="../css/seperator.css">
 	<link rel="Stylesheet" href="../node_modules/xterm/css/xterm.css">
 	<link rel="stylesheet" href="../css/session_pane.css">
-
-	<!-- Bootstrap CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-
-
+	<link rel="stylesheet" href="../bootstrap-5.0.0-beta1-dist/bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
 </head>
 
 <body style="box-sizing: border-box; display: flex; overflow: hidden; margin-right: 0px;">
-	<div id="first" style="width: 40%; height: 100%; padding: 5px;">
+	<script src="../bootstrap-5.0.0-beta1-dist/bootstrap-5.0.0-beta1-dist/js/bootstrap.bundle.js"></script>
+	<div id="first" style="width: 90%; height: 100%; padding: 5px;">
+		<div class="accordion" id="accordionExample">
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="headingOne">
+					<button class="accordion-button" type="button" data-bs-toggle="collapse"
+						data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						Accordion Item #1
+					</button>
+				</h2>
+				<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+					data-bs-parent="#accordionExample">
+					<div class="accordion-body">
 
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-			integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-			crossorigin="anonymous"></script>
 
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-			crossorigin="anonymous"></script>
-
-
-		<p>
-			<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button"
-				aria-expanded="false" aria-controls="collapseExample">
-				Expand / Collapse
-			</a>
-		</p>
-		<div class="collapse" id="collapseExample">
-			<div class="card card-body">
-				<p>
-					<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button"
-						aria-expanded="false" aria-controls="collapseExample">
-						Expand / Collapse
-					</a>
-				</p>
-				<div class="row">
-					<div>
-						<div class="list-group" id="list-tab" role="tablist">
-							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-								id="list-home-list" data-toggle="list" href="#list-home" role="tab"
-								aria-controls="home">
-								root@localhost
-								<span class="badge badge-primary badge-pill" style="background-color: blue;">SSH</span>
-							</a>
-							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-								id="list-profile-list" data-toggle="list" href="#list-profile" role="tab"
-								aria-controls="profile">
-								Insert session name here
-								<span class="badge badge-primary badge-pill" style="background-color: blue;">SSH</span>
-							</a>
-							<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-								id="list-messages-list" data-toggle="list" href="#list-messages" role="tab"
-								aria-controls="messages">
-								shlomid R80.40 GW 172.23.13.204
-								<span class="badge badge-primary badge-pill"
-									style="background-color: chartreuse; color: black;">FTP</span>
-							</a>
+						<div class="accordion" id="accordionExample2">
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="headingOne">
+									<button class="accordion-button" type="button" data-bs-toggle="collapse"
+										data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+										Accordion Item #1
+									</button>
+								</h2>
+								<div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+									data-bs-parent="#accordionExample2">
+									<div class="accordion-body">
+										test
+									</div>
+								</div>
+							</div>
 						</div>
+
+
 					</div>
 				</div>
 			</div>
