@@ -15,7 +15,8 @@
 		<input type="radio" class="btn-check" name="btnradio" id="SSH" autocomplete="off">
 		<label class="btn btn-outline-primary" for="SSH">SSH</label>
 
-		<input type="radio" class="btn-check" name="btnradio" id="SFTP" autocomplete="off" disabled aria-disabled="true">
+		<input type="radio" class="btn-check" name="btnradio" id="SFTP" autocomplete="off" disabled
+			aria-disabled="true">
 		<label class="btn btn-outline-primary" for="SFTP">SFTP</label>
 
 		<input type="radio" class="btn-check" name="btnradio" id="FTP" autocomplete="off" disabled aria-disabled="true">
@@ -27,7 +28,8 @@
 		<input type="radio" class="btn-check" name="btnradio" id="VNC" autocomplete="off" disabled aria-disabled="true">
 		<label class="btn btn-outline-primary" for="VNC">VNC</label>
 
-		<input type="radio" class="btn-check" name="btnradio" id="Telnet" autocomplete="off" disabled aria-disabled="true">
+		<input type="radio" class="btn-check" name="btnradio" id="Telnet" autocomplete="off" disabled
+			aria-disabled="true">
 		<label class="btn btn-outline-primary" for="Telnet">Telnet</label>
 
 		<input type="radio" class="btn-check" name="btnradio" id="WSL" autocomplete="off" disabled aria-disabled="true">
@@ -119,6 +121,49 @@
 											<label class="form-check-label" for="compression">
 												Compression
 											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="accordion">
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+								data-bs-target="#BookmarkSettings" aria-expanded="true">
+								Bookmark Settings
+							</button>
+						</h2>
+						<div id="BookmarkSettings" class="accordion-collapse collapse show"
+							data-bs-parent="#BookmarkSettings">
+							<div class="accordion-body">
+								<div class="list-group" id="list-tab" role="tablist">
+									<div class="row">
+										<div class="col">
+											<label for="session_name" class="form-label">
+												Session name:
+											</label>
+										</div>
+										<div class="col">
+											<input type="text" class="form-control" id="session_name"
+												title="Give meaningful name" placeholder="Example: Ubuntu 20.04 VM"
+												required>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<label for="session_description" class="form-label">
+												Session description:
+											</label>
+										</div>
+										<div class="col">
+											<textarea class="form-control" id="session_description" rows="3"
+												title="Something to describe this session"
+												placeholder="Description..."></textarea>
 										</div>
 									</div>
 								</div>
