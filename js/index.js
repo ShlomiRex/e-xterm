@@ -2,7 +2,7 @@ const electron = require('electron')
 const BrowserWindow = electron.remote.BrowserWindow
 const path = require('path')
 const url = require('url')
-const remote = require ("electron").remote;
+const remote = require("electron").remote;
 const ipcRenderer = electron.ipcRenderer;
 
 const tabbed = require('./tabbed');
@@ -11,12 +11,12 @@ const tabbed = require('./tabbed');
 const CHANNEL = "Index";
 
 document.querySelector('#btn_newSession').addEventListener('click', () => {
-	const mainWindow = remote.getCurrentWindow ();
+	const mainWindow = remote.getCurrentWindow();
 
 	//TODO: Deal with macOS modal no closing / minimize / maximize
 	let child = new BrowserWindow({
-		parent: mainWindow, 
-		modal: false, 
+		parent: mainWindow,
+		modal: false,
 		show: false,
 		title: "New Session",
 		webPreferences: {
@@ -41,49 +41,62 @@ document.querySelector('#btn_newSession').addEventListener('click', () => {
 //Sessions - list of sessions
 function loadSessions(sessions) {
 	sessions.forEach(session => {
+/*
+Example to create:
+<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+	id="list-home-list" data-toggle="list" href="#list-home" role="tab"
+	aria-controls="home">
+	root@10.0.0.9
+	<span class="badge rounded-pill"
+		style="background-color:black; color: white;">SSH</span>
+</a>
+*/
 		var name = session["session_name"];
 		//If user did not give session name, use the hostname instead
-		if (! name) {
+		if (!name) {
 			if (session["username"]) {
 				name = session["username"] + "@" + session["remote_host"];
 			} else {
 				name = session["remote_host"];
 			}
 		}
-		console.log("Loading session: " + name);
-		
-		var session_dom = document.createElement("button");
-		session_dom.setAttribute("class", "session_item");
-		session_dom.setAttribute("data-session_id", session["session_id"]);
-		session_dom.style.cssText = "padding: 0px;"
 
-		session_dom.onclick = function() {
-			var session_id = this.dataset["session_id"];
-			console.log("Clicked on open session: " + session_id);
-			for(var _session of sessions) {
-				if(_session["session_id"] == session_id) {
-					tabbed.openTerminal(_session);
-					break;
-				}
+		var protocol = session["protocol"];
+		console.log("Loading session: " + name + " protocol: " + protocol);
+
+		var session_item = document.createElement("a");
+		session_item.className = "list-group-item list-group-item-action d-flex justify-content-between align-items-center";
+		session_item.setAttribute("data-toggle", "list");
+		session_item.setAttribute("role", "tab");
+		session_item.setAttribute("aria-controls", name); //Accessability for screen readers
+		session_item.innerText = name;
+		//This makes cursor look like clicking
+		session_item.setAttribute("href", "");
+
+		function createBadge(protocol) {
+			var badge = document.createElement("span");
+			badge.className = "badge rounded-pill";
+			badge.innerText = protocol;
+
+			if (protocol == "SSH") {
+				badge.style = "background-color:black; color: white;";
 			}
+
+			return badge;
 		}
 
-		var img = document.createElement("img");
-		img.setAttribute("src", "../resources/ssh.png");
-		img.setAttribute("width", "24px");
-		img.setAttribute("height", "24px");
+		//Append badge
+		session_item.appendChild(createBadge(protocol));
 
-		session_dom.appendChild(img);
-		session_dom.appendChild(document.createTextNode(name));
-
-		var parent = document.getElementById("first");
-		parent.appendChild(session_dom);
+		//Append to session pane
+		var parent = document.getElementById("SessionsContainer");
+		parent.appendChild(session_item);
 	});
 }
 
 //Load in bookmarks (session pane) the saved sessions user saved on disk (/storage/sessions)
 ipcRenderer.once("IndexLoadSessions", (event, sessions) => {
 	console.log("index.js got LoadSession from main")
-	loadSessions(sessions, () => {});
+	loadSessions(sessions, () => { });
 
 });
