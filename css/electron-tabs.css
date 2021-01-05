@@ -7,7 +7,6 @@
   font-size: 14px;
   -webkit-user-select: none;
   user-select: none;
-  display: none;
 }
 
 .etabs-tabgroup.visible {
@@ -18,7 +17,6 @@
 }
 
 .etabs-tab {
-  display: none;
   position: relative;
   color: #333;
   padding: 6px 8px 4px;

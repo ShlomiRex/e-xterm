@@ -3,21 +3,25 @@
 
 <head>
 	<title>e-xterm</title>
+
+	<link rel="stylesheet" href="../css/index.css">
 	<link rel="stylesheet" href="../css/electron-tabs.css">
 	<link rel="stylesheet" href="../css/seperator.css">
-	<link rel="Stylesheet" href="../node_modules/xterm/css/xterm.css">
-	<link rel="stylesheet" href="../css/session_pane.css">
+
+
 	<link rel="stylesheet" href="../third-party/bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
 	<script src="../third-party/bootstrap-5.0.0-beta1-dist/js/bootstrap.min.js"></script>
+	<script src="../third-party/split.js/split.min.js"></script>
 </head>
 
-<body style="box-sizing: border-box; display: flex; overflow: hidden; margin-right: 0px;">
+<body>
 
 
+	<!--
 	<div id="first" style="width: 50%; height: 100%; padding: 5px;">
-
-		<!-- This is example styling for the badges -->
-		<!--
+-->
+	<!-- This is example styling for the badges -->
+	<!--
 
 		<div class="accordion" id="accordionExample2">
 			<div class="accordion-item">
@@ -92,9 +96,27 @@
 
 		-->
 
+	<!--
+
+
+
+	</div>
+	-->
+
+	<!--
+	<div id="separator"></div>
+
+	<div id="second" style="width: 80%; flex: 1; height: 100%;">
+
+	</div>
+
+-->
+	<div class="left">
+
 		<a id="btn_newSession" class="btn btn-primary" role="button">
 			New session
 		</a>
+
 
 		<div class="accordion" id="accordionExample">
 			<div class="accordion-item">
@@ -104,21 +126,18 @@
 						Bookmarks
 					</button>
 				</h2>
-				<div id="collapseOne" class="accordion-collapse collapse show"
-					aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+				<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+					data-bs-parent="#accordionExample">
 					<div class="accordion-body" id="ToPopulate">
 						<div class="list-group" id="SessionsContainer" role="tablist">
-							<!-- Populates sessions here -->
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
 	</div>
-
-	<div id="separator"></div>
-
-	<div id="second" style="width: 80%; flex: 1; height: 100%;">
+	<div class="main">
 		<div class="etabs-tabgroup">
 			<div class="etabs-tabs"></div>
 			<div class="etabs-buttons"></div>
@@ -127,8 +146,11 @@
 	</div>
 
 	<script>
-		//window.api.loadscript("../js/tabbed.js")
-		window.api.loadscript("../js/split.js")
+		Split(['.left', '.main']);
+	</script>
+
+
+	<script>
 		window.api.loadscript("../js/index.js")
 	</script>
 
