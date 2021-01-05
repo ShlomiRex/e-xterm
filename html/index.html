@@ -6,11 +6,10 @@
 
 	<link rel="stylesheet" href="../css/index.css">
 	<link rel="stylesheet" href="../css/electron-tabs.css">
-	<link rel="stylesheet" href="../css/seperator.css">
-
 
 	<link rel="stylesheet" href="../third-party/bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
 	<script src="../third-party/bootstrap-5.0.0-beta1-dist/js/bootstrap.min.js"></script>
+	
 	<script src="../third-party/split.js/split.min.js"></script>
 </head>
 
@@ -96,48 +95,35 @@
 
 		-->
 
-	<!--
 
 
-
-	</div>
-	-->
-
-	<!--
-	<div id="separator"></div>
-
-	<div id="second" style="width: 80%; flex: 1; height: 100%;">
-
-	</div>
-
--->
-	<div class="left">
-
-		<a id="btn_newSession" class="btn btn-primary" role="button">
-			New session
-		</a>
-
-
-		<div class="accordion" id="accordionExample">
-			<div class="accordion-item">
-				<h2 class="accordion-header" id="headingOne">
-					<button class="accordion-button" type="button" data-bs-toggle="collapse"
-						data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-						Bookmarks
-					</button>
-				</h2>
-				<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-					data-bs-parent="#accordionExample">
-					<div class="accordion-body" id="ToPopulate">
-						<div class="list-group" id="SessionsContainer" role="tablist">
+	<div id="left-panel" class="split">
+		<div class="container">
+			<a id="btn_newSession" class="btn btn-primary" role="button">
+				New session
+			</a>
+	
+	
+			<div class="accordion" id="accordionExample">
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="headingOne">
+						<button class="accordion-button" type="button" data-bs-toggle="collapse"
+							data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+							Bookmarks
+						</button>
+					</h2>
+					<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+						data-bs-parent="#accordionExample">
+						<div class="accordion-body" id="ToPopulate" style="padding: 0px;">
+							<div class="list-group" id="SessionsContainer" role="tablist">
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
-	<div class="main">
+	<div id="main-panel" class="split">
 		<div class="etabs-tabgroup">
 			<div class="etabs-tabs"></div>
 			<div class="etabs-buttons"></div>
@@ -146,7 +132,13 @@
 	</div>
 
 	<script>
-		Split(['.left', '.main']);
+		Split(['#left-panel', '#main-panel'],
+			{
+				sizes: [20, 80],
+				gutterSize: 5,
+				
+			}
+		);
 	</script>
 
 
