@@ -130,7 +130,7 @@ ipcMain.on(CHANNEL_TABS, (event, args) => {
 ipcMain.on(CHANNEL_RENDERER, (event, args) => {
 	console.log("Main got message - channel: [" + CHANNEL_RENDERER + "]");
 	console.log(args)
-	if (args == "GetSessionToOpoen") {
+	if (args == "GetSessionToOpen") {
 		//Even if user clicks on "+" button in the tabs, session_to_open is null, so it doesn't use session (json) but instead opens regular terminal.
 		event.returnValue = session_to_open
 		session_to_open = null;

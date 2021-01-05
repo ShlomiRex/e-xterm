@@ -18,7 +18,7 @@ const CHANNEL = "Renderer";
 
 
 
-var session = ipcRenderer.sendSync(CHANNEL, "GetSessionToOpoen");
+var session = ipcRenderer.sendSync(CHANNEL, "GetSessionToOpen");
 //const remote_host = session["remote_host"];
 //console.log("Remote host: " + remote_host)
 
@@ -36,17 +36,25 @@ const ptyProcess = pty.spawn(shell, [], {
 	env: process.env
 });
 
-const PROTOCOL = session["protocol"];
-const REMOTE_HOST = session["remote_host"];
-const USERNAME = session["username_checkbox"] == "true" ? session["username"] : null;
+console.log("Loading session: ")
+console.dir(session)
 
-if (PROTOCOL == "SSH") {
-	if (USERNAME) {
-		ptyProcess.write("ssh " + USERNAME + "@" + REMOTE_HOST + "\n\r");
-	} else {
-		ptyProcess.write("ssh " + REMOTE_HOST + "\n\r");
+if (session) {
+
+	const PROTOCOL = session["protocol"];
+	const REMOTE_HOST = session["remote_host"];
+	const USERNAME = session["username_checkbox"] == "true" ? session["username"] : null;
+	
+	if (PROTOCOL == "SSH") {
+		if (USERNAME) {
+			ptyProcess.write("ssh " + USERNAME + "@" + REMOTE_HOST + "\n\r");
+		} else {
+			ptyProcess.write("ssh " + REMOTE_HOST + "\n\r");
+		}
 	}
 }
+
+
 
 // Never use this to automate ssh logins!
 /*
