@@ -44,7 +44,7 @@ function loadSessions(sessions) {
 /*
 Example to create:
 <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-	id="list-home-list" data-toggle="list" href="#list-home" role="tab"
+	id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab"
 	aria-controls="home">
 	root@10.0.0.9
 	<span class="badge rounded-pill"
@@ -66,7 +66,7 @@ Example to create:
 
 		var session_item = document.createElement("a");
 		session_item.className = "list-group-item list-group-item-action d-flex justify-content-between align-items-center";
-		session_item.setAttribute("data-toggle", "list");
+		session_item.setAttribute("data-bs-toggle", "list");
 		session_item.setAttribute("role", "tab");
 		session_item.setAttribute("aria-controls", name); //Accessability for screen readers
 		session_item.innerText = name;
