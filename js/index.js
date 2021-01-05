@@ -10,6 +10,8 @@ const tabbed = require('./tabbed');
 
 const CHANNEL = "Index";
 
+var sessionItems = [];
+
 document.querySelector('#btn_newSession').addEventListener('click', () => {
 	const mainWindow = remote.getCurrentWindow();
 
@@ -36,6 +38,15 @@ document.querySelector('#btn_newSession').addEventListener('click', () => {
 	})
 	child.on('close', function () { child = null })
 })
+
+document.getElementById("left-panel").addEventListener("click", (mouseEvent) => {
+	if (mouseEvent["target"]["id"] == "left-panel" || mouseEvent["target"]["id"] == "bookmarks-container") {
+		//Deselect all session items
+		for (var sessionItem of sessionItems) {
+			sessionItem.classList.remove("active");
+		}
+	}
+});
 
 //Populate session/bookmarks pane with buttons
 //Sessions - list of sessions
@@ -73,6 +84,10 @@ Example to create:
 		//This makes cursor look like clicking
 		session_item.setAttribute("href", "");
 
+		session_item.addEventListener("click", () => {
+			console.log("Clicked " + name)
+		});
+
 		function createBadge(protocol) {
 			var badge = document.createElement("span");
 			badge.className = "badge rounded-pill";
@@ -91,6 +106,8 @@ Example to create:
 		//Append to session pane
 		var parent = document.getElementById("SessionsContainer");
 		parent.appendChild(session_item);
+
+		sessionItems.push(session_item);
 	});
 }
 
