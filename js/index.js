@@ -52,16 +52,16 @@ document.getElementById("left-panel").addEventListener("click", (mouseEvent) => 
 //Sessions - list of sessions
 function loadSessions(sessions) {
 	sessions.forEach(session => {
-/*
-Example to create:
-<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-	id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab"
-	aria-controls="home">
-	root@10.0.0.9
-	<span class="badge rounded-pill"
-		style="background-color:black; color: white;">SSH</span>
-</a>
-*/
+		/*
+		Example to create:
+		<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+			id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab"
+			aria-controls="home">
+			root@10.0.0.9
+			<span class="badge rounded-pill"
+				style="background-color:black; color: white;">SSH</span>
+		</a>
+		*/
 		var name = session["session_name"];
 		//If user did not give session name, use the hostname instead
 		if (!name) {
@@ -86,6 +86,8 @@ Example to create:
 
 		session_item.addEventListener("click", () => {
 			console.log("Clicked " + name)
+			const win = new BrowserWindow({ width: 400, height: 200 })
+			win.loadFile(path.join(__dirname, '../html/password.html'))
 		});
 
 		function createBadge(protocol) {
