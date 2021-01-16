@@ -12,5 +12,5 @@ $ npm start
 # How to run - windows
 ```
 $ ./npm_install.bat
-$ npm run start_windows
+$ npm start
 ```
