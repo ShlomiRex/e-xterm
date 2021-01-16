@@ -17,7 +17,7 @@ var pty = require('node-pty');
 //Sessions are saved locally and loaded to bookmarks
 const sessionFolder = path.join(app.getAppPath(), "storage", "sessions")
 
-//For now force light theme
+//For now force light theme. Later make it compatiable
 nativeTheme.themeSource = 'light';
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -62,6 +62,7 @@ function createWindow() {
 	});
 
 	mainWindow.webContents.on('did-finish-load', () => {
+		//Load sessions in session pane
 		console.log("Reading session directory: " + sessionFolder)
 		var sessions = [];
 
@@ -73,7 +74,7 @@ function createWindow() {
 			json["session_id"] = filename; //This is ID while the program is running (ram) instead of disk (saving id on disk).
 			sessions.push(json);
 		});
-		mainWindow.webContents.send("LoadSessions", sessions);
+		mainWindow.webContents.send("IndexLoadSessions", sessions);
 	})
 }
 
@@ -104,10 +105,10 @@ app.on('activate', function () {
 	}
 })
 
-
 const CHANNEL_TABS = "Tabs";
 const CHANNEL_INDEX = "Index";
 const CHANNEL_RENDERER = "Renderer";
+const CHANNEL_SaveSession = "SaveSession";
 
 
 //Holds session json object to open. When it is opened, it turns back to null.
@@ -155,14 +156,23 @@ ipcMain.on(CHANNEL_RENDERER, (event, args) => {
 ipcMain.on(CHANNEL_RENDERER, (event, args) => {
 	console.log("Main got message - channel: [" + CHANNEL_RENDERER + "]");
 	console.log(args)
-	console.log("Sending to channel renderer")
-
-	mainWindow.webContents.send("test", "")
+	if (args == "GetSessionToOpen") {
+		//Even if user clicks on "+" button in the tabs, session_to_open is null, so it doesn't use session (json) but instead opens regular terminal.
+		event.returnValue = session_to_open
+		session_to_open = null;
+	} else {
+		console.log("Couldn't parse args:");
+		console.dir(args)
+	}
 });
 
-ipcMain.on("test", (event, args) => {
-	console.log("Main got: " + args);
+ipcMain.on(CHANNEL_SaveSession, (event, json) => {
+	var filename = uuidv4() + '.json';
+	var filePath = path.join(app.getAppPath(), "storage", "sessions", filename);
 
-	event.returnValue = session_to_open
-	session_to_open = null;
+	var contents = JSON.stringify(json);
+	fs.writeFile(filePath, contents, (err) => {
+		console.error(err)
+	});
+	console.log("Session saved to: " + filePath)
 });
