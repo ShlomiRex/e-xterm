@@ -126,6 +126,26 @@ ipcMain.on(CHANNEL_TABS, (event, session) => {
 ipcMain.on(CHANNEL_INDEX, (event, args) => {
 	console.log("Main got message - channel: [" + CHANNEL_INDEX + "]");
 	mainWindow.webContents.send(CHANNEL_TABS, "OpenSession", args)
+ipcMain.on(CHANNEL_RENDERER, (event, args) => {
+	console.log("Main got message - channel: [" + CHANNEL_RENDERER + "]");
+	console.log(args)
+	if (args == "GetSessionToOpen") {
+		//Even if user clicks on "+" button in the tabs, session_to_open is null, so it doesn't use session (json) but instead opens regular terminal.
+		event.returnValue = session_to_open
+		session_to_open = null;
+	} else if (args[0] == "Terminal") {
+		console.log("MainProcess - Got XTERM:")
+		console.log(args[1])
+
+		// Setup communication between xterm.js and node-pty
+		xterm.onData(data => ptyProcess.write(data));
+		ptyProcess.onData((data) => {
+			xterm.write(data);
+		});
+	} else {
+		console.log("Couldn't parse args:");
+		console.dir(args)
+	}
 });
 
 ipcMain.on(CHANNEL_RENDERER, (event, args) => {
