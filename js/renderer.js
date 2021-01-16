@@ -4,11 +4,18 @@ This handles the terminal process.
 */
 
 console.log("renderer js script is executing")
-const { ipcRenderer } = require('electron');
 
-var os = require('os');
-var pty = require('node-pty');
-var Terminal = require('xterm').Terminal;
+
+
+const { ipcRenderer } = require('electron');
+const { FitAddon } = require('xterm-addon-fit');
+const os = require('os');
+const pty = require('node-pty');
+
+const Terminal = require('xterm').Terminal;
+const fitAddon = new FitAddon();
+
+
 
 const CHANNEL = "Renderer";
 
@@ -96,18 +103,16 @@ const IDisposable = ptyProcess.onData((data) => {
 
 // Initialize xterm.js and attach it to the DOM
 const xterm = new Terminal();
-if (document.getElementById('xterm')) {
-	console.log("Found xterm")
-	xterm.open(document.getElementById('xterm'));
 
-	// Setup communication between xterm.js and node-pty
-	xterm.onData(data => ptyProcess.write(data));
-	ptyProcess.onData((data) => {
-		xterm.write(data);
-	});
+xterm.loadAddon(fitAddon);
+const containerElement = document.getElementById("terminal-container")
+xterm.open(containerElement);
+fitAddon.fit();
 
-} else {
-	console.log("DID NOT Found xterm")
-}
+// Setup communication between xterm.js and node-pty
+xterm.onData(data => ptyProcess.write(data));
+ptyProcess.onData((data) => {
+	xterm.write(data);
+});
 
 console.log("renderer js script is done")
