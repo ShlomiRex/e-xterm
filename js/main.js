@@ -11,8 +11,10 @@ const url = require('url');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
+/*
 var os = require('os');
 var pty = require('node-pty');
+*/
 
 //Sessions are saved locally and loaded to bookmarks
 const sessionFolder = path.join(app.getAppPath(), "storage", "sessions")
@@ -36,6 +38,7 @@ function createWindow() {
 			nodeIntegration: false,
 			contextIsolation: true,
 			webviewTag: true,
+			enableRemoteModule: true,
 			preload: path.join(__dirname, './preload.js')
 		}
 	})
@@ -142,11 +145,13 @@ ipcMain.on(CHANNEL_RENDERER, (event, args) => {
 		console.log("MainProcess - Got XTERM:")
 		console.log(args[1])
 
+		/*
 		// Setup communication between xterm.js and node-pty
 		xterm.onData(data => ptyProcess.write(data));
 		ptyProcess.onData((data) => {
 			xterm.write(data);
 		});
+		*/
 	} else {
 		console.log("Couldn't parse args:");
 		console.dir(args)

@@ -5,7 +5,7 @@
   "main": "js/main.js",
   "license": "MIT",
   "scripts": {
-    "start": "electron ."
+    "start": "electron . --enable-logging"
   },
   "repository": "https://github.com/ShlomiRex/e-xterm",
   "author": "Shlomi Domnenko",

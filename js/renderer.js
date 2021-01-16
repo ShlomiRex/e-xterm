@@ -10,10 +10,6 @@ var os = require('os');
 var pty = require('node-pty');
 var Terminal = require('xterm').Terminal;
 
-
-var Terminal = require('xterm').Terminal;
-const { removeListener, removeAllListeners } = require('process');
-
 const CHANNEL = "Renderer";
 
 
@@ -22,13 +18,6 @@ var session = ipcRenderer.sendSync(CHANNEL, "GetSessionToOpen");
 //const remote_host = session["remote_host"];
 //console.log("Remote host: " + remote_host)
 
-	const ptyProcess = pty.spawn("ping", ["1.1.1.1"], {
-		name: 'xterm-color',
-		cols: 80,
-		rows: 30,
-		cwd: process.cwd(),
-		env: process.env
-	});
 var session = ipcRenderer.sendSync(CHANNEL, "GetSessionToOpen");
 //const remote_host = session["remote_host"];
 //console.log("Remote host: " + remote_host)
@@ -70,16 +59,7 @@ if (session) {
 	}
 }
 
-const ptyProcess = pty.spawn(shell, [], {
-	name: 'xterm-color',
-	cols: 80,
-	rows: 30,
-	cwd: process.cwd(),
-	env: process.env
-});
 
-<<<<<<< HEAD
-=======
 console.log("Loading session: ")
 console.dir(session)
 
@@ -114,7 +94,6 @@ const IDisposable = ptyProcess.onData((data) => {
 });
 */
 
->>>>>>> main
 // Initialize xterm.js and attach it to the DOM
 const xterm = new Terminal();
 if (document.getElementById('xterm')) {
