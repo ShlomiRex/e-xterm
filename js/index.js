@@ -86,7 +86,15 @@ function loadSessions(sessions) {
 
 		session_item.addEventListener("click", () => {
 			console.log("Clicked " + name)
-			const win = new BrowserWindow({ width: 400, height: 200 })
+			const win = new BrowserWindow({ 
+				width: 400, 
+				height: 200,
+				webPreferences: {
+					nodeIntegration: true,
+					enableRemoteModule: true
+				}
+			})
+
 			win.loadFile(path.join(__dirname, '../html/password.html'))
 		});
 

@@ -181,3 +181,8 @@ ipcMain.on(CHANNEL_SaveSession, (event, json) => {
 	});
 	console.log("Session saved to: " + filePath)
 });
+
+
+ipcMain.on("password", (event, password) => {
+	// TODO: Connect to ssh
+})
