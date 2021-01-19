@@ -11,6 +11,12 @@
 	<script src="../third-party/bootstrap-5.0.0-beta1-dist/js/bootstrap.min.js"></script>
 
 	<script src="../third-party/split.js/split.min.js"></script>
+
+	<!-- Chrome tabs -->
+	<script src="../third-party/draggabilly/dist/draggabilly.pkgd.js"></script>
+	<script src="../third-party/chrome-tabs/js/chrome-tabs.js"></script>
+	<link rel="stylesheet" href="../third-party/chrome-tabs/css/chrome-tabs.css">
+
 </head>
 
 <body>
@@ -124,11 +130,37 @@
 		</div>
 	</div>
 	<div id="main-panel" class="split">
+		<!-- 		
 		<div class="etabs-tabgroup">
 			<div class="etabs-tabs"></div>
 			<div class="etabs-buttons"></div>
 		</div>
-		<div class="etabs-views"></div>
+		<div class="etabs-views"></div> -->
+
+		<div class="chrome-tabs">
+			<div class="chrome-tabs-content"></div>
+			<div class="chrome-tabs-bottom-bar"></div>
+		</div>
+		<script>
+
+			var el = document.querySelector('.chrome-tabs');
+			var chromeTabs = new ChromeTabs();
+			chromeTabs.init(el, { tabOverlapDistance: 14, minWidth: 45, maxWidth: 243 });
+
+			el.addEventListener('activeTabChange', ({ detail }) => console.log('Active tab changed', detail.tabEl))
+			el.addEventListener('tabAdd', ({ detail }) => console.log('Tab added', detail.tabEl))
+			el.addEventListener('tabRemove', ({ detail }) => console.log('Tab removed', detail.tabEl))
+
+			chromeTabs.addTab({
+				title: 'SSH 1',
+				favicon: ''
+			});
+
+			chromeTabs.addTab({
+				title: 'SSH2'
+			});
+
+		</script>
 	</div>
 
 	<script>
@@ -136,7 +168,7 @@
 			{
 				sizes: [20, 80],
 				gutterSize: 5,
-				
+
 			}
 		);
 	</script>

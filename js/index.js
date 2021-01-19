@@ -5,9 +5,6 @@ const url = require('url')
 const remote = require("electron").remote;
 const ipcRenderer = electron.ipcRenderer;
 
-const tabbed = require('./tabbed');
-
-
 const CHANNEL = "Index";
 
 var sessionItems = [];
