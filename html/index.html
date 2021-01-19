@@ -108,8 +108,8 @@
 			<a id="btn_newSession" class="btn btn-primary" role="button">
 				New session
 			</a>
-	
-	
+
+
 			<div class="accordion" id="accordionExample">
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="headingOne">
@@ -139,26 +139,73 @@
 
 		<div class="chrome-tabs">
 			<div class="chrome-tabs-content"></div>
-			<div class="chrome-tabs-bottom-bar"></div>
+			<div class="chrome-tabs-bottom-bar">
+			</div>
+
 		</div>
+
+		<div id="tabs-content">
+			<!-- Populated with hidden content and 1 visible content -->
+		</div>
+
 		<script>
 
 			var el = document.querySelector('.chrome-tabs');
-			var chromeTabs = new ChromeTabs();
-			chromeTabs.init(el, { tabOverlapDistance: 14, minWidth: 45, maxWidth: 243 });
+			const tabs_content = document.getElementById("tabs-content");
+			var tabs = []
+			var tabId = 0;
+			var selectedTabId = null
 
-			el.addEventListener('activeTabChange', ({ detail }) => console.log('Active tab changed', detail.tabEl))
-			el.addEventListener('tabAdd', ({ detail }) => console.log('Tab added', detail.tabEl))
-			el.addEventListener('tabRemove', ({ detail }) => console.log('Tab removed', detail.tabEl))
+			var chromeTabs = new ChromeTabs();
+			chromeTabs.init(el);
+
+			el.addEventListener('activeTabChange', ({ detail }) => {
+				console.log('Active tab changed', detail.tabEl.id)
+
+				// Hide previous content
+				if (selectedTabId) {
+					//Example: "tabEl_0" -> "0"
+					var id = selectedTabId.substring(6)
+					var content = document.getElementById("content_"+id);
+					content.style = "display: none;"
+				}
+
+				//Show new content
+				selectedTabId = detail.tabEl.id
+				//Example: "tabEl_0" -> "0"
+				var id = selectedTabId.substring(6)
+				var content = document.getElementById("content_"+id);
+				content.style = "display: block;"
+			})
+
+			el.addEventListener('tabAdd', ({ detail }) => {
+				detail.tabEl.id = "tabEl_" + tabId;
+				console.log('Tab added', detail.tabEl.id)
+
+				const content = document.createElement("div");
+				content.setAttribute("id", "content_" + tabId);
+				content.textContent = "Content with tabId " + tabId
+				//content.style = "display: none;";
+				tabs_content.appendChild(content);
+
+				tabId++;
+			})
+			el.addEventListener('tabRemove', ({ detail }) => {
+				console.log('Tab removed', detail.tabEl.id)
+			})
 
 			chromeTabs.addTab({
-				title: 'SSH 1',
+				title: 'Tab 0',
 				favicon: ''
 			});
 
 			chromeTabs.addTab({
-				title: 'SSH2'
+				title: 'Tab 1'
 			});
+
+			//const tabs_content = document.getElementById("tabs-content");
+			//tabs_content.appendChild(document.createTextNode("Test 1"));
+			//tabs_content.appendChild(document.createTextNode("Test 2"));
 
 		</script>
 	</div>
