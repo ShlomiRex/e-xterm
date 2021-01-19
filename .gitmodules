@@ -1,0 +1,3 @@
+[submodule "third-party/chrome-tabs"]
+	path = third-party/chrome-tabs
+	url = https://github.com/adamschwartz/chrome-tabs
