@@ -226,22 +226,37 @@
 					if (t["id"] == "tabEl_" + addedTabId) {
 						console.log("Last tab added is ", t)
 
-						//TODO: Add terminal here
 						var terminal = document.createElement("div")
 						terminal.id = "terminal"
 						t["DOM_content"].appendChild(terminal)
 
-						var term = new Terminal();
-						term.open(terminal)
+						var term = new Terminal({
+							cursorBlink: "block"
+						});
+						term.open(terminal) //Create terminal UI
+						console.log(term)
+						term.onKey((event) => {
+							key = event.key
+							console.log("Key: ", key)
+							console.log(key.charCodeAt(0));
+							//Enter
+							if (key.charCodeAt(0) == 13) {
+								term.write('\n');
+							}
+							//Backspace (delete)
+							else if(key.charCodeAt(0) == 127) {
+								//term.write('\x1b[D')
+								term.write("\b \b")
+							}
+							else {
+								term.write(key);
+							}
+						});
 
-						function callback(data) {
+						//Give it a callback that is called on each line of output of socket in ssh
+						window.api.startSSH((data) => {
 							term.write(data)
-						}
-						//window.api.startSSH(term.write)
-						window.api.startSSH(callback);
-						// console.log("Sending: ", terminal)
-						// window.api.startSSH(terminal)
-
+						});
 
 
 						/*
