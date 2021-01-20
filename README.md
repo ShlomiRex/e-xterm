@@ -14,3 +14,7 @@ $ npm start
 $ ./npm_install.bat
 $ npm start
 ```
+
+# How to download submodules in third-party directory
+
+`$ cd third-party && git submodule update`
