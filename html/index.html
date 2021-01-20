@@ -154,6 +154,7 @@
 			const tabs_content = document.getElementById("tabs-content");
 			var tabId = 0; // Last id. When new tab, ++. 
 			var selectedTabId = null
+			var tabs = [] // Queue
 
 			var chromeTabs = new ChromeTabs();
 			chromeTabs.init(el);
@@ -163,18 +164,24 @@
 
 				// Hide previous content
 				if (selectedTabId) {
-					//Example: "tabEl_0" -> "0"
-					var id = selectedTabId.substring(6)
-					var content = document.getElementById("content_" + id);
-					content.style = "display: none;"
+					for (var tab of tabs) {
+						if (tab["id"] == selectedTabId) {
+							console.log("Hiding: ", selectedTabId)
+							tab["DOM_content"].style = "display: none;"
+							break
+						}
+					}
 				}
 
 				//Show new content
 				selectedTabId = detail.tabEl.id
-				//Example: "tabEl_0" -> "0"
-				var id = selectedTabId.substring(6)
-				var content = document.getElementById("content_" + id);
-				content.style = "display: block;"
+				for (var tab of tabs) {
+					if (tab["id"] == selectedTabId) {
+						console.log("Showing: ", selectedTabId)
+						tab["DOM_content"].style = "display: block;"
+						break
+					}
+				}
 			})
 
 			el.addEventListener('tabAdd', ({ detail }) => {
@@ -186,10 +193,25 @@
 				content.textContent = "Content with tabId " + tabId
 				tabs_content.appendChild(content);
 
+				tabs.push({
+					"id": detail.tabEl.id,
+					"DOM_tab": detail.tabEl,
+					"DOM_content": content
+				})
+
 				tabId++;
 			})
 			el.addEventListener('tabRemove', ({ detail }) => {
 				console.log('Tab removed', detail.tabEl.id)
+
+				for (var i in tabs) {
+					var t = tabs[i]
+					if (t["id"] == detail.tabEl.id) {
+						console.log("Removing from array: ", t)
+						tabs.splice(i, 1)
+						break
+					}
+				}
 			})
 
 			function addTerminalTab() {
@@ -197,6 +219,8 @@
 					title: 'Terminal',
 					favicon: '../resources/terminal.png'
 				});
+
+
 			}
 
 			addTerminalTab();
