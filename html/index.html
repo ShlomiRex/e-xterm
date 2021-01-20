@@ -152,8 +152,7 @@
 
 			var el = document.querySelector('.chrome-tabs');
 			const tabs_content = document.getElementById("tabs-content");
-			var tabs = []
-			var tabId = 0;
+			var tabId = 0; // Last id. When new tab, ++. 
 			var selectedTabId = null
 
 			var chromeTabs = new ChromeTabs();
@@ -185,7 +184,6 @@
 				const content = document.createElement("div");
 				content.setAttribute("id", "content_" + tabId);
 				content.textContent = "Content with tabId " + tabId
-				//content.style = "display: none;";
 				tabs_content.appendChild(content);
 
 				tabId++;

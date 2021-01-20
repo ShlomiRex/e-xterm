@@ -1,3 +1,32 @@
+
+
+
+
+
+var client = require('ssh2').Client()
+client.on("ready", function clientOnReady() {
+	client.shell(function (err, stream) {
+		if (err) throw err;
+		console.log(typeof stream)
+		stream.on('close', function () {
+			console.log('Stream :: close');
+			client.end();
+		}).on('data', function (data) {
+			console.log(""+data);
+		});
+		
+		stream.end('uptime\nexit\n');
+	});
+}).connect({
+	host: "127.0.0.1",
+	port: 22,
+	username: "test",
+	//privatekey: require('fs').readFileSync("C:\\Users\\Shlomi\\.ssh\\id_rsa")
+	password: "test"
+});
+
+
+/*
 var Client = require('ssh2').Client;
 
 var conn = new Client();
@@ -20,6 +49,7 @@ conn.on('ready', function () {
 	username: 'test',
 	password: 'test'
 });
+*/
 
 // example output:
 // Client :: ready

@@ -1,5 +1,6 @@
 const {
 	app,
+	BrowserView,
 	BrowserWindow,
 	ipcMain,
 	nativeTheme
@@ -79,6 +80,8 @@ function createWindow() {
 		});
 		mainWindow.webContents.send("IndexLoadSessions", sessions);
 	})
+
+	
 }
 
 //Create nessesery folders (persistance storage) before opening the program.
@@ -185,4 +188,28 @@ ipcMain.on(CHANNEL_SaveSession, (event, json) => {
 
 ipcMain.on("password", (event, password) => {
 	// TODO: Connect to ssh
+	/*
+	var Client = require('ssh2').Client;
+
+	var conn = new Client();
+	conn.on('ready', function () {
+		console.log('Client :: ready');
+		conn.exec('uptime', function (err, stream) {
+			if (err) throw err;
+			stream.on('close', function (code, signal) {
+				console.log('Stream :: close :: code: ' + code + ', signal: ' + signal);
+				conn.end();
+			}).on('data', function (data) {
+				console.log('STDOUT: ' + data);
+			}).stderr.on('data', function (data) {
+				console.log('STDERR: ' + data);
+			});
+		});
+	}).connect({
+		host: 'localhost',
+		port: 22,
+		username: 'test',
+		password: 'test'
+	});
+	*/
 })
