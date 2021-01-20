@@ -221,9 +221,9 @@
 				});
 
 				//Get the added tab
-				var addedTabId = tabId-1;
-				for(var t of tabs) {
-					if(t["id"] == "tabEl_"+addedTabId) {
+				var addedTabId = tabId - 1;
+				for (var t of tabs) {
+					if (t["id"] == "tabEl_" + addedTabId) {
 						console.log("Last tab added is ", t)
 
 						//TODO: Add terminal here
@@ -233,22 +233,35 @@
 
 						var term = new Terminal();
 						term.open(terminal)
+
+						function callback(data) {
+							term.write(data)
+						}
+						//window.api.startSSH(term.write)
+						window.api.startSSH(callback);
+						// console.log("Sending: ", terminal)
+						// window.api.startSSH(terminal)
+
+
+
+						/*
+						var term = new Terminal();
+						window.api.startSSH(term);
+
+						term.open(terminal)
 						term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $')
 						term.write("\nTab id:" + t["id"])
+						*/
+						break
 					}
 				}
+
+
 			}
 
 			addTerminalTab();
-			addTerminalTab();
-			addTerminalTab();
-
-			window.api.startSSH()
-
-			//const tabs_content = document.getElementById("tabs-content");
-			//tabs_content.appendChild(document.createTextNode("Test 1"));
-			//tabs_content.appendChild(document.createTextNode("Test 2"));
-
+			//addTerminalTab();
+			//addTerminalTab();
 		</script>
 	</div>
 

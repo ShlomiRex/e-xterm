@@ -2,6 +2,7 @@ console.log("preload.js exetuing")
 
 const { contextBridge } = require("electron");
 var Client = require('ssh2').Client;
+const { Terminal } = require("xterm")
 
 contextBridge.exposeInMainWorld(
 	"api", {
@@ -13,7 +14,8 @@ contextBridge.exposeInMainWorld(
 		console.log("test")
 	},
 
-	startSSH(terminal) {
+	startSSH(callback) {
+/*
 		var conn = new Client();
 		conn.on('ready', function () {
 			console.log('Client :: ready');
@@ -27,6 +29,32 @@ contextBridge.exposeInMainWorld(
 				}).stderr.on('data', function (data) {
 					console.log('STDERR: ' + data);
 				});
+			});
+		}).connect({
+			host: '127.0.0.1',
+			port: 22,
+			username: 'test',
+			password: "test"
+		});
+*/
+
+
+		console.log("Got: ", callback)
+		var Client = require('ssh2').Client;
+
+		var conn = new Client();
+		conn.on('ready', function () {
+			console.log('Client :: ready');
+			conn.shell(function (err, stream) {
+				if (err) throw err;
+				stream.on('close', function () {
+					console.log('Stream :: close');
+					conn.end();
+				}).on('data', function (data) {
+					//console.log('OUTPUT: ' + data);
+					callback(data)
+				});
+				stream.end('neofetch\nexit\n');
 			});
 		}).connect({
 			host: '127.0.0.1',
