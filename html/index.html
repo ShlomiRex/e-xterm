@@ -154,7 +154,7 @@
 			const tabs_content = document.getElementById("tabs-content");
 			var tabId = 0; // Last id. When new tab, ++. 
 			var selectedTabId = null
-			var tabs = [] // Queue
+			var tabs = []
 
 			var chromeTabs = new ChromeTabs();
 			chromeTabs.init(el);
@@ -223,7 +223,20 @@
 					favicon: '../resources/terminal.png'
 				});
 
+				//Get the added tab
+				var addedTabId = tabId-1;
+				for(var t of tabs) {
+					if(t["id"] == "tabEl_"+addedTabId) {
+						console.log("Last tab added is ", t)
 
+						//TODO: Add terminal here
+						var terminal = null
+
+						
+
+						t["DOM_content"].appendChild(terminal)
+					}
+				}
 			}
 
 			addTerminalTab();
