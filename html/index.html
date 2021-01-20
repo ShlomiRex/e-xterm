@@ -229,44 +229,47 @@
 						var terminal = document.createElement("div")
 						terminal.id = "terminal"
 						t["DOM_content"].appendChild(terminal)
+						t["buffer"] = ""
 
 						var term = new Terminal({
 							cursorBlink: "block"
 						});
 						term.open(terminal) //Create terminal UI
-						console.log(term)
+
+
+
+
 						term.onKey((event) => {
-							key = event.key
-							console.log("Key: ", key)
-							console.log(key.charCodeAt(0));
+							var buffer = t["buffer"]
+							var key = event.key
+							var keyCode = key.charCodeAt(0)
+							console.log("Key: ", key, "Key code: ", keyCode)
 							//Enter
 							if (key.charCodeAt(0) == 13) {
 								term.write('\n');
+								buffer = ""
 							}
 							//Backspace (delete)
 							else if(key.charCodeAt(0) == 127) {
 								//term.write('\x1b[D')
 								term.write("\b \b")
+								buffer = buffer.substring(0, buffer.length - 1)
 							}
 							else {
+								//TODO: Do not insert special characters such as Shift+Backspace, Ctrl, Alt
+								//TODO: Enable pressing 'Home' and 'End' to go back and fourth
 								term.write(key);
+								buffer += ""+key;
 							}
+
+							console.log("Buffer: ", buffer)
+							t["buffer"] = buffer
 						});
 
 						//Give it a callback that is called on each line of output of socket in ssh
 						window.api.startSSH((data) => {
 							term.write(data)
 						});
-
-
-						/*
-						var term = new Terminal();
-						window.api.startSSH(term);
-
-						term.open(terminal)
-						term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $')
-						term.write("\nTab id:" + t["id"])
-						*/
 						break
 					}
 				}
