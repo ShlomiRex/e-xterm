@@ -209,6 +209,9 @@
 					if (t["id"] == detail.tabEl.id) {
 						console.log("Removing from array: ", t)
 						tabs.splice(i, 1)
+
+						console.log("Removing content: ", t["DOM_content"])
+						t["DOM_content"].remove()
 						break
 					}
 				}
