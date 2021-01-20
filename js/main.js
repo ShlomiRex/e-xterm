@@ -36,10 +36,9 @@ function createWindow() {
 		height: 800,
 		show: false,
 		webPreferences: {
-			nodeIntegration: false,
-			contextIsolation: true,
-			webviewTag: true,
-			enableRemoteModule: true,
+			nodeIntegration: false, // is default value after Electron v5
+			contextIsolation: true, // protect against prototype pollution
+			enableRemoteModule: false, // turn off remote
 			preload: path.join(__dirname, './preload.js')
 		}
 	})
