@@ -165,7 +165,7 @@
 				if (selectedTabId) {
 					//Example: "tabEl_0" -> "0"
 					var id = selectedTabId.substring(6)
-					var content = document.getElementById("content_"+id);
+					var content = document.getElementById("content_" + id);
 					content.style = "display: none;"
 				}
 
@@ -173,7 +173,7 @@
 				selectedTabId = detail.tabEl.id
 				//Example: "tabEl_0" -> "0"
 				var id = selectedTabId.substring(6)
-				var content = document.getElementById("content_"+id);
+				var content = document.getElementById("content_" + id);
 				content.style = "display: block;"
 			})
 
@@ -192,14 +192,16 @@
 				console.log('Tab removed', detail.tabEl.id)
 			})
 
-			chromeTabs.addTab({
-				title: 'Tab 0',
-				favicon: ''
-			});
+			function addTerminalTab() {
+				chromeTabs.addTab({
+					title: 'Terminal',
+					favicon: '../resources/terminal.png'
+				});
+			}
 
-			chromeTabs.addTab({
-				title: 'Tab 1'
-			});
+			addTerminalTab();
+			addTerminalTab();
+			addTerminalTab();
 
 			//const tabs_content = document.getElementById("tabs-content");
 			//tabs_content.appendChild(document.createTextNode("Test 1"));
