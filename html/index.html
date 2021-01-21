@@ -243,27 +243,56 @@
 							var buffer = t["buffer"]
 							var key = event.key
 							var keyCode = key.charCodeAt(0)
+
+							console.log("onKey: ", event)
 							console.log("Key: ", key, "Key code: ", keyCode)
+
 							//Enter
 							if (key.charCodeAt(0) == 13) {
-								term.write('\n');
+								//TODO: Send ssh2 a command!
+								//term.write('\n');
+								var command 
 								buffer = ""
 							}
 							//Backspace (delete)
-							else if(key.charCodeAt(0) == 127) {
+							else if (key.charCodeAt(0) == 127) {
 								//term.write('\x1b[D')
-								term.write("\b \b")
-								buffer = buffer.substring(0, buffer.length - 1)
-							}
-							else {
-								//TODO: Do not insert special characters such as Shift+Backspace, Ctrl, Alt
+								if (buffer.length > 0) {
+									//Do not delete prompt
+									term.write("\b \b")
+									buffer = buffer.substring(0, buffer.length - 1)
+								}
+							} else if (keyCode < 32 || keyCode > 127) {
+								//Do not insert special characters such as Shift+Backspace, Ctrl, Alt
+								console.log("Not printable character!")
+								return
+							} else {
 								//TODO: Enable pressing 'Home' and 'End' to go back and fourth
+								
 								term.write(key);
-								buffer += ""+key;
+								buffer += "" + key;
 							}
 
 							console.log("Buffer: ", buffer)
 							t["buffer"] = buffer
+						});
+
+
+						term.onData((str) => {
+							console.log("onData: ", str)
+						});
+
+						term.onLineFeed((number) => {
+							console.log("onLineFeed: ", number)
+						});
+
+						term.onSelectionChange(() => {
+							console.log("onSelectionChange")
+							console.log("Selection: ", term.getSelection())
+						});
+
+						term.onBinary((string) => {
+							console.log("onBinary: ", string)
 						});
 
 						//Give it a callback that is called on each line of output of socket in ssh
