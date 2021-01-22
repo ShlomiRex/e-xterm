@@ -4,3 +4,6 @@
 [submodule "third-party/draggabilly"]
 	path = third-party/draggabilly
 	url = https://github.com/desandro/draggabilly
+[submodule "third-party/split"]
+	path = third-party/split
+	url = https://github.com/nathancahill/split

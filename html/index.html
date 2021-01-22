@@ -10,9 +10,6 @@
 	<link rel="stylesheet" href="../third-party/bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
 	<script src="../third-party/bootstrap-5.0.0-beta1-dist/js/bootstrap.min.js"></script>
 
-	<!-- Split -->
-	<script src="../third-party/split.js/split.min.js"></script>
-
 	<!-- Chrome tabs -->
 	<script src="../third-party/draggabilly/dist/draggabilly.pkgd.js"></script>
 	<script src="../third-party/chrome-tabs/js/chrome-tabs.js"></script>
@@ -312,7 +309,8 @@
 		</script>
 	</div>
 
-	<script>
+	<script type="module">
+		import Split from '../third-party/split/packages/splitjs/src/split.js';
 		Split(['#left-panel', '#main-panel'],
 			{
 				sizes: [20, 80],
