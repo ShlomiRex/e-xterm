@@ -2,27 +2,77 @@
 <html>
 
 <head>
-	<meta charset="UTF-8" />
-	<title>Hello World!</title>
-	<!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
-	<meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+	<title>e-xterm</title>
+	<!-- index.css -->
+	<link rel="stylesheet" href="index.css" />
 
+	<!-- xterm -->
 	<link rel="stylesheet" href="node_modules/xterm/css/xterm.css" />
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="third-party/bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
+	<script src="third-party/bootstrap-5.0.0-beta1-dist/js/bootstrap.min.js"></script>
+
+	<!-- Chrome tabs -->
+	<script src="third-party/draggabilly/dist/draggabilly.pkgd.js"></script>
+	<script src="third-party/chrome-tabs/js/chrome-tabs.js"></script>
+	<link rel="stylesheet" href="third-party/chrome-tabs/css/chrome-tabs.css">
 </head>
 
 <body>
-	<h1>Hello World!</h1>
-	We are using Node.js <span id="node-version"></span>, Chromium
-	<span id="chrome-version"></span>, and Electron
-	<span id="electron-version"></span>.
 
-	<br><hr><br>
+	<div id="left-panel" class="split" style="background-color: rgb(230, 230, 230);">
+		<div id="bookmarks-container" class="container">
+			<a id="btn_newSession" class="btn btn-primary" role="button">
+				New session
+			</a>
 
-	<div id="terminal"></div>
+
+			<div class="accordion" id="accordionExample">
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="headingOne">
+						<button class="accordion-button" type="button" data-bs-toggle="collapse"
+							data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+							Bookmarks
+						</button>
+					</h2>
+					<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+						data-bs-parent="#accordionExample">
+						<div class="accordion-body" id="ToPopulate" style="padding: 0px;">
+							<div class="list-group" id="SessionsContainer" role="tablist">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="main-panel" class="split">
+		<div class="chrome-tabs">
+			<div class="chrome-tabs-content"></div>
+			<div class="chrome-tabs-bottom-bar">
+			</div>
+		</div>
+
+		<div id="tabs-content">
+			<!-- Populated with hidden content and 1 visible content -->
+			<h1>Hello World!</h1>
+			We are using Node.js <span id="node-version"></span>, Chromium
+			<span id="chrome-version"></span>, and Electron
+			<span id="electron-version"></span>.
+		
+			<br><hr><br>
+		
+			<div id="terminal"></div>
+		</div>
+	</div>
+
+
 
 	<!-- You can also require other files to run in this process -->
 	<script src="./dist/renderer.js"></script>
+
 </body>
 
 </html>

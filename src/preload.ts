@@ -20,5 +20,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	const terminal = new Terminal();
 	const ui = document.getElementById("terminal");
 	terminal.open(ui);
+
+	console.log("Test")
 });
 
