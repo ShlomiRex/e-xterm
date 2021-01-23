@@ -5,5 +5,4 @@
 // Use preload.js to selectively enable features
 // needed in the renderer process.
 
-var isRenderer = require('is-electron-renderer')
-console.log("renderer - isRenderer? : ", isRenderer)
+//Remember, require is not defined!!!
