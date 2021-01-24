@@ -17,12 +17,18 @@ class Tab {
 	/**
 	 * Content of the tab, in UI
 	 */
-	content: HTMLElement
+	private content: HTMLElement
+	private terminal: Terminal
+	private fitAddon: FitAddon
 
-	constructor(content: HTMLElement, title: string = "Terminal", favicon: string = "resources/terminal.png") {
+	constructor(terminal: Terminal, content: HTMLElement, fitAddon: FitAddon, title: string = "Terminal", favicon: string = "resources/terminal.png") {
 		this.id = Tab.lastId;
 		Tab.lastId++;
+
+		this.terminal = terminal
 		this.content = content
+		this.fitAddon = fitAddon
+
 		this._isSelected = false
 		this.title = title
 		this.favicon = favicon
@@ -35,6 +41,7 @@ class Tab {
 	select() {
 		this._isSelected = true
 		this.content.style.display = "block"
+		this.fitTerminal()
 	}
 
 	/**
@@ -51,6 +58,10 @@ class Tab {
 	 */
 	isSelected() {
 		return this._isSelected
+	}
+
+	fitTerminal() {
+		this.fitAddon.fit()
 	}
 
 	/**
@@ -104,7 +115,13 @@ export class Tabs {
 		console.log(tabContent);
 		parent.appendChild(tabContent)
 
-		let tab = new Tab(tabContent)
+		var term = new Terminal({
+			"cursorBlink": true
+		});
+		const fitAddon = new FitAddon();
+
+
+		let tab = new Tab(term, tabContent, fitAddon)
 		tabContent.id = "content_" + tab.id
 
 		//Add to array
@@ -131,10 +148,6 @@ export class Tabs {
 		tabContent.appendChild(DOM_terminal);
 
 		
-		var term = new Terminal({
-			"cursorBlink": true
-		});
-		const fitAddon = new FitAddon();
 		term.loadAddon(fitAddon)
 
 		term.open(DOM_terminal) //Create terminal UI
@@ -176,6 +189,13 @@ export class Tabs {
 
 	getLastAddedTab() {
 		return this.lastAddedTab
+	}
+
+	fit_terminal() {
+		//Fit terminal again (xterm-addon-fit)
+
+		console.log("fit")
+		this.tabSelected.fitTerminal()
 	}
 
 };

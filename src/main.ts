@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import * as path from "path";
 const Store = require('electron-store');
 
@@ -19,6 +19,7 @@ function createWindow() {
 		height: 800,
 		webPreferences: {
 			preload: path.join(__dirname, "preload.js"),
+			contextIsolation: true
 		},
 	});
 
@@ -27,6 +28,15 @@ function createWindow() {
 
 	// Open the DevTools.
 	mainWindow.webContents.openDevTools();
+
+	//on resize
+	mainWindow.on('resize', function () {
+		var size   = mainWindow.getSize();
+		var width  = size[0];
+		var height = size[1];
+		
+		mainWindow.webContents.send("WindowResize", size)
+	});
 }
 
 // This method will be called when Electron has finished
