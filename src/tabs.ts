@@ -6,6 +6,28 @@ import { MyTerminal } from './terminal'
 
 var chromeTabs = new ChromeTabs();
 
+class TabContent {
+	private myTerminal: MyTerminal
+	private content: HTMLElement
+	
+	constructor(content: HTMLElement) {
+		this.content = content
+		this.myTerminal = new MyTerminal()
+	}
+
+	showContent() {
+		this.content.style.display = "block"
+	}
+
+	hideContent() {
+		this.content.style.display = "none"
+	}
+
+	fitTerminal() {
+		this.myTerminal.fit()
+	}
+};
+
 class Tab {
 	//Last available ID
 	private static lastId: number = 0
@@ -15,19 +37,14 @@ class Tab {
 	title: string
 	favicon: string
 
-	/**
-	 * Content of the tab, in UI
-	 */
-	private content: HTMLElement
-	private myTerminal: MyTerminal
+	private tabContent: TabContent
 
-	constructor(terminal: MyTerminal, content: HTMLElement, title: string = "Terminal", favicon: string = "resources/terminal.png") {
+	constructor(content: HTMLElement, title: string = "Terminal", favicon: string = "resources/terminal.png") {
 		this.id = Tab.lastId;
 		Tab.lastId++;
 
-		this.content = content
+		this.tabContent = new TabContent(content)
 
-		this.myTerminal = new MyTerminal()
 
 		this._isSelected = false
 		this.title = title
@@ -40,7 +57,7 @@ class Tab {
 	 */
 	select() {
 		this._isSelected = true
-		this.content.style.display = "block"
+		this.tabContent.showContent()
 		this.fitTerminal()
 	}
 
@@ -50,7 +67,7 @@ class Tab {
 	 */
 	deselect() {
 		this._isSelected = false
-		this.content.style.display = "none"
+		this.tabContent.hideContent()
 	}
 
 	/**
@@ -61,7 +78,7 @@ class Tab {
 	}
 
 	fitTerminal() {
-		this.myTerminal.fit()
+		this.tabContent.fitTerminal()
 	}
 
 	/**
@@ -112,13 +129,13 @@ export class Tabs {
 		let tabContent = document.createElement("div")
 		tabContent.style.width = "100%"
 		tabContent.style.height = "100%"
-		console.log(tabContent);
+		console.debug(tabContent);
 		parent.appendChild(tabContent)
 
 		
 
 		const myTerminal = new MyTerminal()
-		let tab = new Tab(myTerminal, tabContent)
+		let tab = new Tab(tabContent)
 		tabContent.id = "content_" + tab.id
 
 		//Add to array
@@ -156,16 +173,16 @@ export class Tabs {
 	 * @param id 
 	 */
 	selectTab(id: number) {
-		console.log("Going to select tab: ", id)
+		console.debug("Going to select tab: ", id)
 		var found = false
 		for (var tab of this.tabs) {
 			if (tab.id == id) {
 				//Deselect current tab
-				console.log("Deselecting tab: ", this.tabSelected)
+				console.debug("Deselecting tab: ", this.tabSelected)
 				this.tabSelected.deselect()
 
 				//Select the tab requested
-				console.log("Selecting tab: ", tab)
+				console.debug("Selecting tab: ", tab)
 				tab.select()
 
 				//Set new tabSelected
@@ -189,7 +206,7 @@ export class Tabs {
 	fit_terminal() {
 		//Fit terminal again (xterm-addon-fit)
 
-		console.log("fit")
+		console.debug("fit")
 		this.tabSelected.fitTerminal()
 	}
 
