@@ -2,6 +2,7 @@ import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 
 import * as ChromeTabs from 'chrome-tabs';
+import { MyTerminal } from './terminal'
 
 var chromeTabs = new ChromeTabs();
 
@@ -18,16 +19,15 @@ class Tab {
 	 * Content of the tab, in UI
 	 */
 	private content: HTMLElement
-	private terminal: Terminal
-	private fitAddon: FitAddon
+	private myTerminal: MyTerminal
 
-	constructor(terminal: Terminal, content: HTMLElement, fitAddon: FitAddon, title: string = "Terminal", favicon: string = "resources/terminal.png") {
+	constructor(terminal: MyTerminal, content: HTMLElement, title: string = "Terminal", favicon: string = "resources/terminal.png") {
 		this.id = Tab.lastId;
 		Tab.lastId++;
 
-		this.terminal = terminal
 		this.content = content
-		this.fitAddon = fitAddon
+
+		this.myTerminal = new MyTerminal()
 
 		this._isSelected = false
 		this.title = title
@@ -61,7 +61,7 @@ class Tab {
 	}
 
 	fitTerminal() {
-		this.fitAddon.fit()
+		this.myTerminal.fit()
 	}
 
 	/**
@@ -115,13 +115,10 @@ export class Tabs {
 		console.log(tabContent);
 		parent.appendChild(tabContent)
 
-		var term = new Terminal({
-			"cursorBlink": true
-		});
-		const fitAddon = new FitAddon();
+		
 
-
-		let tab = new Tab(term, tabContent, fitAddon)
+		const myTerminal = new MyTerminal()
+		let tab = new Tab(myTerminal, tabContent)
 		tabContent.id = "content_" + tab.id
 
 		//Add to array
@@ -148,12 +145,10 @@ export class Tabs {
 		tabContent.appendChild(DOM_terminal);
 
 		
-		term.loadAddon(fitAddon)
-
-		term.open(DOM_terminal) //Create terminal UI
-		term.write("Terminal with tab id: " + String(tab.id))
-
-		fitAddon.fit()
+		myTerminal.loadFitAddon()
+		myTerminal.open(DOM_terminal)
+		myTerminal.write("Terminal with tab id: " + String(tab.id))
+		myTerminal.fit()
 	}
 
 	/**
