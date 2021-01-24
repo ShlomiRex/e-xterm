@@ -57,14 +57,6 @@
 
 		<div id="tabs-content">
 			<!-- Populated with hidden content and 1 visible content -->
-			<h1>Hello World!</h1>
-			We are using Node.js <span id="node-version"></span>, Chromium
-			<span id="chrome-version"></span>, and Electron
-			<span id="electron-version"></span>.
-		
-			<br><hr><br>
-		
-			<div id="terminal"></div>
 		</div>
 	</div>
 
@@ -72,7 +64,16 @@
 
 	<!-- You can also require other files to run in this process -->
 	<script src="./dist/renderer.js"></script>
+	<script type="module">
+		import Split from './third-party/split/packages/splitjs/src/split.js';
+		Split(['#left-panel', '#main-panel'],
+			{
+				sizes: [20, 80],
+				gutterSize: 5,
 
+			}
+		);
+	</script>
 </body>
 
 </html>
