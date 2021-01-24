@@ -5,6 +5,7 @@ import * as Store from 'electron-store';
 
 import { MyBookmarks, SSHSession } from './bookmarks'
 import { Tabs } from "./tabs"
+import * as Split from 'split.js'
 
 
 const store = new Store();
@@ -30,14 +31,14 @@ window.addEventListener("DOMContentLoaded", () => {
 	let DOM_SessionContainer = document.getElementById("SessionsContainer");
 	let book = new MyBookmarks(bookmarks, DOM_SessionContainer)
 
-	var el : Element = document.querySelector('.chrome-tabs');
+	var el: Element = document.querySelector('.chrome-tabs');
 	el.addEventListener("activeTabChange", (event: CustomEvent) => {
 		let tabId: any = event.detail.tabEl["data-id"]
 		console.log('Active tab changed to: ', tabId, event)
 		tabs.selectTab(tabId)
 	});
 
-	el.addEventListener('tabAdd', (event: CustomEvent) => { 
+	el.addEventListener('tabAdd', (event: CustomEvent) => {
 		console.log("Tab added", event.detail.tabEl)
 		let lastAddedTab = tabs.getLastAddedTab()
 		let id = lastAddedTab.id
@@ -53,5 +54,15 @@ window.addEventListener("DOMContentLoaded", () => {
 	tabs.addDefaultTerminal();
 	tabs.addDefaultTerminal();
 	tabs.addDefaultTerminal();
+
+
+	//Setup split.js
+	Split(['#left-panel', '#main-panel'],
+		{
+			sizes: [20, 80],
+			gutterSize: 5,
+
+		}
+	);
 });
 

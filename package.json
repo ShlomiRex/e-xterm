@@ -21,6 +21,7 @@
 		"is-electron-renderer": "^2.0.1",
 		"node-pty": "^0.9.0",
 		"socket.io": "^3.1.0",
+		"split.js": "^1.6.2",
 		"ssh2": "^0.8.9",
 		"websocket": "^1.0.33",
 		"xterm": "^4.9.0",
