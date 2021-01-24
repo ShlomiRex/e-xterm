@@ -13,6 +13,7 @@
 	"repository": "https://github.com/ShlomiRex/e-xterm",
 	"author": "Shlomi Domnenko",
 	"dependencies": {
+		"@types/websocket": "^1.0.1",
 		"bootstrap": "^5.0.0-beta1",
 		"chrome-tabs": "^5.4.0",
 		"electron": "^11.2.0",
@@ -23,8 +24,8 @@
 		"socket.io": "^3.1.0",
 		"split.js": "^1.6.2",
 		"ssh2": "^0.8.9",
-		"websocket": "^1.0.33",
 		"xterm": "^4.9.0",
+		"xterm-addon-attach": "^0.6.0",
 		"xterm-addon-fit": "^0.4.0"
 	},
 	"devDependencies": {

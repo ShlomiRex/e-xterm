@@ -1,26 +1,39 @@
-import { Terminal } from 'xterm';
-import { FitAddon } from 'xterm-addon-fit';
-
 import * as ChromeTabs from 'chrome-tabs';
 import { MyTerminal } from './terminal'
 
 var chromeTabs = new ChromeTabs();
 
 class TabContent {
+	private parent: HTMLElement
 	private myTerminal: MyTerminal
-	private content: HTMLElement
 	
-	constructor(content: HTMLElement) {
-		this.content = content
-		this.myTerminal = new MyTerminal()
+	/**
+	 * 
+	 * @param parent Div element with id="content_<id>"
+	 */
+	constructor(parent: HTMLElement) {
+		this.parent = parent
+		//
+		//const webSocket = new WebSocket()
+
+		this.myTerminal = new MyTerminal(null)
+	}
+
+	/**
+	 * 
+	 * @param parent Div element with id="terminal_<id>"
+	 * @param writedata To be removed only for testing
+	 */
+	init(parent: HTMLElement, writedata: string) {
+		this.myTerminal.init(parent, writedata)
 	}
 
 	showContent() {
-		this.content.style.display = "block"
+		this.parent.style.display = "block"
 	}
 
 	hideContent() {
-		this.content.style.display = "none"
+		this.parent.style.display = "none"
 	}
 
 	fitTerminal() {
@@ -37,7 +50,7 @@ class Tab {
 	title: string
 	favicon: string
 
-	private tabContent: TabContent
+	tabContent: TabContent
 
 	constructor(content: HTMLElement, title: string = "Terminal", favicon: string = "resources/terminal.png") {
 		this.id = Tab.lastId;
@@ -58,7 +71,7 @@ class Tab {
 	select() {
 		this._isSelected = true
 		this.tabContent.showContent()
-		this.fitTerminal()
+		this.tabContent.fitTerminal()
 	}
 
 	/**
@@ -77,8 +90,12 @@ class Tab {
 		return this._isSelected
 	}
 
-	fitTerminal() {
-		this.tabContent.fitTerminal()
+	initTerminalUI(parent: HTMLElement, writedata: string) {
+		//1. Load addons
+		//2. Open div element
+		//3. Write to terminal stuff
+		//4. Fit terminal
+		this.tabContent.init(parent, writedata)
 	}
 
 	/**
@@ -152,7 +169,7 @@ export class Tabs {
 
 		
 
-		const myTerminal = new MyTerminal()
+		
 		let tab = new Tab(tabContent)
 		tabContent.id = "content_" + tab.id
 
@@ -179,11 +196,7 @@ export class Tabs {
 		DOM_terminal.style.height = "100%"
 		tabContent.appendChild(DOM_terminal);
 
-		
-		myTerminal.loadFitAddon()
-		myTerminal.open(DOM_terminal)
-		myTerminal.write("Terminal with tab id: " + String(tab.id))
-		myTerminal.fit()
+		tab.initTerminalUI(DOM_terminal, "Terminal with tab id: " + String(tab.id));
 	}
 
 	/**
@@ -225,7 +238,7 @@ export class Tabs {
 		//Fit terminal again (xterm-addon-fit)
 
 		console.debug("fit")
-		this.tabSelected.fitTerminal()
+		this.tabSelected.tabContent.fitTerminal()
 	}
 
 };
