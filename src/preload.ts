@@ -128,11 +128,6 @@ class Tabs {
 	}
 
 	selectTab(id: number) {
-		//TODO: Problem here
-		//TODO: When adding tab, 
-		if(id == tabs.getLastAddedTab().id) {
-			return
-		}
 		console.log("Going to select tab: ", id)
 		var found = false
 		for(var tab of this.tabs) {
@@ -147,7 +142,7 @@ class Tabs {
 
 				//Set new tabSelected
 				this.tabSelected = tab
-				
+
 				found = true
 				break
 			}
