@@ -1,8 +1,16 @@
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
+const Store = require('electron-store');
 
-require('electron-reload')(__dirname);
+try {
+	require('electron-reloader')(module);
+} catch {
+	console.warn("Production, not loading dev modules")
+}
 
+
+//give permission for renderer process to use electron-store
+Store.initRenderer();
 
 function createWindow() {
 	// Create the browser window.
