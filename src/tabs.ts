@@ -1,4 +1,6 @@
 import { Terminal } from 'xterm';
+import { FitAddon } from 'xterm-addon-fit';
+
 import * as ChromeTabs from 'chrome-tabs';
 
 var chromeTabs = new ChromeTabs();
@@ -32,7 +34,7 @@ class Tab {
 	 */
 	select() {
 		this._isSelected = true
-		this.content.setAttribute("style", "display: block;");
+		this.content.style.display = "block"
 	}
 
 	/**
@@ -41,7 +43,7 @@ class Tab {
 	 */
 	deselect() {
 		this._isSelected = false
-		this.content.setAttribute("style", "display: none;");
+		this.content.style.display = "none"
 	}
 
 	/**
@@ -97,6 +99,9 @@ export class Tabs {
 
 		//Create content container
 		let tabContent = document.createElement("div")
+		tabContent.style.width = "100%"
+		tabContent.style.height = "100%"
+		console.log(tabContent);
 		parent.appendChild(tabContent)
 
 		let tab = new Tab(tabContent)
@@ -121,12 +126,21 @@ export class Tabs {
 		//Setup terminal
 		var DOM_terminal = document.createElement("div")
 		DOM_terminal.id = "terminal_" + tab.id
+		DOM_terminal.style.width = "100%"
+		DOM_terminal.style.height = "100%"
 		tabContent.appendChild(DOM_terminal);
+
+		
 		var term = new Terminal({
 			"cursorBlink": true
 		});
+		const fitAddon = new FitAddon();
+		term.loadAddon(fitAddon)
+
 		term.open(DOM_terminal) //Create terminal UI
 		term.write("Terminal with tab id: " + String(tab.id))
+
+		fitAddon.fit()
 	}
 
 	/**
