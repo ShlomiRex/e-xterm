@@ -116,10 +116,28 @@ export class Tabs {
 
 	/**
 	 * Init Chrome Tabs UI
-	 * @param el 
 	 */
-	init(el: Element) {
-		chromeTabs.init(el);
+	init() {
+		var el: Element = document.querySelector('.chrome-tabs');
+		el.addEventListener("activeTabChange", (event: CustomEvent) => {
+			let tabId: any = event.detail.tabEl["data-id"]
+			console.debug('Active tab changed to: ', tabId, event)
+			this.selectTab(tabId)
+		});
+	
+		el.addEventListener('tabAdd', (event: CustomEvent) => {
+			console.debug("Tab added", event.detail.tabEl)
+			let lastAddedTab = this.getLastAddedTab()
+			let id = lastAddedTab.id
+			//Set newly added tab attribute "data-id" to be last added tab's id
+			event.detail.tabEl["data-id"] = id
+		});
+	
+		el.addEventListener("tabRemove", (event: CustomEvent) => {
+			console.debug("Tab remove: ", event.detail.tabEl)
+		});
+
+		chromeTabs.init(el)
 	}
 
 	addDefaultTerminal() {

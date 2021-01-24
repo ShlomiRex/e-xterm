@@ -32,26 +32,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	let DOM_SessionContainer = document.getElementById("SessionsContainer");
 	let book = new MyBookmarks(bookmarks, DOM_SessionContainer)
 
-	var el: Element = document.querySelector('.chrome-tabs');
-	el.addEventListener("activeTabChange", (event: CustomEvent) => {
-		let tabId: any = event.detail.tabEl["data-id"]
-		console.log('Active tab changed to: ', tabId, event)
-		tabs.selectTab(tabId)
-	});
-
-	el.addEventListener('tabAdd', (event: CustomEvent) => {
-		console.log("Tab added", event.detail.tabEl)
-		let lastAddedTab = tabs.getLastAddedTab()
-		let id = lastAddedTab.id
-		//Set newly added tab attribute "data-id" to be last added tab's id
-		event.detail.tabEl["data-id"] = id
-	});
-
-	el.addEventListener("tabRemove", (event: CustomEvent) => {
-		console.log("Tab remove: ", event.detail.tabEl)
-	});
-
-	tabs.init(el);
+	tabs.init()
 	tabs.addDefaultTerminal();
 	tabs.addDefaultTerminal();
 	tabs.addDefaultTerminal();
