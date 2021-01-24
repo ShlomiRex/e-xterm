@@ -20,6 +20,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	var chromeTabs = new ChromeTabs();
 	chromeTabs.init(el);
+	
 
 
 	const terminal = new Terminal();
