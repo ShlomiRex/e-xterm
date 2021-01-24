@@ -22,17 +22,17 @@ export class MyBookmarks {
 	constructor(sessions: Array<SSHSession>, uiParent: HTMLElement) {
 		this.sessions = sessions;
 		this.uiParent = uiParent;
-		console.log("uiParent: ", this.uiParent);
 
-		console.log("Loading bookmarks...")
 		for(var session of sessions) {
 			this.populate(session);
 		}
-		console.log("Bookmarks loading complete")
 	}
 
+	/**
+	 * Add bookmarks to ui
+	 * @param session Session to populate
+	 */
 	populate(session: SSHSession) {
-		console.log("uiParent: ", this.uiParent);
 		/*
 			Example to create:
 			<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
