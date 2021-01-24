@@ -20,7 +20,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	var chromeTabs = new ChromeTabs();
 	chromeTabs.init(el);
-	
+	chromeTabs.addTab({
+		title: 'Terminal',
+		favicon: 'resources/terminal.png'
+	});
 
 
 	const terminal = new Terminal();
