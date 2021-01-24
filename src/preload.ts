@@ -45,19 +45,19 @@ class Tab {
 
 	/**
 	 * Call when user selects this tab
+	 * This function shows the content of the tab
 	 */
 	select() {
 		this._isSelected = true
-		//TODO: Set style of this.content to block
 		this.content.setAttribute("style",	"display: block;");
 	}
 
 	/**
 	 * Call when user deselects this tab, and selects diffirent tab
+	 * This function hides the content of the tab
 	 */
-	unselect() {
-		this._isSelected = true
-		//TODO: Set style of this.content to none
+	deselect() {
+		this._isSelected = false
 		this.content.setAttribute("style",	"display: none;");
 	}
 
@@ -106,18 +106,13 @@ class Tabs {
 		this.lastAddedTab = tab
 
 		//Deselect currently selected tab
-		//is exist?
 		if(this.tabSelected) {
-			console.log("Deselecting tab: ", this.tabSelected)
-			this.tabSelected.unselect()
+			this.tabSelected.deselect()
 		}
 
 		//Set new selected tab as this
 		this.tabSelected = tab
-		//Set style to show DOM
 		this.tabSelected.select()
-
-		console.log("Selecting tab: ", this.tabSelected)
 
 		//Add to UI
 		chromeTabs.addTab(tab.get())	
@@ -133,13 +128,26 @@ class Tabs {
 	}
 
 	selectTab(id: number) {
+		//TODO: Problem here
+		//TODO: When adding tab, 
+		if(id == tabs.getLastAddedTab().id) {
+			return
+		}
+		console.log("Going to select tab: ", id)
 		var found = false
 		for(var tab of this.tabs) {
 			if(tab.id == id) {
-				this.lastAddedTab.unselect()
-				tab.select()
+				//Deselect current tab
+				console.log("Deselecting tab: ", this.tabSelected)
+				this.tabSelected.deselect()
+
+				//Select the tab requested
 				console.log("Selecting tab: ", tab)
-				console.log("Deselecting tab: ", this.lastAddedTab)
+				tab.select()
+
+				//Set new tabSelected
+				this.tabSelected = tab
+				
 				found = true
 				break
 			}
@@ -176,12 +184,13 @@ window.addEventListener("DOMContentLoaded", () => {
 		console.log("Tab added", event.detail.tabEl)
 		let lastAddedTab = tabs.getLastAddedTab()
 		let id = lastAddedTab.id
-
 		//Set newly added tab attribute "data-id" to be last added tab's id
 		event.detail.tabEl["data-id"] = id
 	});
 
 	chromeTabs.init(el);
+	tabs.addDefaultTerminal();
+	tabs.addDefaultTerminal();
 	tabs.addDefaultTerminal();
 	tabs.addDefaultTerminal();
 });
