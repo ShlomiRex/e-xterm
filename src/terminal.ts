@@ -2,7 +2,9 @@ import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import { AttachAddon } from 'xterm-addon-attach';
 
+import * as pty from 'node-pty';
 import * as WebSocket from 'websocket';
+import * as os from 'os';
 
 
 export class MyTerminal {
@@ -39,6 +41,21 @@ export class MyTerminal {
 
 		//fit
 		this.fitAddon.fit()
+
+		// Initialize node-pty with an appropriate shell
+		const WINDOWS = os.platform() === 'win32';
+		const shell = process.env[WINDOWS ? 'COMSPEC' : 'SHELL'];
+		const ptyProcess = pty.spawn(shell, [], {
+			name: 'xterm-color',
+			cols: 100,
+			rows: 50,
+			cwd: process.cwd(),
+			env: process.env
+		});
+		this.xterm.onData(data => ptyProcess.write(data));
+		ptyProcess.onData((data) => {
+			this.xterm.write(data);
+		});
 	}
 
 	fit() {

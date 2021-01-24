@@ -1,5 +1,8 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import * as path from "path";
+
+//node-pty is not context aware
+app.allowRendererProcessReuse = false
 const Store = require('electron-store');
 
 try {
@@ -31,10 +34,10 @@ function createWindow() {
 
 	//on resize
 	mainWindow.on('resize', function () {
-		var size   = mainWindow.getSize();
-		var width  = size[0];
+		var size = mainWindow.getSize();
+		var width = size[0];
 		var height = size[1];
-		
+
 		mainWindow.webContents.send("WindowResize", size)
 	});
 }
