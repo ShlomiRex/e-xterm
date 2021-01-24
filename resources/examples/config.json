@@ -1,0 +1,34 @@
+{
+	"bookmarks": [
+		{
+			"protocol": "SSH",
+			"remote_host": "localhost",
+			"username": "root",
+			"port": "822",
+			"x11_forwarding": true,
+			"compression": true,
+			"session_name": "",
+			"session_description": ""
+		},
+		{
+			"protocol": "SSH",
+			"remote_host": "10.0.0.8",
+			"username": "root",
+			"port": "22",
+			"x11_forwarding": true,
+			"compression": true,
+			"session_name": "Kali attacker",
+			"session_description": "descr"
+		},
+		{
+			"protocol": "SSH",
+			"remote_host": "raspberrypi",
+			"username": "pi",
+			"port": "22",
+			"x11_forwarding": true,
+			"compression": true,
+			"session_name": "",
+			"session_description": ""
+		}
+	]
+}
