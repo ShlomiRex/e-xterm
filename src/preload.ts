@@ -30,7 +30,7 @@ class Tab {
 	favicon: string
 
 	/**
-	 * Content (parent) of the tab, in UI
+	 * Content of the tab, in UI
 	 */
 	content: HTMLElement
 
@@ -85,6 +85,7 @@ class Tab {
 class Tabs {
 	private tabs: Array<Tab>
 	private tabSelected: Tab
+	private lastAddedTab: Tab
 
 	constructor() {
 		this.tabs = new Array<Tab>();
@@ -100,11 +101,9 @@ class Tabs {
 		let tab = new Tab(tabContent)
 		tabContent.id = "content_" + tab.id 
 		
-		//TODO: Remove this line, for testing
-		tabContent.appendChild(document.createTextNode("Content with tab id: " + String(tab.id)))
-
 		//Add to array
 		this.tabs.push(tab)
+		this.lastAddedTab = tab
 
 		//Deselect currently selected tab
 		//is exist?
@@ -118,7 +117,7 @@ class Tabs {
 		//Set style to show DOM
 		this.tabSelected.select()
 
-		console.log("Tab selected: ", this.tabSelected)
+		console.log("Selecting tab: ", this.tabSelected)
 
 		//Add to UI
 		chromeTabs.addTab(tab.get())	
@@ -131,6 +130,28 @@ class Tabs {
 			"cursorBlink": true
 		});
 		term.open(DOM_terminal) //Create terminal UI
+	}
+
+	selectTab(id: number) {
+		var found = false
+		for(var tab of this.tabs) {
+			if(tab.id == id) {
+				this.lastAddedTab.unselect()
+				tab.select()
+				console.log("Selecting tab: ", tab)
+				console.log("Deselecting tab: ", this.lastAddedTab)
+				found = true
+				break
+			}
+		}
+
+		if(! found) {
+			console.error("Did not find tab with id: ", id, "to select!")
+		}
+	}
+
+	getLastAddedTab() {
+		return this.lastAddedTab
 	}
 	
 };
@@ -146,14 +167,19 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	var el = document.querySelector('.chrome-tabs');
 	el.addEventListener("activeTabChange", (event: CustomEvent) => {
-		let tab: any =  event.detail.tabEl
-		console.log('Active tab changed', tab)
+		let tabId: any = event.detail.tabEl["data-id"]
+		console.log('Active tab changed to: ', tabId, event)
+		tabs.selectTab(tabId)
 	});
-	/*
-	el.addEventListener('activeTabChange', ({ detail: any }) => {
-		console.log('Active tab changed', detail.tabEl.id)
-	})
-	*/
+
+	el.addEventListener('tabAdd', (event: CustomEvent) => { 
+		console.log("Tab added", event.detail.tabEl)
+		let lastAddedTab = tabs.getLastAddedTab()
+		let id = lastAddedTab.id
+
+		//Set newly added tab attribute "data-id" to be last added tab's id
+		event.detail.tabEl["data-id"] = id
+	});
 
 	chromeTabs.init(el);
 	tabs.addDefaultTerminal();
