@@ -52,7 +52,7 @@ class Tab {
 
 	tabContent: TabContent
 
-	constructor(content: HTMLElement, title: string = "Terminal", favicon: string = "resources/terminal.png") {
+	constructor(content: HTMLElement, title: string = "Terminal", favicon: string = "../resources/terminal.png") {
 		this.id = Tab.lastId;
 		Tab.lastId++;
 
