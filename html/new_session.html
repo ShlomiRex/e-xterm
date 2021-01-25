@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="../css/new_session.css">
+</head>
+
+<body>
+	<div id="choose_protocol" style="display: block;">
+		<h2>Choose protocol</h2>
+		<div class="btn-group" style="width:100%">
+			<button id="SSH" class="btn_protocol">SSH</button>
+			<button id="SFTP" class="btn_protocol">SFTP</button>
+			<button id="Telnet" class="btn_protocol">Telnet</button>
+			<button id="FTP" class="btn_protocol">FTP</button>
+			<button id="RDP" class="btn_protocol">RDP</button>
+			<button id="VNC" class="btn_protocol">VNC</button>
+			<button id="WSL" class="btn_protocol">WSL</button>
+		</div>
+	</div>
+
+	<div id="content" style="size: 100px 100px; margin-top: 10px;">
+		<div id="hidden_content_SSH" style="display: none;">
+			<form id="form" onsubmit="submitForm()">
+				<div style="border-style: inset; background-color: whitesmoke;">
+					Basic Settings
+					<hr>
+					<br>
+
+					<span style="color: red;">*</span>Remote host:
+					<input type="text" title="Host name or IP address" name="remote_host">
+
+					<input type="checkbox" id="chkbx_username" onchange="on_chkbx_username()" name="username_checkbox">
+					Specify username:
+					<input type="text" title="Default is your username" id="username" name="username" disabled>
+
+					<span style="color: red;">*</span>Port:
+					<input type="number" min=1 max=65535 value="22" name="port">
+
+				</div>
+
+				<br>
+
+				<div style="border-style: inset; background-color: whitesmoke;">
+					Advanced Settings
+					<hr>
+					<br>
+
+					<span
+						title="X11 forwarding allows executing a program remotly through SSH and the GUI will run locally.">
+						<input type="checkbox" name="x11_forwarding" checked> X11 Forwarding
+					</span>
+					<span title="Compression is useful when the connection speed is slow.">
+						<input type="checkbox" name="ssh_compression" checked> SSH Compression
+					</span>
+
+				</div>
+
+				<br>
+
+				<div style="border-style: inset; background-color: whitesmoke;">
+					Bookmark Settings
+					<hr>
+					<br>
+
+					Session name:
+					<input type="text" name="session_name" title="Give it a meaningful name.">
+					<br>
+					Description:
+					<br>
+					<textarea rows="4" cols="50" name="session_description"></textarea>
+
+				</div>
+			</form>
+
+			<br>
+
+			<div style="display: flex; align-items: center; justify-content: center;">
+				<div style="transform: scale(1.25);">
+					<input type="submit" value="OK" form="form"/>
+					<button onclick="cancel()">Cancel</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="hidden_content_SFTP" style="display: none;">
+			Hidden content SFTP!
+		</div>
+
+		<div id="hidden_content_Telnet" style="display: none;">
+			Hidden content Telnet!
+		</div>
+
+		<div id="hidden_content_FTP" style="display: none;">
+			Hidden content FTP!
+		</div>
+
+		<div id="hidden_content_RDP" style="display: none;">
+			Hidden content RDP!
+		</div>
+
+		<div id="hidden_content_VNC" style="display: none;">
+			Hidden content VNC!
+		</div>
+
+		<div id="hidden_content_WSL" style="display: none;">
+			Hidden content WSL!
+		</div>
+	</div>
+
+</body>
+
+<script>
+	//window.api.loadscript("../js/new_session.js")
+</script>
+
+<script>
+	var selected = null;
+	var buttons = document.querySelectorAll('.btn_protocol');
+	buttons.forEach((button) => {
+		button.addEventListener('click', (e) => {
+			var mouseEvent = e;
+			var buttonClicked = mouseEvent.target;
+			var buttonId = buttonClicked.id;
+
+			//If chosen diffirent protocol
+			if (buttonId != selected) {
+				//If selected != null (i.e. some hidden content is already shown) then hide it again.
+				if (selected) {
+					//Hide previous content
+					document.getElementById("hidden_content_" + selected).style.display = "none";
+				}
+
+				selected = buttonId;
+
+				//Show hidden content for selected protocol
+				document.getElementById("hidden_content_" + buttonId).style.display = "block";
+
+				//Hide protocol buttons
+				//document.getElementById("choose_protocol").style.display = "none";
+			}
+			//else do nothing, selected same button/protocol
+		});
+	});
+
+	function on_chkbx_username() {
+		document.getElementById("username").disabled = ! document.getElementById("chkbx_username").checked
+
+	}
+
+	function cancel() {
+		window.NewSession.closeWindow()
+	}
+
+	function submitForm() {
+		console.log("Submit form")
+
+		const form = document.getElementById("form")
+		var json = {}
+		for (var element of form) {
+			var name = element["name"]
+			var value = element["value"]
+
+			//Value of checkbox is "on" always... idk maybe it's because I set it to checked initially.
+			//TODO: Investiage why value of checkbox is "on" always, so we don't need this 'if'.
+			if(element.type == "checkbox") {
+				value = element.checked;
+			}
+
+			console.log("NAME: " + name + " VALUE: " + value)
+
+			json[name] = value;
+		}
+		window.NewSession.saveSession(json)
+		window.NewSession.closeWindow()
+	}
+</script>
+
+</html>
