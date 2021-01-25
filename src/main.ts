@@ -22,8 +22,10 @@ function createWindow() {
 		height: 800,
 		webPreferences: {
 			preload: path.join(__dirname, "preload.js"),
+			nodeIntegration: false,
 			contextIsolation: true
 		},
+		show: false
 	});
 
 	// and load the index.html of the app.
@@ -31,6 +33,13 @@ function createWindow() {
 
 	// Open the DevTools.
 	mainWindow.webContents.openDevTools();
+
+	
+	mainWindow.once('ready-to-show', () => {
+		mainWindow.show()
+	});
+
+
 
 	//on resize
 	mainWindow.on('resize', function () {

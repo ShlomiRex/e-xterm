@@ -1,4 +1,5 @@
 export interface SSHSession {
+	session_id?: number
 	protocol: string,
 	remote_host: string,
 	username: string,
@@ -23,7 +24,9 @@ export class MyBookmarks {
 		this.sessions = sessions;
 		this.uiParent = uiParent;
 
-		for(var session of sessions) {
+		let id = 0
+		for (var session of sessions) {
+			session.session_id = id++
 			this.populate(session);
 		}
 	}
@@ -43,8 +46,8 @@ export class MyBookmarks {
 					style="background-color:black; color: white;">SSH</span>
 			</a>
 		*/
-		
-		
+
+
 		var name = session.session_name;
 		//If user did not give session name, use the hostname instead
 		if (!name) {
@@ -67,6 +70,9 @@ export class MyBookmarks {
 		//This makes cursor look like clicking
 		bookmark_item.setAttribute("href", "");
 
+		let bookmark_id = session.session_id
+		bookmark_item.setAttribute("data-bookmark-id", "" + bookmark_id)
+
 		bookmark_item.addEventListener("click", () => {
 			/*
 			console.log("Clicked " + name)
@@ -83,6 +89,22 @@ export class MyBookmarks {
 			*/
 		});
 
+		bookmark_item.addEventListener("dblclick", (mouseEvent) => {
+			let myMouseEvent: any = mouseEvent
+
+			//Traverse path and find the bookmarkId
+			//User can click on the pill element / not directly on the text. So we traverse path
+			for (var path of myMouseEvent.path) {
+				if (path.hasAttribute("data-bookmark-id")) {
+					let bid = parseInt(path.getAttribute("data-bookmark-id"))
+					console.log("Double click on bookmarkId: ", bid)
+					break
+				}
+			}
+
+
+		});
+
 		var badge = document.createElement("span");
 		badge.className = "badge rounded-pill";
 		badge.innerText = protocol;
@@ -92,5 +114,5 @@ export class MyBookmarks {
 
 		this.uiParent.appendChild(bookmark_item);
 	}
-	
+
 };

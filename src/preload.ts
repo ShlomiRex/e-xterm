@@ -8,7 +8,6 @@ import { MyBookmarks, SSHSession } from './bookmarks'
 import { Tabs } from "./tabs"
 import * as Split from 'split.js'
 
-
 const store = new Store();
 console.log("electron-store path: ", store.path)
 
@@ -34,8 +33,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	tabs.init()
 	tabs.addDefaultTerminal();
-	tabs.addDefaultTerminal();
-	tabs.addDefaultTerminal();
+	// tabs.addDefaultTerminal();
+	// tabs.addDefaultTerminal();
 
 
 	//Setup split.js
