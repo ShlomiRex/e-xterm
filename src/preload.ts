@@ -59,7 +59,7 @@ ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {
 contextBridge.exposeInMainWorld(
 	"api", {
 		test() {
-			console.log("test")
+			console.log("test log from contextBridged exposed api")
 		}
 	}
 );

@@ -6,3 +6,8 @@
 // needed in the renderer process.
 
 //Remember, require is not defined!!!
+
+//
+const API: any = (window as any).api
+
+API.test()
