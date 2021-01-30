@@ -54,6 +54,8 @@ window.addEventListener("DOMContentLoaded", () => {
 	tabs.addShellTerminal();
 	tabs.addTextTerminal();
 
+	tabs.addSSHTerminal();
+
 
 	//Setup split.js
 	Split(['#left-panel', '#main-panel'],

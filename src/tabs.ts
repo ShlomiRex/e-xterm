@@ -16,7 +16,7 @@ class TabContent {
 		//
 		//const webSocket = new WebSocket()
 
-		this.myTerminal = new MyTerminal(null)
+		this.myTerminal = new MyTerminal()
 	}
 
 	/**
@@ -34,6 +34,14 @@ class TabContent {
 	 */
 	init_shell(parent: HTMLElement) {
 		this.myTerminal.init_shell(parent)
+	}
+
+	/**
+	 * 
+	 * @param parent Div element with id="terminal_<id>"
+	 */
+	init_ssh(parent: HTMLElement) {
+		this.myTerminal.init_ssh(parent)
 	}
 
 	showContent() {
@@ -114,6 +122,14 @@ class Tab {
 		this.tabContent.init_shell(parent)
 	}
 
+	initSSHTerminalUI(parent: HTMLElement) {
+		//1. Load addons
+		//2. Open div element
+		//3. Write to terminal stuff
+		//4. Fit terminal
+		this.tabContent.init_ssh(parent)
+	}
+
 	/**
 	 * Return chrome tab json (chromeTabs.addTab(\<this function result\>))
 	 */
@@ -174,16 +190,21 @@ export class Tabs {
 	}
 
 	addTextTerminal() {
-		let { tab, DOM_terminal } = this.addTerminal(null);
+		let { tab, DOM_terminal } = this.addTerminal(null, "Text");
 		tab.initTextTerminalUI(DOM_terminal, "Terminal with tab id: " + String(tab.id));	
 	}
 
 	addShellTerminal() {
-		let { tab, DOM_terminal } = this.addTerminal(null);
+		let { tab, DOM_terminal } = this.addTerminal(null, "Terminal");
 		tab.initShellTerminalUI(DOM_terminal);	
 	}
 
-	private addTerminal(terminal: MyTerminal) {
+	addSSHTerminal() {
+		let { tab, DOM_terminal } = this.addTerminal(null, "SSH");
+		tab.initSSHTerminalUI(DOM_terminal);
+	}
+
+	private addTerminal(terminal: MyTerminal, tabTitle: string) {
 		let parent = document.getElementById("tabs-content");
 
 		//Create content container
@@ -198,6 +219,7 @@ export class Tabs {
 		
 		let tab = new Tab(tabContent)
 		tabContent.id = "content_" + tab.id
+		tab.title = tabTitle
 
 		//Add to array
 		this.tabs.push(tab)
