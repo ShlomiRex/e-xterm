@@ -5,10 +5,12 @@
 			"type": "typescript",
 			"label": "build",
 			"tsconfig": "tsconfig.json",
-			"problemMatcher": ["$tsc"],
+			"problemMatcher": [
+				"$tsc"
+			],
 			"group": {
-			  "kind": "build",
-			  "isDefault": true
+				"kind": "build",
+				"isDefault": true
 			}
 		}
 	]
