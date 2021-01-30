@@ -3,6 +3,7 @@
 	"tasks": [
 		{
 			"type": "typescript",
+			"label": "build",
 			"tsconfig": "tsconfig.json",
 			"problemMatcher": ["$tsc"],
 			"group": {

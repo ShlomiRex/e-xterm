@@ -35,7 +35,7 @@ function createWindow() {
 	mainWindow.loadFile(path.join(__dirname, "../html/index.html"));
 
 	// Open the DevTools.
-	mainWindow.webContents.openDevTools();
+	//mainWindow.webContents.openDevTools();
 
 	
 	mainWindow.once('ready-to-show', () => {
