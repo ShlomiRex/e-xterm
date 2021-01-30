@@ -27,6 +27,11 @@ export class MyTerminal {
 
 	}
 
+	/**
+	 * Initialize this terminal and write string to it
+	 * @param parent 
+	 * @param writedata 
+	 */
 	init(parent: HTMLElement, writedata: string) {
 		//Load addons
 		this.xterm.loadAddon(this.fitAddon);
@@ -39,10 +44,27 @@ export class MyTerminal {
 		//Write stuff
 		this.xterm.write(writedata)
 
-		//fit
+		//Fit container
+		this.fitAddon.fit()
+	}
+
+	/**
+	 * Initialize this terminal and connect to OS shell (Windows CMD / Linux bash)
+	 * @param parent 
+	 */
+	init_shell(parent: HTMLElement) {
+		//Load addons
+		this.xterm.loadAddon(this.fitAddon);
+		//TODO: Enable attach addon
+		//this.xterm.loadAddon(this.attachAddon);
+
+		//Attach to parent
+		this.xterm.open(parent)
+
+		//Fit container
 		this.fitAddon.fit()
 
-		// Initialize node-pty with an appropriate shell
+		//Initialize node-pty with an appropriate shell
 		const WINDOWS = os.platform() === 'win32';
 		const shell = process.env[WINDOWS ? 'COMSPEC' : 'SHELL'];
 		const ptyProcess = pty.spawn(shell, [], {

@@ -7,6 +7,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 import { MyBookmarks, SSHSession } from './bookmarks'
 import { Tabs } from "./tabs"
 import * as Split from 'split.js'
+import { MyTerminal } from './terminal';
 
 const store = new Store();
 console.log("electron-store path: ", store.path)
@@ -39,6 +40,8 @@ window.addEventListener("DOMContentLoaded", () => {
 			console.log("GOT PASSWORD:", password)
 			//TODO: Open SSH
 
+			//let sshTerminal = new MyTerminal(null);
+			//tabs.addTerminal(sshTerminal);
 		});
 	}
 
@@ -46,9 +49,10 @@ window.addEventListener("DOMContentLoaded", () => {
 	let book = new MyBookmarks(bookmarks, DOM_SessionContainer, open_bookmark_callback)
 
 	tabs.init()
-	tabs.addDefaultTerminal();
-	// tabs.addDefaultTerminal();
-	// tabs.addDefaultTerminal();
+	tabs.addShellTerminal();
+	tabs.addTextTerminal();
+	tabs.addShellTerminal();
+	tabs.addTextTerminal();
 
 
 	//Setup split.js

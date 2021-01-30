@@ -22,10 +22,18 @@ class TabContent {
 	/**
 	 * 
 	 * @param parent Div element with id="terminal_<id>"
-	 * @param writedata To be removed only for testing
+	 * @param writedata Write this string to the terminal
 	 */
 	init(parent: HTMLElement, writedata: string) {
 		this.myTerminal.init(parent, writedata)
+	}
+
+	/**
+	 * 
+	 * @param parent Div element with id="terminal_<id>"
+	 */
+	init_shell(parent: HTMLElement) {
+		this.myTerminal.init_shell(parent)
 	}
 
 	showContent() {
@@ -90,12 +98,20 @@ class Tab {
 		return this._isSelected
 	}
 
-	initTerminalUI(parent: HTMLElement, writedata: string) {
+	initTextTerminalUI(parent: HTMLElement, writedata: string) {
 		//1. Load addons
 		//2. Open div element
 		//3. Write to terminal stuff
 		//4. Fit terminal
 		this.tabContent.init(parent, writedata)
+	}
+
+	initShellTerminalUI(parent: HTMLElement) {
+		//1. Load addons
+		//2. Open div element
+		//3. Write to terminal stuff
+		//4. Fit terminal
+		this.tabContent.init_shell(parent)
 	}
 
 	/**
@@ -157,7 +173,17 @@ export class Tabs {
 		chromeTabs.init(el)
 	}
 
-	addDefaultTerminal() {
+	addTextTerminal() {
+		let { tab, DOM_terminal } = this.addTerminal(null);
+		tab.initTextTerminalUI(DOM_terminal, "Terminal with tab id: " + String(tab.id));	
+	}
+
+	addShellTerminal() {
+		let { tab, DOM_terminal } = this.addTerminal(null);
+		tab.initShellTerminalUI(DOM_terminal);	
+	}
+
+	private addTerminal(terminal: MyTerminal) {
 		let parent = document.getElementById("tabs-content");
 
 		//Create content container
@@ -182,11 +208,11 @@ export class Tabs {
 			this.tabSelected.deselect()
 		}
 
-		//Set new selected tab as this
+		//Set selected tab to this
 		this.tabSelected = tab
 		this.tabSelected.select()
 
-		//Add to UI
+		//Actually create UI tab
 		chromeTabs.addTab(tab.get())
 
 		//Setup terminal
@@ -196,7 +222,10 @@ export class Tabs {
 		DOM_terminal.style.height = "100%"
 		tabContent.appendChild(DOM_terminal);
 
-		tab.initTerminalUI(DOM_terminal, "Terminal with tab id: " + String(tab.id));
+		return {
+			tab: tab, 
+			DOM_terminal: DOM_terminal
+		}
 	}
 
 	/**
