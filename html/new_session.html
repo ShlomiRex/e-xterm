@@ -2,151 +2,195 @@
 <html>
 
 <head>
-	<link rel="stylesheet" href="../css/new_session.css">
+	<link rel="stylesheet" href="../third-party/bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
+	<script src="../third-party/bootstrap-5.0.0-beta1-dist/js/bootstrap.min.js"></script>
 </head>
 
-<body>
-	<div id="choose_protocol" style="display: block;">
-		<h2>Choose protocol</h2>
-		<div class="btn-group" style="width:100%">
-			<button id="SSH" class="btn_protocol">SSH</button>
-			<button id="SFTP" class="btn_protocol">SFTP</button>
-			<button id="Telnet" class="btn_protocol">Telnet</button>
-			<button id="FTP" class="btn_protocol">FTP</button>
-			<button id="RDP" class="btn_protocol">RDP</button>
-			<button id="VNC" class="btn_protocol">VNC</button>
-			<button id="WSL" class="btn_protocol">WSL</button>
-		</div>
+<body class="container">
+	<h1>Choose protocol</h1>
+	<div id="choose_protocol" class="btn-group" role="group" aria-label="Basic radio toggle button group">
+		<input type="radio" class="btn-check" name="btnradio" id="SSH" autocomplete="off">
+		<label class="btn btn-outline-primary" for="SSH">SSH</label>
+
+		<input type="radio" class="btn-check" name="btnradio" id="SFTP" autocomplete="off" disabled
+			aria-disabled="true">
+		<label class="btn btn-outline-primary" for="SFTP">SFTP</label>
+
+		<input type="radio" class="btn-check" name="btnradio" id="FTP" autocomplete="off" disabled aria-disabled="true">
+		<label class="btn btn-outline-primary" for="FTP">FTP</label>
+
+		<input type="radio" class="btn-check" name="btnradio" id="RDP" autocomplete="off" disabled aria-disabled="true">
+		<label class="btn btn-outline-primary" for="RDP">RDP</label>
+
+		<input type="radio" class="btn-check" name="btnradio" id="VNC" autocomplete="off" disabled aria-disabled="true">
+		<label class="btn btn-outline-primary" for="VNC">VNC</label>
+
+		<input type="radio" class="btn-check" name="btnradio" id="Telnet" autocomplete="off" disabled
+			aria-disabled="true">
+		<label class="btn btn-outline-primary" for="Telnet">Telnet</label>
+
+		<input type="radio" class="btn-check" name="btnradio" id="WSL" autocomplete="off" disabled aria-disabled="true">
+		<label class="btn btn-outline-primary" for="WSL">WSL</label>
 	</div>
 
-	<div id="content" style="size: 100px 100px; margin-top: 10px;">
+	<div id="content" style="margin-top: 10px;">
 		<div id="hidden_content_SSH" style="display: none;">
 			<form id="form" onsubmit="submitForm()">
-				<div style="border-style: inset; background-color: whitesmoke;">
-					Basic Settings
-					<hr>
-					<br>
+				<div class="accordion">
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+								data-bs-target="#BasicSettings" aria-expanded="true">
+								Basic Settings
+							</button>
+						</h2>
+						<div id="BasicSettings" class="accordion-collapse collapse show"
+							data-bs-parent="#BasicSettings">
+							<div class="accordion-body">
+								<div class="list-group" id="list-tab" role="tablist">
+									<div class="row">
+										<div class="col">
+											<label for="remote_host" class="form-label">
+												<span style="color: red;">*</span>
+												Remote host:
+											</label>
+										</div>
+										<div class="col">
+											<input type="text" class="form-control" id="remote_host"
+												title="Host name or IP address" placeholder="Example: pi@raspberrypi"
+												required>
+										</div>
+									</div>
 
-					<span style="color: red;">*</span>Remote host:
-					<input type="text" title="Host name or IP address" name="remote_host">
+									<div class="row">
+										<div class="col">
+											<label for="username" class="form-label">
+												Username:
+											</label>
+										</div>
+										<div class="col">
+											<input type="text" class="form-control" id="username"
+												title="Username to use" placeholder="Example: root">
+										</div>
+									</div>
 
-					<input type="checkbox" id="chkbx_username" onchange="on_chkbx_username()" name="username_checkbox">
-					Specify username:
-					<input type="text" title="Default is your username" id="username" name="username" disabled>
+									<div class="row">
+										<div class="col">
+											<label for="port" class="form-label">
+												<span style="color: red;">*</span>
+												Port:
+											</label>
+										</div>
+										<div class="col">
+											<input type="number" class="form-control" id="port" title="Port to use"
+												value="22" required>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-					<span style="color: red;">*</span>Port:
-					<input type="number" min=1 max=65535 value="22" name="port">
+				<div class="accordion">
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+								data-bs-target="#AdvancedSettings" aria-expanded="true">
+								Advanced SSH Settings
+							</button>
+						</h2>
+						<div id="AdvancedSettings" class="accordion-collapse collapse show"
+							data-bs-parent="#AdvancedSettings">
+							<div class="accordion-body">
+								<div class="list-group" id="list-tab" role="tablist">
+									<div class="row">
+										<div class="col"
+											title="X11-Forwarding allows executing a program remotly through SSH and the GUI will run locally">
+											<input class="form-check-input" type="checkbox" value="" id="x11_forwarding"
+												checked />
+											<label class="form-check-label" for="x11_forwarding">
+												X11-Forwarding
+											</label>
+										</div>
+										<div class="col"
+											title="Compression is useful when the connection speed is slow">
+											<input class="form-check-input" type="checkbox" value="" id="compression"
+												checked />
+											<label class="form-check-label" for="compression">
+												Compression
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
+				<div class="accordion">
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+								data-bs-target="#BookmarkSettings" aria-expanded="true">
+								Bookmark Settings
+							</button>
+						</h2>
+						<div id="BookmarkSettings" class="accordion-collapse collapse show"
+							data-bs-parent="#BookmarkSettings">
+							<div class="accordion-body">
+								<div class="list-group" id="list-tab" role="tablist">
+									<div class="row">
+										<div class="col">
+											<label for="session_name" class="form-label">
+												Session name:
+											</label>
+										</div>
+										<div class="col">
+											<input type="text" class="form-control" id="session_name"
+												title="Give meaningful name" placeholder="Example: Ubuntu 20.04 VM">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<label for="session_description" class="form-label">
+												Session description:
+											</label>
+										</div>
+										<div class="col">
+											<textarea class="form-control" id="session_description" rows="3"
+												title="Something to describe this session"
+												placeholder="Description..."></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<br>
-
-				<div style="border-style: inset; background-color: whitesmoke;">
-					Advanced Settings
-					<hr>
-					<br>
-
-					<span
-						title="X11 forwarding allows executing a program remotly through SSH and the GUI will run locally.">
-						<input type="checkbox" name="x11_forwarding" checked> X11 Forwarding
-					</span>
-					<span title="Compression is useful when the connection speed is slow.">
-						<input type="checkbox" name="ssh_compression" checked> SSH Compression
-					</span>
-
-				</div>
-
-				<br>
-
-				<div style="border-style: inset; background-color: whitesmoke;">
-					Bookmark Settings
-					<hr>
-					<br>
-
-					Session name:
-					<input type="text" name="session_name" title="Give it a meaningful name.">
-					<br>
-					Description:
-					<br>
-					<textarea rows="4" cols="50" name="session_description"></textarea>
-
-				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+				<a id="cancel" name="cancel" class="btn btn-outline-danger" onclick="cancel()">Cancel</a>
 			</form>
-
-			<br>
-
-			<div style="display: flex; align-items: center; justify-content: center;">
-				<div style="transform: scale(1.25);">
-					<input type="submit" value="OK" form="form"/>
-					<button onclick="cancel()">Cancel</button>
-				</div>
-			</div>
-		</div>
-
-		<div id="hidden_content_SFTP" style="display: none;">
-			Hidden content SFTP!
-		</div>
-
-		<div id="hidden_content_Telnet" style="display: none;">
-			Hidden content Telnet!
-		</div>
-
-		<div id="hidden_content_FTP" style="display: none;">
-			Hidden content FTP!
-		</div>
-
-		<div id="hidden_content_RDP" style="display: none;">
-			Hidden content RDP!
-		</div>
-
-		<div id="hidden_content_VNC" style="display: none;">
-			Hidden content VNC!
-		</div>
-
-		<div id="hidden_content_WSL" style="display: none;">
-			Hidden content WSL!
 		</div>
 	</div>
 
 </body>
 
 <script>
-	//window.api.loadscript("../js/new_session.js")
-</script>
-
-<script>
 	var selected = null;
-	var buttons = document.querySelectorAll('.btn_protocol');
-	buttons.forEach((button) => {
-		button.addEventListener('click', (e) => {
-			var mouseEvent = e;
-			var buttonClicked = mouseEvent.target;
-			var buttonId = buttonClicked.id;
 
-			//If chosen diffirent protocol
-			if (buttonId != selected) {
-				//If selected != null (i.e. some hidden content is already shown) then hide it again.
-				if (selected) {
-					//Hide previous content
-					document.getElementById("hidden_content_" + selected).style.display = "none";
-				}
-
-				selected = buttonId;
-
-				//Show hidden content for selected protocol
-				document.getElementById("hidden_content_" + buttonId).style.display = "block";
-
-				//Hide protocol buttons
-				//document.getElementById("choose_protocol").style.display = "none";
-			}
-			//else do nothing, selected same button/protocol
-		});
+	const btnGroup = document.getElementById("choose_protocol");
+	btnGroup.addEventListener('click', ({ target }) => { // handler fires on root container click
+		if (target.getAttribute('name') === 'btnradio') { // check if user clicks right element
+			selected = target.id;
+			//TODO: For now display only SSH form
+			//Show hidden content for selected protocol
+			document.getElementById("hidden_content_" + selected).style.display = "block";
+		}
 	});
-
-	function on_chkbx_username() {
-		document.getElementById("username").disabled = ! document.getElementById("chkbx_username").checked
-
-	}
 
 	function cancel() {
 		window.NewSession.closeWindow()
@@ -156,21 +200,24 @@
 		console.log("Submit form")
 
 		const form = document.getElementById("form")
-		var json = {}
-		for (var element of form) {
-			var name = element["name"]
-			var value = element["value"]
+		console.dir(form);
 
-			//Value of checkbox is "on" always... idk maybe it's because I set it to checked initially.
-			//TODO: Investiage why value of checkbox is "on" always, so we don't need this 'if'.
-			if(element.type == "checkbox") {
-				value = element.checked;
-			}
-
-			console.log("NAME: " + name + " VALUE: " + value)
-
-			json[name] = value;
+		var json = {
+			"protocol": selected
 		}
+
+		if (selected == "SSH") {
+			json["remote_host"] = document.getElementById("remote_host").value;
+			json["username"] = document.getElementById("username").value;
+			json["port"] = document.getElementById("port").value;
+
+			json["x11_forwarding"] = document.getElementById("x11_forwarding").checked;
+			json["compression"] = document.getElementById("compression").checked;
+
+			json["session_name"] = document.getElementById("session_name").value;
+			json["session_description"] = document.getElementById("session_description").value;
+		}
+		
 		window.NewSession.saveSession(json)
 		window.NewSession.closeWindow()
 	}
