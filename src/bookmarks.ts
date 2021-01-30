@@ -1,14 +1,7 @@
-export interface SSHSession {
-	session_id?: number
-	protocol: string,
-	remote_host: string,
-	username: string,
-	port: number,
-	session_name: string,
-	session_description: string
-	x11_forwarding: boolean,
-	compression: boolean
-};
+import { SSHSession } from './session'
+import * as Store from 'electron-store';
+
+let store: Store = new Store();
 
 
 export class MyBookmarks {
@@ -17,22 +10,48 @@ export class MyBookmarks {
 
 	private callback: any
 
+	private static instance: MyBookmarks
+
 	/**
 	 * 
 	 * @param sessions The sessions to populate
 	 * @param uiParent The UI to populate bookmarks
 	 * @param callback Callback to call when user opens bookmark
 	 */
-	constructor(sessions: Array<SSHSession>, uiParent: HTMLElement, callback: any) {
+	private constructor(sessions: Array<SSHSession>, uiParent: HTMLElement, callback: any) {
 		this.sessions = sessions;
 		this.uiParent = uiParent;
-		this.callback = callback
+		this.callback = callback;
 
 		let id = 0
 		for (var session of sessions) {
 			session.session_id = id++
 			this.populate(session);
 		}
+	}
+
+	static createInstance(uiParent: HTMLElement, callback: any) {
+		if (!MyBookmarks.instance) {
+			//no instance, create
+
+			//Convert simple array of json object in js to Array<SSHSession>
+			let bookmarks_json: any = store.get("bookmarks")
+			console.log("Loading sessions:", bookmarks_json)
+			let bookmarks = new Array<SSHSession>();
+
+			if (bookmarks_json) {
+				for (let bookmark of bookmarks_json) {
+					bookmarks.push(bookmark)
+				}
+			}
+
+			MyBookmarks.instance = new MyBookmarks(bookmarks, uiParent, callback);
+		}
+	}
+
+	static getInstance(): MyBookmarks {
+		console.log("Returning instance:", MyBookmarks.instance)
+		return MyBookmarks.instance;
 	}
 
 	/**
@@ -78,19 +97,7 @@ export class MyBookmarks {
 		bookmark_item.setAttribute("data-bookmark-id", "" + bookmark_id)
 
 		bookmark_item.addEventListener("click", () => {
-			/*
-			console.log("Clicked " + name)
-			const win = new BrowserWindow({ 
-				width: 400, 
-				height: 200,
-				webPreferences: {
-					nodeIntegration: true,
-					enableRemoteModule: true
-				}
-			})
-
-			win.loadFile(path.join(__dirname, '../html/password.html'))
-			*/
+			//TODO: Choose something to do
 		});
 
 		bookmark_item.addEventListener("dblclick", (mouseEvent) => {
@@ -121,6 +128,19 @@ export class MyBookmarks {
 		bookmark_item.appendChild(badge);
 
 		this.uiParent.appendChild(bookmark_item);
+	}
+
+	newBookmark(session: SSHSession) {
+		console.log("New bookmark: ", session)
+		let bookmarks: Array<SSHSession> = undefined;
+		if (store.has("bookmarks")) {
+			bookmarks = store.get("bookmarks") as Array<SSHSession>;
+		} else {
+			bookmarks = new Array<SSHSession>();
+		}
+
+		bookmarks.push(session)
+		store.set("bookmarks", bookmarks)
 	}
 
 };
