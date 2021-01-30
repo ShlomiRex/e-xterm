@@ -15,14 +15,18 @@ export class MyBookmarks {
 	private sessions: Array<SSHSession>
 	private uiParent: HTMLElement
 
+	private callback: any
+
 	/**
 	 * 
 	 * @param sessions The sessions to populate
 	 * @param uiParent The UI to populate bookmarks
+	 * @param callback Callback to call when user opens bookmark
 	 */
-	constructor(sessions: Array<SSHSession>, uiParent: HTMLElement) {
+	constructor(sessions: Array<SSHSession>, uiParent: HTMLElement, callback: any) {
 		this.sessions = sessions;
 		this.uiParent = uiParent;
+		this.callback = callback
 
 		let id = 0
 		for (var session of sessions) {
@@ -98,6 +102,10 @@ export class MyBookmarks {
 				if (path.hasAttribute("data-bookmark-id")) {
 					let bid = parseInt(path.getAttribute("data-bookmark-id"))
 					console.log("Double click on bookmarkId: ", bid)
+
+					let session = this.sessions[bid]
+					this.callback(session)
+
 					break
 				}
 			}

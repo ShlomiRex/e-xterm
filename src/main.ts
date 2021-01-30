@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import * as path from "path";
 
 //node-pty is not context aware
@@ -15,9 +15,11 @@ try {
 //give permission for renderer process to use electron-store
 Store.initRenderer();
 
+let mainWindow: BrowserWindow = undefined
+
 function createWindow() {
 	// Create the browser window.
-	const mainWindow = new BrowserWindow({
+	mainWindow = new BrowserWindow({
 		width: 1600,
 		height: 800,
 		webPreferences: {
@@ -80,3 +82,28 @@ app.on("window-all-closed", () => {
 
 var isRenderer = require('is-electron-renderer')
 console.log("main - isRenderer? : ", isRenderer)
+
+
+ipcMain.on("OpenLoginWindow", (event, args) => {
+	console.log("Main - got OpenLoginWindow")
+	const loginWindow = new BrowserWindow({
+		width: 300,
+		height: 200,
+		show: true,
+		autoHideMenuBar: true,
+		parent: mainWindow,
+		modal: true,
+		webPreferences: {
+			nodeIntegration: true,
+			enableRemoteModule: true
+		}
+	});
+
+	loginWindow.loadFile(path.join(__dirname, "../html/password_login.html"));
+
+	ipcMain.once("LoginWindowPassword", (event, password: string) => {
+		mainWindow.webContents.send("Password", password)
+	});
+	
+});
+

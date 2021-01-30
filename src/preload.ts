@@ -28,8 +28,22 @@ window.addEventListener("DOMContentLoaded", () => {
 	var isRenderer = require('is-electron-renderer')
 	console.log("preload - isRenderer? : ", isRenderer)
 
+	//When user double clicks on bookmark, open ssh
+	let open_bookmark_callback = function(session: SSHSession) {
+		console.log("Openning session: ", session)
+
+		//Tell main to open login window
+		ipcRenderer.send("OpenLoginWindow")
+		//When main send back password
+		ipcRenderer.once("Password", (event, password: string) => {
+			console.log("GOT PASSWORD:", password)
+			//TODO: Open SSH
+
+		});
+	}
+
 	let DOM_SessionContainer = document.getElementById("SessionsContainer");
-	let book = new MyBookmarks(bookmarks, DOM_SessionContainer)
+	let book = new MyBookmarks(bookmarks, DOM_SessionContainer, open_bookmark_callback)
 
 	tabs.init()
 	tabs.addDefaultTerminal();
