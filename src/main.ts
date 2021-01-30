@@ -107,3 +107,23 @@ ipcMain.on("OpenLoginWindow", (event, args) => {
 	
 });
 
+ipcMain.on("OpenNewSession", (ev, args) => {
+	console.log("Opening new session window")
+
+	const newSessionWindow = new BrowserWindow({
+		width: 800,
+		height: 600,
+		show: true,
+		autoHideMenuBar: true,
+		parent: mainWindow,
+		modal: true,
+		webPreferences: {
+			nodeIntegration: true,
+			enableRemoteModule: true
+		}
+	});
+
+	newSessionWindow.loadFile(path.join(__dirname, "../html/new_session.html"));
+
+
+});

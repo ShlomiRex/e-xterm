@@ -16,9 +16,13 @@ console.log("electron-store path: ", store.path)
 //Convert simple array of json object in js to Array<SSHSession>
 let bookmarks_json: any = store.get("bookmarks")
 let bookmarks = new Array<SSHSession>();
-for (let bookmark of bookmarks_json) {
-	bookmarks.push(bookmark)
+
+if(bookmarks_json) {
+	for (let bookmark of bookmarks_json) {
+		bookmarks.push(bookmark)
+	}
 }
+
 
 
 
@@ -50,11 +54,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	tabs.init()
 	tabs.addShellTerminal();
-	tabs.addTextTerminal();
-	tabs.addShellTerminal();
-	tabs.addTextTerminal();
+	//tabs.addTextTerminal();
+	//tabs.addShellTerminal();
+	//tabs.addTextTerminal();
 
-	tabs.addSSHTerminal();
+	//tabs.addSSHTerminal();
 
 
 	//Setup split.js
@@ -80,6 +84,10 @@ contextBridge.exposeInMainWorld(
 	"api", {
 		test() {
 			console.log("test log from contextBridged exposed api")
+		},
+
+		clickedOnNewSession() {
+			ipcRenderer.send("OpenNewSession")
 		}
 	}
 );

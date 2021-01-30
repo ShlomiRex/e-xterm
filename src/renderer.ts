@@ -11,3 +11,8 @@
 const API: any = (window as any).api
 
 API.test()
+
+
+document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEvent) => {
+    API.clickedOnNewSession()
+});

@@ -67,6 +67,7 @@ export class MyTerminal {
 		});
 		this.xterm.onData(data => ptyProcess.write(data));
 		ptyProcess.onData((data) => {
+			console.log("Writing:", data)
 			this.xterm.write(data);
 		});
 	}

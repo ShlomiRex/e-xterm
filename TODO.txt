@@ -1,13 +1,15 @@
 High Priority:
 * IMPORTANT: Use SSH-KEYGEN to automate SSH logins.  Or find another way.
 * Use SSH2 npm module with private key
-* Keep using xterm.js, looked at internet and it's the best option
 * Learn how other programs, like Hyper or other pgorams that use xterm.js are saving / using SSH sessions.
     Link for programs that use xterm.js: https://github.com/xtermjs/xterm.js/
+* Show new session window when pressing on "New Session"
 
 
 Medium Priority:
+* When double clicking the window, it resizes to full screen. Tell terminal to fit.
 * In macOS , creating new seesion window - it's frameless. No close or minimize buttons. Investigate (on windows - yes)
+* When user finished creating session, reload the renderer? to show the added bookmark
 
 Low Priority:
 * Support "folders" in bookmarks and also recursive folders
