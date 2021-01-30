@@ -138,10 +138,28 @@ export class MyTerminal {
 				console.log("Key: ", kbe)
 				let key = kbe.key
 				//let keyCode = kbe.keyCode //deprecated
-				if(key == "Backspace") {
-					this.xterm.write('\b \b')
-				} else {
-					this.xterm.write(key)
+				switch(key) {
+					case "Backspace":
+						this.xterm.write('\b \b')
+						break
+					case "Home":
+						this.xterm.write("\r")
+						break
+					case "End":
+						break
+					case "ArrowRight":
+						this.xterm.write("\x9B\x01C")
+						break
+					case "ArrowLeft":
+						this.xterm.write("\b")
+						break
+					case "ArrowUp":
+						break
+					case "ArrowDown":
+						break
+					default:
+						this.xterm.write(key)
+						break
 				}
 			}
 		} else if(arg instanceof String) {
