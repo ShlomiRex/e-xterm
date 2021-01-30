@@ -193,7 +193,7 @@
 	});
 
 	function cancel() {
-		window.NewSession.closeWindow()
+		window.api.closeWindow()
 	}
 
 	function submitForm() {
@@ -217,9 +217,11 @@
 			json["session_name"] = document.getElementById("session_name").value;
 			json["session_description"] = document.getElementById("session_description").value;
 		}
+
+
 		
-		window.NewSession.saveSession(json)
-		window.NewSession.closeWindow()
+		window.api.saveSession(json)
+		window.api.closeWindow()
 	}
 </script>
 

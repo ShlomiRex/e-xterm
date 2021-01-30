@@ -4,28 +4,13 @@
 import * as Store from 'electron-store';
 import { contextBridge, ipcRenderer } from 'electron'
 
-import { MyBookmarks, SSHSession } from './bookmarks'
+import { MyBookmarks } from './bookmarks'
+import { SSHSession } from './session';
 import { Tabs } from "./tabs"
 import * as Split from 'split.js'
-import { MyTerminal } from './terminal';
 
 const store = new Store();
 console.log("electron-store path: ", store.path)
-
-
-//Convert simple array of json object in js to Array<SSHSession>
-let bookmarks_json: any = store.get("bookmarks")
-let bookmarks = new Array<SSHSession>();
-
-if(bookmarks_json) {
-	for (let bookmark of bookmarks_json) {
-		bookmarks.push(bookmark)
-	}
-}
-
-
-
-
 
 let tabs = Tabs.getInstance();
 
@@ -34,7 +19,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	console.log("preload - isRenderer? : ", isRenderer)
 
 	//When user double clicks on bookmark, open ssh
-	let open_bookmark_callback = function(session: SSHSession) {
+	let open_bookmark_callback = function (session: SSHSession) {
 		console.log("Openning session: ", session)
 
 		//Tell main to open login window
@@ -50,7 +35,8 @@ window.addEventListener("DOMContentLoaded", () => {
 	}
 
 	let DOM_SessionContainer = document.getElementById("SessionsContainer");
-	let book = new MyBookmarks(bookmarks, DOM_SessionContainer, open_bookmark_callback)
+	MyBookmarks.createInstance(DOM_SessionContainer, open_bookmark_callback);
+	let book = MyBookmarks.getInstance();
 
 	tabs.init()
 	tabs.addShellTerminal();
@@ -80,8 +66,8 @@ ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {
 
 
 //Expose API to renderer script
-contextBridge.exposeInMainWorld(
-	"api", {
+contextBridge.exposeInMainWorld("api",
+	{
 		test() {
 			console.log("test log from contextBridged exposed api")
 		},
