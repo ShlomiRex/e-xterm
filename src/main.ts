@@ -119,11 +119,11 @@ ipcMain.on("OpenNewSession", (ev, args) => {
 		modal: true,
 		webPreferences: {
 			nodeIntegration: true,
-			enableRemoteModule: true
+			enableRemoteModule: true,
+			contextIsolation: true,
+			preload: path.join(__dirname, "./NewSession/preload.js"),
 		}
 	});
 
 	newSessionWindow.loadFile(path.join(__dirname, "../html/new_session.html"));
-
-
 });
