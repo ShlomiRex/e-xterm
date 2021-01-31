@@ -219,9 +219,14 @@
 		}
 
 
-		
-		window.api.saveSession(json)
-		window.api.closeWindow()
+		let myBookmarks = MyBookmarks.getInstance();
+		console.log("Got instance:", myBookmarks)
+		myBookmarks.newBookmark(session)
+		//window.api.saveSession(json)
+
+		var window = remote.getCurrentWindow();
+		window.close();
+		//window.api.closeWindow()
 	}
 </script>
 

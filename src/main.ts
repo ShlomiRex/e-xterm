@@ -1,5 +1,8 @@
 import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import * as path from "path";
+import { SSHSession } from "./session";
+
+import { Tab, Tabs } from './tabs'
 
 //node-pty is not context aware
 app.allowRendererProcessReuse = false
@@ -84,7 +87,7 @@ var isRenderer = require('is-electron-renderer')
 console.log("main - isRenderer? : ", isRenderer)
 
 
-ipcMain.on("OpenLoginWindow", (event, args) => {
+ipcMain.on("OpenLoginWindow", (event, session: SSHSession) => {
 	console.log("Main - got OpenLoginWindow")
 	const loginWindow = new BrowserWindow({
 		width: 300,
@@ -102,7 +105,20 @@ ipcMain.on("OpenLoginWindow", (event, args) => {
 	loginWindow.loadFile(path.join(__dirname, "../html/password_login.html"));
 
 	ipcMain.once("LoginWindowPassword", (event, password: string) => {
-		mainWindow.webContents.send("Password", password)
+		//We have session and password. Start SSH.
+
+		//TODO: Remove this
+		session.remote_host = "127.0.0.1"
+		session.username = "test"
+		session.port = 22
+		password = "test"
+
+
+		mainWindow.webContents.send("StartSSH", session, password)
+
+		//TODO: Don't use this line
+		//let tab: Tab = Tabs.getInstance().addSSHTerminal(session, password)
+		//mainWindow.webContents.send("Password", password)
 	});
 	
 });
@@ -120,7 +136,7 @@ ipcMain.on("OpenNewSession", (ev, args) => {
 		webPreferences: {
 			nodeIntegration: true,
 			enableRemoteModule: true,
-			contextIsolation: true,
+			contextIsolation: false,
 			preload: path.join(__dirname, "./NewSession/preload.js"),
 		}
 	});

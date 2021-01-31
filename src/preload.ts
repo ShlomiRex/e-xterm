@@ -6,7 +6,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 
 import { MyBookmarks } from './bookmarks'
 import { SSHSession } from './session';
-import { Tabs } from "./tabs"
+import { Tabs, Tab } from "./tabs"
 import * as Split from 'split.js'
 
 const store = new Store();
@@ -23,15 +23,18 @@ window.addEventListener("DOMContentLoaded", () => {
 		console.log("Openning session: ", session)
 
 		//Tell main to open login window
-		ipcRenderer.send("OpenLoginWindow")
+		ipcRenderer.send("OpenLoginWindow", session)
 		//When main send back password
-		ipcRenderer.once("Password", (event, password: string) => {
-			console.log("GOT PASSWORD:", password)
+		
+		ipcRenderer.once("StartSSH", (event, session: SSHSession, password: string) => {
 			//TODO: Open SSH
 
-			//let sshTerminal = new MyTerminal(null);
-			//tabs.addTerminal(sshTerminal);
+			console.log("Session:", session)
+			console.log("Password:", password)
+
+			let tab: Tab = Tabs.getInstance().addSSHTerminal(session, password)
 		});
+		
 	}
 
 	let DOM_SessionContainer = document.getElementById("SessionsContainer");

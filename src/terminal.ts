@@ -7,6 +7,7 @@ import * as WebSocket from 'websocket';
 import * as os from 'os';
 
 import * as ssh2 from 'ssh2';
+import { SSHSession } from './session';
 
 
 export class MyTerminal {
@@ -72,7 +73,7 @@ export class MyTerminal {
 		});
 	}
 
-	init_ssh(parent: HTMLElement) {
+	init_ssh(parent: HTMLElement, session: SSHSession, password: string) {
 		//Load addons
 		this.xterm.loadAddon(this.fitAddon);
 
@@ -96,6 +97,10 @@ export class MyTerminal {
 			this.write(data)
 		}
 
+		let port = session.port;
+		let hostname = session.remote_host;
+		let username = session.username;
+
 		conn.on('ready', function () {
 			conn.shell(function (err: Error, stream: ssh2.ClientChannel) {
 				if (err) throw err;
@@ -111,10 +116,10 @@ export class MyTerminal {
 				// stream.end('ls -l\n');
 			});
 		}).connect({
-			host: '127.0.0.1',
-			port: 22,
-			username: 'test',
-			password: "test"
+			host: hostname,
+			port: port,
+			username: username,
+			password: password
 		});
 
 		

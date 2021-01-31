@@ -1,4 +1,5 @@
 import * as ChromeTabs from 'chrome-tabs';
+import { SSHSession } from './session';
 import { MyTerminal } from './terminal'
 
 var chromeTabs = new ChromeTabs();
@@ -40,8 +41,8 @@ class TabContent {
 	 * 
 	 * @param parent Div element with id="terminal_<id>"
 	 */
-	init_ssh(parent: HTMLElement) {
-		this.myTerminal.init_ssh(parent)
+	init_ssh(parent: HTMLElement, session: SSHSession, password: string) {
+		this.myTerminal.init_ssh(parent, session, password)
 	}
 
 	showContent() {
@@ -57,7 +58,7 @@ class TabContent {
 	}
 };
 
-class Tab {
+export class Tab {
 	//Last available ID
 	private static lastId: number = 0
 	readonly id: number = 0
@@ -122,12 +123,12 @@ class Tab {
 		this.tabContent.init_shell(parent)
 	}
 
-	initSSHTerminalUI(parent: HTMLElement) {
+	initSSHTerminalUI(parent: HTMLElement, session: SSHSession, password: string) {
 		//1. Load addons
 		//2. Open div element
 		//3. Write to terminal stuff
 		//4. Fit terminal
-		this.tabContent.init_ssh(parent)
+		this.tabContent.init_ssh(parent, session, password)
 	}
 
 	/**
@@ -190,21 +191,25 @@ export class Tabs {
 	}
 
 	addTextTerminal() {
-		let { tab, DOM_terminal } = this.addTerminal(null, "Text");
+		let { tab, DOM_terminal } = this.addTerminal("Text", null);
 		tab.initTextTerminalUI(DOM_terminal, "Terminal with tab id: " + String(tab.id));	
 	}
 
 	addShellTerminal() {
-		let { tab, DOM_terminal } = this.addTerminal(null, "Terminal");
+		let { tab, DOM_terminal } = this.addTerminal("Terminal", "../resources/terminal.png");
 		tab.initShellTerminalUI(DOM_terminal);	
 	}
 
-	addSSHTerminal() {
-		let { tab, DOM_terminal } = this.addTerminal(null, "SSH");
-		tab.initSSHTerminalUI(DOM_terminal);
+	/**
+	 * Return the tab
+	 */
+	addSSHTerminal(session: SSHSession, password: string): Tab {
+		let { tab, DOM_terminal } = this.addTerminal("SSH", "../resources/ssh.png");
+		tab.initSSHTerminalUI(DOM_terminal, session, password);
+		return tab
 	}
 
-	private addTerminal(terminal: MyTerminal, tabTitle: string) {
+	private addTerminal(tabTitle: string, favicon: string) {
 		let parent = document.getElementById("tabs-content");
 
 		//Create content container
@@ -214,12 +219,11 @@ export class Tabs {
 		console.debug(tabContent);
 		parent.appendChild(tabContent)
 
-		
 
-		
 		let tab = new Tab(tabContent)
 		tabContent.id = "content_" + tab.id
 		tab.title = tabTitle
+		tab.favicon = favicon
 
 		//Add to array
 		this.tabs.push(tab)
