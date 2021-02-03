@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import * as path from "path";
+import { MyBookmarks } from "./bookmarks";
 import { SSHSession } from "./session";
 
 import { Tab, Tabs } from './tabs'
@@ -106,19 +107,7 @@ ipcMain.on("OpenLoginWindow", (event, session: SSHSession) => {
 
 	ipcMain.once("LoginWindowPassword", (event, password: string) => {
 		//We have session and password. Start SSH.
-
-		//TODO: Remove this
-		session.remote_host = "127.0.0.1"
-		session.username = "test"
-		session.port = 22
-		password = "test"
-
-
 		mainWindow.webContents.send("StartSSH", session, password)
-
-		//TODO: Don't use this line
-		//let tab: Tab = Tabs.getInstance().addSSHTerminal(session, password)
-		//mainWindow.webContents.send("Password", password)
 	});
 	
 });
@@ -136,10 +125,13 @@ ipcMain.on("OpenNewSession", (ev, args) => {
 		webPreferences: {
 			nodeIntegration: true,
 			enableRemoteModule: true,
-			contextIsolation: false,
-			preload: path.join(__dirname, "./NewSession/preload.js"),
+			contextIsolation: false
 		}
 	});
 
 	newSessionWindow.loadFile(path.join(__dirname, "../html/new_session.html"));
 });
+
+ipcMain.on("NewBookmark", (ev, json: SSHSession) => {
+	MyBookmarks.newBookmark(json)
+})

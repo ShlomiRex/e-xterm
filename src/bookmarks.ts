@@ -130,15 +130,17 @@ export class MyBookmarks {
 		this.uiParent.appendChild(bookmark_item);
 	}
 
-	newBookmark(session: SSHSession) {
-		console.log("New bookmark: ", session)
+	/**
+	 * Store inside electron configuration file the session
+	 * @param session A Json object
+	 */
+	static newBookmark(session: SSHSession) {
 		let bookmarks: Array<SSHSession> = undefined;
 		if (store.has("bookmarks")) {
 			bookmarks = store.get("bookmarks") as Array<SSHSession>;
 		} else {
 			bookmarks = new Array<SSHSession>();
 		}
-
 		bookmarks.push(session)
 		store.set("bookmarks", bookmarks)
 	}

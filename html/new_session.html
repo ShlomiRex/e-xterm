@@ -193,7 +193,7 @@
 	});
 
 	function cancel() {
-		window.api.closeWindow()
+		window.close()
 	}
 
 	function submitForm() {
@@ -218,15 +218,11 @@
 			json["session_description"] = document.getElementById("session_description").value;
 		}
 
+		//Save bookmark
+		const { ipcRenderer } = require('electron')
+		ipcRenderer.send("NewBookmark", json)
 
-		let myBookmarks = MyBookmarks.getInstance();
-		console.log("Got instance:", myBookmarks)
-		myBookmarks.newBookmark(session)
-		//window.api.saveSession(json)
-
-		var window = remote.getCurrentWindow();
-		window.close();
-		//window.api.closeWindow()
+		window.close()
 	}
 </script>
 
