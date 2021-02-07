@@ -85,7 +85,7 @@ export class MyBookmarks {
 		console.log("Loading session: " + name + " protocol: " + protocol);
 
 		var bookmark_item = document.createElement("a");
-		bookmark_item.className = "list-group-item list-group-item-action d-flex justify-content-between align-items-center";
+		bookmark_item.className = "bookmarks-item list-group-item list-group-item-action d-flex justify-content-between align-items-center";
 		bookmark_item.setAttribute("data-bs-toggle", "list");
 		bookmark_item.setAttribute("role", "tab");
 		bookmark_item.setAttribute("aria-controls", name); //Accessability for screen readers
@@ -135,7 +135,7 @@ export class MyBookmarks {
 			console.log("Clicked on settings: ", ev)
 			console.log(gear_image)
 		};
-		let gear : HTMLElement = createElementFromHTML("<a style=\"margin-right: 8px;\";';></a>")
+		let gear : HTMLElement = createElementFromHTML("<a class='hide' style=\"margin-right: 8px;\";';></a>")
 		gear.appendChild(gear_image);
 
 		var badge = document.createElement("span");
