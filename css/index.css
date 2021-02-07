@@ -34,3 +34,11 @@ body {
 .gutter.gutter-horizontal {
     cursor: ew-resize;
 }
+
+.settings-icon {
+
+}
+
+.settings-icon:hover {
+	filter: drop-shadow(0px 0px 10px black);
+}

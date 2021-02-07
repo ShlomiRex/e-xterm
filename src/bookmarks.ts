@@ -90,6 +90,16 @@ export class MyBookmarks {
 		bookmark_item.setAttribute("role", "tab");
 		bookmark_item.setAttribute("aria-controls", name); //Accessability for screen readers
 		bookmark_item.innerText = name;
+
+
+		function createElementFromHTML(htmlString: string) : HTMLElement {
+			var div: any = document.createElement('div');
+			div.innerHTML = htmlString.trim();
+
+			// Change this to div.childNodes to support multiple top-level nodes
+			return div.firstChild;
+		}
+
 		//This makes cursor look like clicking
 		bookmark_item.setAttribute("href", "");
 
@@ -120,12 +130,25 @@ export class MyBookmarks {
 
 		});
 
+		let gear_image : HTMLElement = createElementFromHTML("<img class='settings-icon' src='../resources/gear.svg' width='28' height='28' alt='Settings'>");
+		gear_image.onclick = (ev: MouseEvent) => {
+			console.log("Clicked on settings: ", ev)
+			console.log(gear_image)
+		};
+		let gear : HTMLElement = createElementFromHTML("<a style=\"margin-right: 8px;\";';></a>")
+		gear.appendChild(gear_image);
+
 		var badge = document.createElement("span");
 		badge.className = "badge rounded-pill";
 		badge.innerText = protocol;
 		badge.setAttribute("style", "background-color:black; color: white;");
 
-		bookmark_item.appendChild(badge);
+		let right_div : HTMLElement = document.createElement("div");
+
+		right_div.appendChild(gear);
+		right_div.appendChild(badge);
+
+		bookmark_item.appendChild(right_div);
 
 		this.uiParent.appendChild(bookmark_item);
 	}
