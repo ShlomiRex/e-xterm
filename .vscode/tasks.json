@@ -12,6 +12,13 @@
 				"kind": "build",
 				"isDefault": true
 			}
+		},
+		{
+			"type": "npm",
+			"script": "start",
+			"problemMatcher": [],
+			"label": "npm: start",
+			"detail": "npm run build && electron ./dist/main.js"
 		}
 	]
 }
