@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="../third-party/bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
+	<script src="../third-party/bootstrap-5.0.0-beta1-dist/js/bootstrap.min.js"></script>
+	<title>
+		Bookmark Settings
+	</title>
+</head>
+
+<body class="container">
+	<div id="content" style="margin-top: 10px;">
+		<div id="hidden_content_SSH">
+			<form id="form" onsubmit="submitForm()">
+				<div class="accordion">
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+								data-bs-target="#BasicSettings" aria-expanded="true">
+								Basic Settings
+							</button>
+						</h2>
+						<div id="BasicSettings" class="accordion-collapse collapse show"
+							data-bs-parent="#BasicSettings">
+							<div class="accordion-body">
+								<div class="list-group" id="list-tab" role="tablist">
+									<div class="row">
+										<div class="col">
+											<label for="remote_host" class="form-label">
+												<span style="color: red;">*</span>
+												Remote host:
+											</label>
+										</div>
+										<div class="col">
+											<input type="text" class="form-control" id="remote_host"
+												title="Host name or IP address" placeholder="Example: pi@raspberrypi"
+												required>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<label for="username" class="form-label">
+												Username:
+											</label>
+										</div>
+										<div class="col">
+											<input type="text" class="form-control" id="username"
+												title="Username to use" placeholder="Example: root">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<label for="port" class="form-label">
+												<span style="color: red;">*</span>
+												Port:
+											</label>
+										</div>
+										<div class="col">
+											<input type="number" class="form-control" id="port" title="Port to use"
+												value="22" required>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="accordion">
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+								data-bs-target="#AdvancedSettings" aria-expanded="true">
+								Advanced SSH Settings
+							</button>
+						</h2>
+						<div id="AdvancedSettings" class="accordion-collapse collapse show"
+							data-bs-parent="#AdvancedSettings">
+							<div class="accordion-body">
+								<div class="list-group" id="list-tab" role="tablist">
+									<div class="row">
+										<div class="col"
+											title="X11-Forwarding allows executing a program remotly through SSH and the GUI will run locally">
+											<input class="form-check-input" type="checkbox" value="" id="x11_forwarding"
+												checked />
+											<label class="form-check-label" for="x11_forwarding">
+												X11-Forwarding
+											</label>
+										</div>
+										<div class="col"
+											title="Compression is useful when the connection speed is slow">
+											<input class="form-check-input" type="checkbox" value="" id="compression"
+												checked />
+											<label class="form-check-label" for="compression">
+												Compression
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="accordion">
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+								data-bs-target="#BookmarkSettings" aria-expanded="true">
+								Bookmark Settings
+							</button>
+						</h2>
+						<div id="BookmarkSettings" class="accordion-collapse collapse show"
+							data-bs-parent="#BookmarkSettings">
+							<div class="accordion-body">
+								<div class="list-group" id="list-tab" role="tablist">
+									<div class="row">
+										<div class="col">
+											<label for="session_name" class="form-label">
+												Session name:
+											</label>
+										</div>
+										<div class="col">
+											<input type="text" class="form-control" id="session_name"
+												title="Give meaningful name" placeholder="Example: Ubuntu 20.04 VM">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<label for="session_description" class="form-label">
+												Session description:
+											</label>
+										</div>
+										<div class="col">
+											<textarea class="form-control" id="session_description" rows="3"
+												title="Something to describe this session"
+												placeholder="Description..."></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<br>
+				<div>
+					<button type="submit" class="btn btn-primary">Apply</button>
+					<a id="cancel" name="cancel" class="btn btn-outline-danger" onclick="cancel()">Cancel</a>
+					
+					<button class="btn btn-danger" style="position: relative;float: right;" title="Delete this bookmark">Delete</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</body>
+
+<script>
+
+	function cancel() {
+		window.close()
+	}
+
+	function submitForm() {
+		console.log("Submit form")
+
+		const form = document.getElementById("form")
+		console.dir(form);
+
+		var json = {
+			"protocol": selected
+		}
+
+		if (selected == "SSH") {
+			json["remote_host"] = document.getElementById("remote_host").value;
+			json["username"] = document.getElementById("username").value;
+			json["port"] = document.getElementById("port").value;
+
+			json["x11_forwarding"] = document.getElementById("x11_forwarding").checked;
+			json["compression"] = document.getElementById("compression").checked;
+
+			json["session_name"] = document.getElementById("session_name").value;
+			json["session_description"] = document.getElementById("session_description").value;
+		}
+
+		//Save bookmark
+		const { ipcRenderer } = require('electron')
+		ipcRenderer.send("NewBookmark", json)
+
+		window.close()
+	}
+</script>
+
+</html>

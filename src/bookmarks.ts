@@ -1,5 +1,6 @@
 import { SSHSession } from './session'
 import * as Store from 'electron-store';
+import { ipcRenderer } from 'electron';
 
 let store: Store = new Store();
 
@@ -101,7 +102,7 @@ export class MyBookmarks {
 		}
 
 		//This makes cursor look like clicking
-		bookmark_item.setAttribute("href", "");
+		//bookmark_item.setAttribute("href", "");
 
 		let bookmark_id = session.session_id
 		bookmark_item.setAttribute("data-bookmark-id", "" + bookmark_id)
@@ -110,33 +111,39 @@ export class MyBookmarks {
 			//TODO: Choose something to do
 		});
 
-		bookmark_item.addEventListener("dblclick", (mouseEvent) => {
-			let myMouseEvent: any = mouseEvent
-
+		function getBookmarkIdFromMouseEvent(ev: any) {
 			//Traverse path and find the bookmarkId
 			//User can click on the pill element / not directly on the text. So we traverse path
-			for (var path of myMouseEvent.path) {
+			let bid = undefined;
+			for (var path of ev.path) {
 				if (path.hasAttribute("data-bookmark-id")) {
-					let bid = parseInt(path.getAttribute("data-bookmark-id"))
-					console.log("Double click on bookmarkId: ", bid)
-
-					let session = this.sessions[bid]
-					this.callback(session)
-
+					bid = parseInt(path.getAttribute("data-bookmark-id"))
 					break
 				}
 			}
+			return bid
+		}
 
-
+		bookmark_item.addEventListener("dblclick", (ev: MouseEvent) => {
+			let bid = getBookmarkIdFromMouseEvent(ev)
+			console.log("Double click on bookmarkId: ", bid)
+			let session = this.sessions[bid]
+			this.callback(session)
 		});
 
-		let gear_image : HTMLElement = createElementFromHTML("<img class='settings-icon' src='../resources/gear.svg' width='28' height='28' alt='Settings'>");
+		let gear_image : HTMLElement = createElementFromHTML("<img class='hide settings-icon' src='../resources/gear.svg' alt='Settings'>");
 		gear_image.onclick = (ev: MouseEvent) => {
-			console.log("Clicked on settings: ", ev)
-			console.log(gear_image)
+			let bookmarkId : number = getBookmarkIdFromMouseEvent(ev);
+			if(bookmarkId != null) {
+				let sshSession : SSHSession = this.sessions[bookmarkId];
+				console.log("Clicked on settings for bookmarkId: ", bookmarkId)
+				ipcRenderer.send("OpenBookmarkSettings", bookmarkId, sshSession)
+			} else {
+				console.error("Could not find bookmarkId")
+			}
+			
+
 		};
-		let gear : HTMLElement = createElementFromHTML("<a class='hide' style=\"margin-right: 8px;\";';></a>")
-		gear.appendChild(gear_image);
 
 		var badge = document.createElement("span");
 		badge.className = "badge rounded-pill";
@@ -145,7 +152,7 @@ export class MyBookmarks {
 
 		let right_div : HTMLElement = document.createElement("div");
 
-		right_div.appendChild(gear);
+		right_div.appendChild(gear_image);
 		right_div.appendChild(badge);
 
 		bookmark_item.appendChild(right_div);

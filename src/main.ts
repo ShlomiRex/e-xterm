@@ -117,7 +117,7 @@ ipcMain.on("OpenNewSession", (ev, args) => {
 
 	const newSessionWindow = new BrowserWindow({
 		width: 800,
-		height: 600,
+		height: 700,
 		show: true,
 		autoHideMenuBar: true,
 		parent: mainWindow,
@@ -135,3 +135,23 @@ ipcMain.on("OpenNewSession", (ev, args) => {
 ipcMain.on("NewBookmark", (ev, json: SSHSession) => {
 	MyBookmarks.newBookmark(json)
 })
+
+ipcMain.on("OpenBookmarkSettings", (ev, bookmarkId: number, sshSession: SSHSession) => {
+	console.log("Opening bookmark " + bookmarkId + "settings...")
+
+	const bookmarkSettings = new BrowserWindow({
+		width: 800,
+		height: 700,
+		show: true,
+		autoHideMenuBar: true,
+		parent: mainWindow,
+		modal: true,
+		webPreferences: {
+			nodeIntegration: true,
+			enableRemoteModule: true,
+			contextIsolation: false
+		}
+	});
+
+	bookmarkSettings.loadFile(path.join(__dirname, "../html/bookmark_settings.html"));
+});
