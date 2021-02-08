@@ -30,7 +30,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			//TODO: Open SSH
 
 			console.log("Session:", session)
-			console.log("Password:", password)
+			console.log("Password length:", password.length)
 
 			let tab: Tab = Tabs.getInstance().addSSHTerminal(session, password)
 		});
