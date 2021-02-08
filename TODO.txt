@@ -4,12 +4,13 @@ High Priority:
 * Learn how other programs, like Hyper or other pgorams that use xterm.js are saving / using SSH sessions.
     Link for programs that use xterm.js: https://github.com/xtermjs/xterm.js/
 * Make "New Session" window create session in config file
+* When creating new session and clicking submit, refresh bookmarks!
 
 
 Medium Priority:
 * When double clicking the window, it resizes to full screen. Tell terminal to fit.
 * In macOS , creating new seesion window - it's frameless. No close or minimize buttons. Investigate (on windows - yes)
-* When user finished creating session, reload the renderer? to show the added bookmark
+* When pressing ENTER on keyboard in the Password login page, it's like submit. Make it like submit
 
 
 Low Priority:
@@ -17,6 +18,7 @@ Low Priority:
 * Add support for Dark Mode (like in macOS) (For now it's light force)
 * Change default app menus (top menu - file, help..)
 * When SSH login fail or any other error, remove added tab and alert to user
+* Edit settings of bookmark (actually write to json.)
 
 
 Materials:
