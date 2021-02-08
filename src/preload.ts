@@ -27,12 +27,14 @@ window.addEventListener("DOMContentLoaded", () => {
 		//When main send back password
 		
 		ipcRenderer.once("StartSSH", (event, session: SSHSession, password: string) => {
-			//TODO: Open SSH
-
 			console.log("Session:", session)
 			console.log("Password length:", password.length)
 
-			let tab: Tab = Tabs.getInstance().addSSHTerminal(session, password)
+			let title = session.session_name;
+			if(! title) {
+				title = session.username + "@" + session.remote_host
+			}
+			let tab: Tab = Tabs.getInstance().addSSHTerminal(session, password, title)
 		});
 		
 	}

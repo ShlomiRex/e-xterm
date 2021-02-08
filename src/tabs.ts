@@ -203,8 +203,8 @@ export class Tabs {
 	/**
 	 * Return the tab
 	 */
-	addSSHTerminal(session: SSHSession, password: string): Tab {
-		let { tab, DOM_terminal } = this.addTerminal("SSH", "../resources/ssh.png");
+	addSSHTerminal(session: SSHSession, password: string, title: string = "SSH"): Tab {
+		let { tab, DOM_terminal } = this.addTerminal(title, "../resources/ssh.png");
 		tab.initSSHTerminalUI(DOM_terminal, session, password);
 		return tab
 	}
