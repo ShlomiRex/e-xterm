@@ -112,7 +112,7 @@ ipcMain.on("OpenLoginWindow", (event, session: SSHSession) => {
 	
 });
 
-ipcMain.on("OpenNewSession", (ev, args) => {
+ipcMain.on("OpenNewSession", () => {
 	console.log("Opening new session window")
 
 	const newSessionWindow = new BrowserWindow({
@@ -130,6 +130,11 @@ ipcMain.on("OpenNewSession", (ev, args) => {
 	});
 
 	newSessionWindow.loadFile(path.join(__dirname, "../html/new_session.html"));
+
+	newSessionWindow.on("close", (ev: any) => {
+		console.log("New session window closed:", ev);
+		console.log((newSessionWindow as any).returnStuff)
+	});
 });
 
 ipcMain.on("NewBookmark", (ev, json: SSHSession) => {
@@ -137,12 +142,12 @@ ipcMain.on("NewBookmark", (ev, json: SSHSession) => {
 })
 
 ipcMain.on("OpenBookmarkSettings", (ev, bookmarkId: number, sshSession: SSHSession) => {
-	console.log("Opening bookmark " + bookmarkId + "settings...")
+	console.log("Opening bookmark " + bookmarkId + " settings...")
 
 	const bookmarkSettings = new BrowserWindow({
 		width: 800,
 		height: 700,
-		show: true,
+		show: false,
 		autoHideMenuBar: true,
 		parent: mainWindow,
 		modal: true,
@@ -154,4 +159,16 @@ ipcMain.on("OpenBookmarkSettings", (ev, bookmarkId: number, sshSession: SSHSessi
 	});
 
 	bookmarkSettings.loadFile(path.join(__dirname, "../html/bookmark_settings.html"));
+
+	bookmarkSettings.webContents.once("did-finish-load", () => {
+		bookmarkSettings.webContents.send("get-args", bookmarkId, sshSession);
+	});
+
+	bookmarkSettings.once("ready-to-show", () => {
+		bookmarkSettings.show();
+	});
+});
+
+ipcMain.on("DeleteBookmark", (ev, bookmarkId: number) => {
+	console.log("Deleting bookmark: ", bookmarkId)
 });
