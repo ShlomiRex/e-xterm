@@ -25,7 +25,7 @@ console.log("main - isRenderer? : ", isRenderer)
 
 
 
-function createWindow() {
+function createMainWindow() {
 	// Create the browser window.
 	mainWindow = new BrowserWindow({
 		width: 1600,
@@ -66,12 +66,12 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
-	createWindow();
+	createMainWindow();
 
 	app.on("activate", function () {
 		// On macOS it's common to re-create a window in the app when the
 		// dock icon is clicked and there are no other windows open.
-		if (BrowserWindow.getAllWindows().length === 0) createWindow();
+		if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
 	});
 });
 
@@ -114,7 +114,7 @@ ipcMain.on("OpenLoginWindow", (event, session: SSHSession) => {
 
 });
 
-ipcMain.on("OpenNewSession", () => {
+ipcMain.on("OpenNewSessionWindow", () => {
 	console.log("Opening new session window")
 
 	const newSessionWindow = new BrowserWindow({

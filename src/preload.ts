@@ -78,7 +78,7 @@ contextBridge.exposeInMainWorld("api",
 		},
 
 		clickedOnNewSession() {
-			ipcRenderer.send("OpenNewSession")
+			ipcRenderer.send("OpenNewSessionWindow")
 		}
 	}
 );
