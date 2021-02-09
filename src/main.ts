@@ -23,7 +23,14 @@ let mainWindow: BrowserWindow = undefined
 Store.initRenderer();
 console.log("main - isRenderer? : ", isRenderer)
 
+let uiPopulateCallback = (sshSession: SSHSession) => {
+	console.log("Populate callback called")
+};
 
+let uiDeleteCallback = (sshSession: SSHSession) => {
+	console.log("Delete callback called")
+};
+MyBookmarks.createInstance(uiPopulateCallback, uiDeleteCallback);
 
 function createMainWindow() {
 	// Create the browser window.
@@ -167,7 +174,7 @@ ipcMain.on("OpenBookmarkSettings", (ev, bookmarkId: number, sshSession: SSHSessi
 	});
 
 	ipcMain.once("NewBookmark", (ev, json: SSHSession) => {
-		MyBookmarks.newBookmark(json)
+		MyBookmarks.getInstance().newBookmark(json)
 	})
 
 	ipcMain.once("DeleteBookmark", (ev, bookmarkId: number) => {

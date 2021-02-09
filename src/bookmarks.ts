@@ -1,43 +1,42 @@
 import { SSHSession } from './session'
 import * as Store from 'electron-store';
-import { ipcRenderer, session } from 'electron';
 
 let store: Store = new Store();
 
 
 export class MyBookmarks {
 	private sessions: Array<SSHSession>
-	private uiParent: HTMLElement
-
-	private callback: any
-
 	private static instance: MyBookmarks
 
+	private uiPopulateCallback: any;
+	private uiDeleteCallback: any;
+
+	//Accumulator
+	private id: number = 0;
+		
 	/**
 	 * 
 	 * @param sessions The sessions to populate
-	 * @param uiParent The UI to populate bookmarks
-	 * @param callback Callback to call when user opens bookmark
+	 * @param uiPopulateCallback Callback to UI to add and update bookmarks ui
+	 * @param uiDeleteCallback Callback to UI to delete and update bookmarks ui
 	 */
-	private constructor(sessions: Array<SSHSession>, uiParent: HTMLElement, callback: any) {
+	private constructor(sessions: Array<SSHSession>, uiPopulateCallback: any, uiDeleteCallback: any) {
 		this.sessions = sessions;
-		this.uiParent = uiParent;
-		this.callback = callback;
+		this.uiPopulateCallback = uiPopulateCallback;
+		this.uiDeleteCallback = uiDeleteCallback;
 
-		let id = 0
 		for (var session of sessions) {
-			session.session_id = id++
-			this.populate(session);
+			session.session_id = this.id++
+			//this.populate(session);
 		}
 	}
 
-	static createInstance(uiParent: HTMLElement, callback: any) {
+	static createInstance(uiPopulateCallback: any, uiDeleteCallback: any) {
 		if (!MyBookmarks.instance) {
 			//no instance, create
 
 			//Convert simple array of json object in js to Array<SSHSession>
 			let bookmarks_json: any = store.get("bookmarks")
-			console.log("Loading sessions:", bookmarks_json)
 			let bookmarks = new Array<SSHSession>();
 
 			if (bookmarks_json) {
@@ -46,7 +45,7 @@ export class MyBookmarks {
 				}
 			}
 
-			MyBookmarks.instance = new MyBookmarks(bookmarks, uiParent, callback);
+			MyBookmarks.instance = new MyBookmarks(bookmarks, uiPopulateCallback, uiDeleteCallback);
 		}
 	}
 
@@ -56,115 +55,10 @@ export class MyBookmarks {
 	}
 
 	/**
-	 * Add bookmarks to ui
-	 * @param session Session to populate
+	 * Add new bookmark
+	 * @param session 
 	 */
-	populate(session: SSHSession) {
-		/*
-			Example to create:
-			<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-				id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab"
-				aria-controls="home">
-				root@10.0.0.9
-				<span class="badge rounded-pill"
-					style="background-color:black; color: white;">SSH</span>
-			</a>
-		*/
-
-
-		var name = session.session_name;
-		//If user did not give session name, use the hostname instead
-		if (!name) {
-			if (session.username) {
-				name = session.username + "@" + session.remote_host;
-			} else {
-				name = session.remote_host;
-			}
-		}
-
-		var protocol = session.protocol;
-		console.log("Loading session: " + name + " protocol: " + protocol);
-
-		var bookmark_item = document.createElement("a");
-		bookmark_item.className = "bookmarks-item list-group-item list-group-item-action d-flex justify-content-between align-items-center";
-		bookmark_item.setAttribute("data-bs-toggle", "list");
-		bookmark_item.setAttribute("role", "tab");
-		bookmark_item.setAttribute("aria-controls", name); //Accessability for screen readers
-		bookmark_item.innerText = name;
-
-
-		function createElementFromHTML(htmlString: string) : HTMLElement {
-			var div: any = document.createElement('div');
-			div.innerHTML = htmlString.trim();
-
-			// Change this to div.childNodes to support multiple top-level nodes
-			return div.firstChild;
-		}
-
-		//This makes cursor look like clicking
-		//bookmark_item.setAttribute("href", "");
-
-		let bookmark_id = session.session_id
-		bookmark_item.setAttribute("data-bookmark-id", "" + bookmark_id)
-
-		bookmark_item.addEventListener("click", () => {
-			//TODO: Choose something to do
-		});
-
-		function getBookmarkIdFromMouseEvent(ev: any) {
-			//Traverse path and find the bookmarkId
-			//User can click on the pill element / not directly on the text. So we traverse path
-			let bid = undefined;
-			for (var path of ev.path) {
-				if (path.hasAttribute("data-bookmark-id")) {
-					bid = parseInt(path.getAttribute("data-bookmark-id"))
-					break
-				}
-			}
-			return bid
-		}
-
-		bookmark_item.addEventListener("dblclick", (ev: MouseEvent) => {
-			let bid = getBookmarkIdFromMouseEvent(ev)
-			console.log("Double click on bookmarkId: ", bid)
-			let session = this.sessions[bid]
-			this.callback(session)
-		});
-
-		let gear_image : HTMLElement = createElementFromHTML("<img class='hide settings-icon' src='../resources/gear.svg' alt='Settings'>");
-		gear_image.onclick = (ev: MouseEvent) => {
-			let bookmarkId : number = getBookmarkIdFromMouseEvent(ev);
-			if(bookmarkId != null) {
-				let sshSession : SSHSession = this.sessions[bookmarkId];
-				console.log("Clicked on settings for bookmarkId: ", bookmarkId)
-				ipcRenderer.send("OpenBookmarkSettings", bookmarkId, sshSession)
-			} else {
-				console.error("Could not find bookmarkId")
-			}
-			
-
-		};
-
-		var badge = document.createElement("span");
-		badge.className = "badge rounded-pill";
-		badge.innerText = protocol;
-		badge.setAttribute("style", "background-color:black; color: white;");
-
-		let right_div : HTMLElement = document.createElement("div");
-
-		right_div.appendChild(gear_image);
-		right_div.appendChild(badge);
-
-		bookmark_item.appendChild(right_div);
-
-		this.uiParent.appendChild(bookmark_item);
-	}
-
-	/**
-	 * Store inside electron configuration file the session
-	 * @param session A Json object
-	 */
-	static newBookmark(session: SSHSession) {
+	newBookmark(session: SSHSession) {
 		let bookmarks: Array<SSHSession> = undefined;
 		if (store.has("bookmarks")) {
 			bookmarks = store.get("bookmarks") as Array<SSHSession>;
@@ -173,6 +67,10 @@ export class MyBookmarks {
 		}
 		bookmarks.push(session)
 		store.set("bookmarks", bookmarks)
+
+		session.session_id = this.id ++;
+		//TODO: Call renderer process and tell him to populate bookmark!
+		this.uiPopulateCallback(session)
 	}
 
 	/**
@@ -186,6 +84,10 @@ export class MyBookmarks {
 			this.sessions.forEach((sshSession: SSHSession) => {
 				if(sshSession.session_id == bookmarkId) {
 					console.log("Found session id: ", sshSession.session_id)
+					console.log("Going to delete the session:", sshSession)
+
+					//TODO: Call renderer process and tell him to remove bookmark!
+					this.uiDeleteCallback(sshSession);
 				}
 			});
 		}
