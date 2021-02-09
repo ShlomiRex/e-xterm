@@ -81,15 +81,28 @@ export class MyBookmarks {
 		let bookmarks: Array<SSHSession> = undefined;
 		if (store.has("bookmarks")) {
 			bookmarks = store.get("bookmarks") as Array<SSHSession>;
+			let a = bookmarks[bookmarkId];
+			console.log("The json in index bookmarkId is:",a)
+
+			bookmarks.splice(bookmarkId, 1);
+
+			store.set("bookmarks", bookmarks);
+
+			this.uiDeleteCallback();
+
+			/*
 			this.sessions.forEach((sshSession: SSHSession) => {
 				if(sshSession.id == bookmarkId) {
 					console.log("Found session id: ", sshSession.id)
 					console.log("Going to delete the session:", sshSession)
 
+
+
 					//TODO: Call renderer process and tell him to remove bookmark!
 					this.uiDeleteCallback(sshSession);
 				}
 			});
+			*/
 		}
 	}
 

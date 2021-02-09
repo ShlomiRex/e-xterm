@@ -190,9 +190,7 @@ ipcMain.on("OpenBookmarkSettings", (ev, bookmarkId: number) => {
 
 	ipcMain.once("DeleteBookmark", (ev, bookmarkId: number) => {
 		console.log("Deleting bookmark: ", bookmarkId)
-	
-		console.log("Instance:", MyBookmarks.getInstance())
-	
+		MyBookmarks.getInstance().deleteBookmark(bookmarkId);
 	});
 
 });

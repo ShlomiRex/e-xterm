@@ -84,10 +84,7 @@ class BookmarksUI {
 		bookmark_item.addEventListener("dblclick", (ev: MouseEvent) => {
 			let bid = getBookmarkIdFromMouseEvent(ev)
 			console.log("Double click on bookmarkId: ", bid)
-			//TODO: Impliment
 			ipcRenderer.send("OpenLoginWindow", bid);
-			//let session = this.sessions[bid]
-			//this.callback(session)
 		});
 
 		let gear_image: HTMLElement = createElementFromHTML("<img class='hide settings-icon' src='../resources/gear.svg' alt='Settings'>");
