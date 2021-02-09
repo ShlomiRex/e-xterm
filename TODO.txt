@@ -4,6 +4,7 @@ High Priority:
 * Learn how other programs, like Hyper or other pgorams that use xterm.js are saving / using SSH sessions.
     Link for programs that use xterm.js: https://github.com/xtermjs/xterm.js/
 * When creating new session and clicking submit, refresh bookmarks!
+* Instead of using incremented id and keep track of bookmarks, use UUID which is unique
 
 
 Medium Priority:
