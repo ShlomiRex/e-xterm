@@ -1,5 +1,8 @@
 export interface SSHSession {
-	session_id?: number
+	// Internal ID, used for keeping track of bookmarks
+	id?: number 
+
+	//Everything else is settings
 	protocol: string,
 	remote_host: string,
 	username: string,

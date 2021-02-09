@@ -65,7 +65,7 @@ class BookmarksUI {
 		//This makes cursor look like clicking
 		//bookmark_item.setAttribute("href", "");
 
-		let bookmark_id = session.session_id
+		let bookmark_id = session.id;
 		bookmark_item.setAttribute("data-bookmark-id", "" + bookmark_id)
 
 		bookmark_item.addEventListener("click", () => {

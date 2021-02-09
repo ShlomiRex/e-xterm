@@ -27,7 +27,7 @@ export class MyBookmarks {
 		this.uiDeleteCallback = uiDeleteCallback;
 
 		for (var session of sessions) {
-			session.session_id = this.id++
+			session.id = this.id++
 			//this.populate(session);
 		}
 	}
@@ -68,7 +68,7 @@ export class MyBookmarks {
 		bookmarks.push(session)
 		store.set("bookmarks", bookmarks)
 
-		session.session_id = this.id ++;
+		session.id = this.id ++;
 		//TODO: Call renderer process and tell him to populate bookmark!
 		this.uiPopulateCallback(session)
 	}
@@ -82,8 +82,8 @@ export class MyBookmarks {
 		if (store.has("bookmarks")) {
 			bookmarks = store.get("bookmarks") as Array<SSHSession>;
 			this.sessions.forEach((sshSession: SSHSession) => {
-				if(sshSession.session_id == bookmarkId) {
-					console.log("Found session id: ", sshSession.session_id)
+				if(sshSession.id == bookmarkId) {
+					console.log("Found session id: ", sshSession.id)
 					console.log("Going to delete the session:", sshSession)
 
 					//TODO: Call renderer process and tell him to remove bookmark!
