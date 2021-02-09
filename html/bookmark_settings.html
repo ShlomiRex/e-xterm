@@ -228,9 +228,8 @@
 		}
 
 		if (selected == "SSH") {
-			json["remote_host"] = document.getElementById("remote_host").value;
-			json["username"] = document.getElementById("username").value;
-			json["port"] = document.getElementById("port").value;
+			json["remote_host"] = e_remote_host.value;
+			json["username"] = e_username.value;
 			json["port"] = e_port.value;
 
 			json["x11_forwarding"] = e_x11_forwarding.checked;
