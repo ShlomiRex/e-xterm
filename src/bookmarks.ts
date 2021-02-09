@@ -1,5 +1,6 @@
 import { SSHSession } from './session'
 import * as Store from 'electron-store';
+import { session } from 'electron';
 
 let store: Store = new Store();
 
@@ -90,6 +91,10 @@ export class MyBookmarks {
 				}
 			});
 		}
+	}
+
+	getSessions() : Array<SSHSession> {
+		return this.sessions;
 	}
 
 };

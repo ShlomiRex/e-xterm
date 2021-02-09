@@ -70,20 +70,3 @@ ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {
 
 	tabs.fit_terminal()
 });
-
-
-//Expose API to renderer script
-/*
-contextBridge.exposeInMainWorld("api",
-	{
-		test() {
-			console.log("test log from contextBridged exposed api")
-		},
-
-		clickedOnNewSession() {
-			ipcRenderer.send("OpenNewSessionWindow")
-		}
-	}
-);
-
-*/

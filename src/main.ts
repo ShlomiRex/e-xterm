@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog } from "electron";
+import { app, BrowserWindow, ipcMain, dialog, session } from "electron";
 import * as path from "path";
 import { MyBookmarks } from "./bookmarks";
 import { SSHSession } from "./session";
@@ -50,6 +50,13 @@ function createMainWindow() {
 	// Open the DevTools.
 	//mainWindow.webContents.openDevTools();
 
+	const sessions: Array<SSHSession> = MyBookmarks.getInstance().getSessions();
+
+	mainWindow.webContents.once("dom-ready", () => {
+		for(let s of sessions) {
+			mainWindow.webContents.send("PopulateBookmark", s)
+		}
+	});
 
 	mainWindow.once('ready-to-show', () => {
 		mainWindow.show()
@@ -139,8 +146,7 @@ ipcMain.on("OpenNewSessionWindow", () => {
 	newSessionWindow.loadFile(path.join(__dirname, "../html/new_session.html"));
 
 	newSessionWindow.on("close", (ev: any) => {
-		console.log("New session window closed:", ev);
-		console.log((newSessionWindow as any).returnStuff)
+		console.log("New session window closed");
 	});
 });
 
