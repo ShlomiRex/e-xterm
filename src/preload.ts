@@ -18,26 +18,19 @@ window.addEventListener("DOMContentLoaded", () => {
 	var isRenderer = require('is-electron-renderer')
 	console.log("preload - isRenderer? : ", isRenderer)
 
-	//When user double clicks on bookmark, open ssh
-	let open_bookmark_callback = function (session: SSHSession) {
-		console.log("Openning session: ", session)
+	ipcRenderer.once("StartSSH", (event, session: SSHSession, password: string) => {
+		console.log("Session:", session)
+		console.log("Password length:", password.length)
 
-		//Tell main to open login window
-		ipcRenderer.send("OpenLoginWindow", session)
-		//When main send back password
-		
-		ipcRenderer.once("StartSSH", (event, session: SSHSession, password: string) => {
-			console.log("Session:", session)
-			console.log("Password length:", password.length)
+		let title = session.session_name;
+		if(! title) {
+			title = session.username + "@" + session.remote_host
+		}
+		let tab: Tab = Tabs.getInstance().addSSHTerminal(session, password, title)
 
-			let title = session.session_name;
-			if(! title) {
-				title = session.username + "@" + session.remote_host
-			}
-			let tab: Tab = Tabs.getInstance().addSSHTerminal(session, password, title)
-		});
-		
-	}
+		console.log("Created SSH tab:", tab)
+	});
+
 
 	//TODO: Do something, call renderer...
 	//let DOM_SessionContainer = document.getElementById("SessionsContainer");

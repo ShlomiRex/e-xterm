@@ -97,4 +97,13 @@ export class MyBookmarks {
 		return this.sessions;
 	}
 
+	getBookmarkById(sessionId: number): SSHSession {
+		for(let s of this.sessions) {
+			if(s.id == sessionId) {
+				return s
+			}
+		}
+		return null
+	}
+
 };

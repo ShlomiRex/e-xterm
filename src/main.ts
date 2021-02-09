@@ -102,8 +102,12 @@ app.on("window-all-closed", () => {
 
 
 
-ipcMain.on("OpenLoginWindow", (event, session: SSHSession) => {
-	console.log("Main - got OpenLoginWindow")
+ipcMain.on("OpenLoginWindow", (ev, sessionId: number) => {
+	console.log("Main - got OpenLoginWindow with sessionId:", sessionId)
+	let session: SSHSession = MyBookmarks.getInstance().getBookmarkById(sessionId);
+
+	console.log("Opening session:", session)
+
 	const loginWindow = new BrowserWindow({
 		width: 300,
 		height: 200,
@@ -121,6 +125,7 @@ ipcMain.on("OpenLoginWindow", (event, session: SSHSession) => {
 
 	ipcMain.once("LoginWindowPassword", (event, password: string) => {
 		//We have session and password. Start SSH.
+		console.log("Login window returned password. Password length:", password.length)
 		mainWindow.webContents.send("StartSSH", session, password)
 	});
 
@@ -189,4 +194,3 @@ ipcMain.on("OpenBookmarkSettings", (ev, bookmarkId: number, sshSession: SSHSessi
 	});
 
 });
-
