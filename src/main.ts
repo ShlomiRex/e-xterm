@@ -2,13 +2,6 @@ import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import * as path from "path";
 import { MyBookmarks } from "./bookmarks";
 import { SSHSession } from "./session";
-
-import { Tab, Tabs } from './tabs'
-
-//node-pty is not context aware
-app.allowRendererProcessReuse = false
-const Store = require('electron-store');
-
 try {
 	require('electron-reloader')(module);
 } catch {
@@ -16,10 +9,21 @@ try {
 }
 
 
-//give permission for renderer process to use electron-store
-Store.initRenderer();
+//node-pty is not context aware
+app.allowRendererProcessReuse = false
+
+const Store = require('electron-store');
+var isRenderer = require('is-electron-renderer')
 
 let mainWindow: BrowserWindow = undefined
+
+//Init
+
+//give permission for renderer process to use electron-store
+Store.initRenderer();
+console.log("main - isRenderer? : ", isRenderer)
+
+
 
 function createWindow() {
 	// Create the browser window.
@@ -41,7 +45,7 @@ function createWindow() {
 	// Open the DevTools.
 	//mainWindow.webContents.openDevTools();
 
-	
+
 	mainWindow.once('ready-to-show', () => {
 		mainWindow.show()
 	});
@@ -84,8 +88,6 @@ app.on("window-all-closed", () => {
 // code. You can also put them in separate files and require them here.
 
 
-var isRenderer = require('is-electron-renderer')
-console.log("main - isRenderer? : ", isRenderer)
 
 
 ipcMain.on("OpenLoginWindow", (event, session: SSHSession) => {
@@ -109,7 +111,7 @@ ipcMain.on("OpenLoginWindow", (event, session: SSHSession) => {
 		//We have session and password. Start SSH.
 		mainWindow.webContents.send("StartSSH", session, password)
 	});
-	
+
 });
 
 ipcMain.on("OpenNewSession", () => {
@@ -137,10 +139,6 @@ ipcMain.on("OpenNewSession", () => {
 	});
 });
 
-ipcMain.on("NewBookmark", (ev, json: SSHSession) => {
-	MyBookmarks.newBookmark(json)
-})
-
 ipcMain.on("OpenBookmarkSettings", (ev, bookmarkId: number, sshSession: SSHSession) => {
 	console.log("Opening bookmark " + bookmarkId + " settings...")
 
@@ -167,8 +165,17 @@ ipcMain.on("OpenBookmarkSettings", (ev, bookmarkId: number, sshSession: SSHSessi
 	bookmarkSettings.once("ready-to-show", () => {
 		bookmarkSettings.show();
 	});
+
+	ipcMain.once("NewBookmark", (ev, json: SSHSession) => {
+		MyBookmarks.newBookmark(json)
+	})
+
+	ipcMain.once("DeleteBookmark", (ev, bookmarkId: number) => {
+		console.log("Deleting bookmark: ", bookmarkId)
+	
+		console.log("Instance:", MyBookmarks.getInstance())
+	
+	});
+
 });
 
-ipcMain.on("DeleteBookmark", (ev, bookmarkId: number) => {
-	console.log("Deleting bookmark: ", bookmarkId)
-});
