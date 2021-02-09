@@ -68,10 +68,6 @@ class BookmarksUI {
 		let bookmark_id = session.id;
 		bookmark_item.setAttribute("data-bookmark-id", "" + bookmark_id)
 
-		bookmark_item.addEventListener("click", () => {
-			//TODO: Choose something to do
-		});
-
 		function getBookmarkIdFromMouseEvent(ev: any) {
 			//Traverse path and find the bookmarkId
 			//User can click on the pill element / not directly on the text. So we traverse path
@@ -97,11 +93,9 @@ class BookmarksUI {
 		let gear_image: HTMLElement = createElementFromHTML("<img class='hide settings-icon' src='../resources/gear.svg' alt='Settings'>");
 		gear_image.onclick = (ev: MouseEvent) => {
 			let bookmarkId: number = getBookmarkIdFromMouseEvent(ev);
+			console.log("On click settings of bookmarkId:", bookmarkId);
 			if (bookmarkId != null) {
-				//TODO: Impliment
-				//let sshSession: SSHSession = this.sessions[bookmarkId];
-				//console.log("Clicked on settings for bookmarkId: ", bookmarkId)
-				//ipcRenderer.send("OpenBookmarkSettings", bookmarkId, sshSession)
+				ipcRenderer.send("OpenBookmarkSettings", bookmarkId);
 			} else {
 				console.error("Could not find bookmarkId")
 			}

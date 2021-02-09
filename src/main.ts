@@ -155,8 +155,10 @@ ipcMain.on("OpenNewSessionWindow", () => {
 	});
 });
 
-ipcMain.on("OpenBookmarkSettings", (ev, bookmarkId: number, sshSession: SSHSession) => {
+ipcMain.on("OpenBookmarkSettings", (ev, bookmarkId: number) => {
 	console.log("Opening bookmark " + bookmarkId + " settings...")
+
+	let sshSession: SSHSession = MyBookmarks.getInstance().getBookmarkById(bookmarkId);
 
 	const bookmarkSettings = new BrowserWindow({
 		width: 800,
