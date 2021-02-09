@@ -50,7 +50,6 @@ export class MyBookmarks {
 	}
 
 	static getInstance(): MyBookmarks {
-		console.log("Returning instance:", MyBookmarks.instance)
 		return MyBookmarks.instance;
 	}
 

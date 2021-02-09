@@ -39,9 +39,7 @@ function createMainWindow() {
 		height: 800,
 		webPreferences: {
 			preload: path.join(__dirname, "preload.js"),
-			nodeIntegration: false, // is default value after Electron v5
-			contextIsolation: true, // protect against prototype pollution
-			enableRemoteModule: false, // turn off remote
+			nodeIntegration: true
 		},
 		show: false
 	});

@@ -39,9 +39,11 @@ window.addEventListener("DOMContentLoaded", () => {
 		
 	}
 
-	let DOM_SessionContainer = document.getElementById("SessionsContainer");
-	MyBookmarks.createInstance(DOM_SessionContainer, open_bookmark_callback);
-	let book = MyBookmarks.getInstance();
+	//TODO: Do something, call renderer...
+	//let DOM_SessionContainer = document.getElementById("SessionsContainer");
+	//MyBookmarks.createInstance(DOM_SessionContainer, open_bookmark_callback);
+	//let book = MyBookmarks.getInstance();
+	//console.log("Bookmark instance: ", book)
 
 	tabs.init()
 	tabs.addShellTerminal();
@@ -71,6 +73,7 @@ ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {
 
 
 //Expose API to renderer script
+/*
 contextBridge.exposeInMainWorld("api",
 	{
 		test() {
@@ -82,3 +85,5 @@ contextBridge.exposeInMainWorld("api",
 		}
 	}
 );
+
+*/

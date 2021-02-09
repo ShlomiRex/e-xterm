@@ -3,7 +3,6 @@ import { FitAddon } from 'xterm-addon-fit';
 import { AttachAddon } from 'xterm-addon-attach';
 
 import * as pty from 'node-pty';
-import * as WebSocket from 'websocket';
 import * as os from 'os';
 
 import * as ssh2 from 'ssh2';
@@ -68,8 +67,8 @@ export class MyTerminal {
 			cwd: process.cwd(),
 			env: process.env
 		});
-		this.xterm.onData(data => ptyProcess.write(data));
-		ptyProcess.onData((data) => {
+		this.xterm.onData((data: any) => ptyProcess.write(data));
+		ptyProcess.onData((data: any) => {
 			//console.log("Writing:", data)
 			this.xterm.write(data);
 		});
@@ -91,7 +90,7 @@ export class MyTerminal {
 
 		let myStream: ssh2.ClientChannel = undefined;
 
-		this.xterm.onKey((arg) => {
+		this.xterm.onKey((arg: any) => {
 			console.log("Writing to stream: ", arg.key)
 			myStream.write(arg.key);
 		});
