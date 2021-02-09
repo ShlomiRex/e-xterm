@@ -1,6 +1,6 @@
-import { SSHSession } from './session'
+import { SSHSession } from './session';
 import * as Store from 'electron-store';
-import { session } from 'electron';
+import { v4 as uuidv4 } from 'uuid';
 
 let store: Store = new Store();
 
@@ -11,9 +11,6 @@ export class MyBookmarks {
 
 	private uiPopulateCallback: any;
 	private uiDeleteCallback: any;
-
-	//Accumulator
-	private id: number = 0;
 		
 	/**
 	 * 
@@ -25,11 +22,6 @@ export class MyBookmarks {
 		this.sessions = sessions;
 		this.uiPopulateCallback = uiPopulateCallback;
 		this.uiDeleteCallback = uiDeleteCallback;
-
-		for (var session of sessions) {
-			session.id = this.id++
-			//this.populate(session);
-		}
 	}
 
 	static createInstance(uiPopulateCallback: any, uiDeleteCallback: any) {
@@ -59,6 +51,8 @@ export class MyBookmarks {
 	 * @param session 
 	 */
 	newBookmark(session: SSHSession) {
+		session.uuid = uuidv4()
+
 		let bookmarks: Array<SSHSession> = undefined;
 		if (store.has("bookmarks")) {
 			bookmarks = store.get("bookmarks") as Array<SSHSession>;
@@ -68,7 +62,6 @@ export class MyBookmarks {
 		bookmarks.push(session)
 		store.set("bookmarks", bookmarks)
 
-		session.id = this.id ++;
 		//TODO: Call renderer process and tell him to populate bookmark!
 		this.uiPopulateCallback(session)
 	}
@@ -88,21 +81,7 @@ export class MyBookmarks {
 
 			store.set("bookmarks", bookmarks);
 
-			this.uiDeleteCallback();
-
-			/*
-			this.sessions.forEach((sshSession: SSHSession) => {
-				if(sshSession.id == bookmarkId) {
-					console.log("Found session id: ", sshSession.id)
-					console.log("Going to delete the session:", sshSession)
-
-
-
-					//TODO: Call renderer process and tell him to remove bookmark!
-					this.uiDeleteCallback(sshSession);
-				}
-			});
-			*/
+			this.uiDeleteCallback(bookmarkId);
 		}
 	}
 
@@ -110,13 +89,14 @@ export class MyBookmarks {
 		return this.sessions;
 	}
 
-	getBookmarkById(sessionId: number): SSHSession {
+	getBookmarkById(uuid: string): SSHSession {
 		for(let s of this.sessions) {
-			if(s.id == sessionId) {
+			if(s.uuid == uuid) {
 				return s
 			}
 		}
 		return null
 	}
+	
 
 };

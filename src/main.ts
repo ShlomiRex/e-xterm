@@ -27,8 +27,10 @@ let uiPopulateCallback = (sshSession: SSHSession) => {
 	console.log("Populate callback called")
 };
 
-let uiDeleteCallback = (sshSession: SSHSession) => {
+let uiDeleteCallback = (bookmarkId: number) => {
 	console.log("Delete callback called")
+
+	//TODO: Call renderer and tell him to remove the bookmark	
 };
 MyBookmarks.createInstance(uiPopulateCallback, uiDeleteCallback);
 
@@ -102,9 +104,9 @@ app.on("window-all-closed", () => {
 
 
 
-ipcMain.on("OpenLoginWindow", (ev, sessionId: number) => {
-	console.log("Main - got OpenLoginWindow with sessionId:", sessionId)
-	let session: SSHSession = MyBookmarks.getInstance().getBookmarkById(sessionId);
+ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
+	console.log("Main - got OpenLoginWindow with sessionId:", sessionUUID)
+	let session: SSHSession = MyBookmarks.getInstance().getBookmarkById(sessionUUID);
 
 	console.log("Opening session:", session)
 
@@ -153,12 +155,17 @@ ipcMain.on("OpenNewSessionWindow", () => {
 	newSessionWindow.on("close", (ev: any) => {
 		console.log("New session window closed");
 	});
+
+	ipcMain.once("NewBookmark", (ev, json: SSHSession) => {
+		console.log("Main - NewBookmark called")
+		MyBookmarks.getInstance().newBookmark(json)
+	})
 });
 
-ipcMain.on("OpenBookmarkSettings", (ev, bookmarkId: number) => {
-	console.log("Opening bookmark " + bookmarkId + " settings...")
+ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
+	console.log("Opening bookmark " + sessionUUID + " settings...")
 
-	let sshSession: SSHSession = MyBookmarks.getInstance().getBookmarkById(bookmarkId);
+	let sshSession: SSHSession = MyBookmarks.getInstance().getBookmarkById(sessionUUID);
 
 	const bookmarkSettings = new BrowserWindow({
 		width: 800,
@@ -177,19 +184,15 @@ ipcMain.on("OpenBookmarkSettings", (ev, bookmarkId: number) => {
 	bookmarkSettings.loadFile(path.join(__dirname, "../html/bookmark_settings.html"));
 
 	bookmarkSettings.webContents.once("did-finish-load", () => {
-		bookmarkSettings.webContents.send("get-args", bookmarkId, sshSession);
+		bookmarkSettings.webContents.send("get-args", sessionUUID, sshSession);
 	});
 
 	bookmarkSettings.once("ready-to-show", () => {
 		bookmarkSettings.show();
 	});
 
-	ipcMain.once("NewBookmark", (ev, json: SSHSession) => {
-		MyBookmarks.getInstance().newBookmark(json)
-	})
-
 	ipcMain.once("DeleteBookmark", (ev, bookmarkId: number) => {
-		console.log("Deleting bookmark: ", bookmarkId)
+		console.log("Main - DeleteBookmark called with bookmark id: ", bookmarkId)
 		MyBookmarks.getInstance().deleteBookmark(bookmarkId);
 	});
 

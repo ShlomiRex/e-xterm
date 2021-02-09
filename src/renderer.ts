@@ -65,20 +65,17 @@ class BookmarksUI {
 		//This makes cursor look like clicking
 		//bookmark_item.setAttribute("href", "");
 
-		let bookmark_id = session.id;
-		bookmark_item.setAttribute("data-bookmark-id", "" + bookmark_id)
+		bookmark_item.setAttribute("data-bookmark-id", "" + session.uuid)
 
-		function getBookmarkIdFromMouseEvent(ev: any) {
+		function getBookmarkIdFromMouseEvent(ev: any): string {
 			//Traverse path and find the bookmarkId
 			//User can click on the pill element / not directly on the text. So we traverse path
-			let bid = undefined;
 			for (var path of ev.path) {
 				if (path.hasAttribute("data-bookmark-id")) {
-					bid = parseInt(path.getAttribute("data-bookmark-id"))
-					break
+					return path.getAttribute("data-bookmark-id");
 				}
 			}
-			return bid
+			return undefined
 		}
 
 		bookmark_item.addEventListener("dblclick", (ev: MouseEvent) => {
@@ -89,7 +86,7 @@ class BookmarksUI {
 
 		let gear_image: HTMLElement = createElementFromHTML("<img class='hide settings-icon' src='../resources/gear.svg' alt='Settings'>");
 		gear_image.onclick = (ev: MouseEvent) => {
-			let bookmarkId: number = getBookmarkIdFromMouseEvent(ev);
+			let bookmarkId: string = getBookmarkIdFromMouseEvent(ev);
 			console.log("On click settings of bookmarkId:", bookmarkId);
 			if (bookmarkId != null) {
 				ipcRenderer.send("OpenBookmarkSettings", bookmarkId);

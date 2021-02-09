@@ -1,6 +1,6 @@
 export interface SSHSession {
 	// Internal ID, used for keeping track of bookmarks
-	id?: number 
+	uuid: string 
 
 	//Everything else is settings
 	protocol: string,
