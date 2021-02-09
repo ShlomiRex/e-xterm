@@ -1,6 +1,6 @@
 import { SSHSession } from './session'
 import * as Store from 'electron-store';
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, session } from 'electron';
 
 let store: Store = new Store();
 
@@ -173,6 +173,22 @@ export class MyBookmarks {
 		}
 		bookmarks.push(session)
 		store.set("bookmarks", bookmarks)
+	}
+
+	/**
+	 * Delete existing bookmark
+	 * @param bookmarkId 
+	 */
+	deleteBookmark(bookmarkId: number) {
+		let bookmarks: Array<SSHSession> = undefined;
+		if (store.has("bookmarks")) {
+			bookmarks = store.get("bookmarks") as Array<SSHSession>;
+			this.sessions.forEach((sshSession: SSHSession) => {
+				if(sshSession.session_id == bookmarkId) {
+					console.log("Found session id: ", sshSession.session_id)
+				}
+			});
+		}
 	}
 
 };
