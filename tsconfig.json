@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "CommonJS",
     "noImplicitAny": true,
     "sourceMap": true,
     "outDir": "dist",
@@ -8,7 +8,7 @@
     "paths": {
       "*": ["node_modules/*"]
 	},
-	"target": "ES6"
+	"target": "ES2020"
   },
   "include": [
 	"src/**/*",
