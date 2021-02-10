@@ -18,7 +18,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	var isRenderer = require('is-electron-renderer')
 	console.log("preload - isRenderer? : ", isRenderer)
 
-	ipcRenderer.once("StartSSH", (event, session: SSHSession, password: string) => {
+	ipcRenderer.on("StartSSH", (event, session: SSHSession, password: string) => {
 		console.log("Session:", session)
 		console.log("Password length:", password.length)
 

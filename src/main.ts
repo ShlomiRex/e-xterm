@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain, dialog, session } from "electron";
+import { IpcMainEvent } from "electron/main";
 import * as path from "path";
 import { MyBookmarks } from "./bookmarks";
 import { SSHSession } from "./session";
@@ -125,10 +126,15 @@ ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
 
 	loginWindow.loadFile(path.join(__dirname, "../html/password_login.html"));
 
-	ipcMain.once("LoginWindowPassword", (event, password: string) => {
+	var LoginWindowPasswordHandler = (event: IpcMainEvent, password: string) => {
 		//We have session and password. Start SSH.
-		console.log("Login window returned password. Password length:", password.length)
+		console.log("Login window returned password. Password length:", password.length, "\nWith session:", session)
 		mainWindow.webContents.send("StartSSH", session, password)
+	};
+	ipcMain.once("LoginWindowPassword", LoginWindowPasswordHandler);
+
+	loginWindow.once("closed", () => {
+		ipcMain.removeListener("LoginWindowPassword", LoginWindowPasswordHandler);
 	});
 
 });
