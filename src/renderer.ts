@@ -18,10 +18,11 @@ function createElementFromHTML(htmlString: string): HTMLElement {
 
 class BookmarksUI {
 	private uiParent: HTMLElement;
+	private bookmarks: Array<HTMLElement>;
 
 	constructor() {
 		this.uiParent = document.getElementById("SessionsContainer");
-
+		this.bookmarks = new Array<HTMLElement>();
 	}
 
 	/**
@@ -97,6 +98,8 @@ class BookmarksUI {
 		bookmark_item.appendChild(right_div);
 
 		this.uiParent.appendChild(bookmark_item);
+
+		this.bookmarks.push(bookmark_item);
 	}
 
 	/**
@@ -104,10 +107,19 @@ class BookmarksUI {
 	 * @param bookmarkId 
 	 */
 	unpopulate(bookmarkId: string) {
-		//Find the HTMLElement and delete it
-		let found = document.querySelector("[data-bookmark-id='" + bookmarkId + "']");
-		console.log("Going to remove:", found)
-		found.remove();
+		let foundIndex = undefined
+		for(let i = 0; i < this.bookmarks.length; i++) {
+			if(this.bookmarks[i].dataset.bookmarkId == bookmarkId) {
+				console.log("Going to remove:", bookmarkId, " with index:", i);
+				this.bookmarks[i].remove(); //Remove HTMLElement
+				foundIndex = i
+				break
+			}
+		}
+
+		if(foundIndex != null) {
+			this.bookmarks.splice(foundIndex, 1)
+		}
 	}
 };
 
