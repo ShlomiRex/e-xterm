@@ -20,9 +20,23 @@ class BookmarksUI {
 	private uiParent: HTMLElement;
 	private bookmarks: Array<HTMLElement>;
 
-	constructor() {
+	private static instance: BookmarksUI
+
+	private constructor() {
 		this.uiParent = document.getElementById("SessionsContainer");
 		this.bookmarks = new Array<HTMLElement>();
+	}
+
+	static createInstance() {
+		if (!BookmarksUI.instance) {
+			//no instance, create
+
+			BookmarksUI.instance = new BookmarksUI();
+		}
+	}
+
+	static getInstance(): BookmarksUI {
+		return BookmarksUI.instance;
 	}
 
 	static getBookmarkInnerText(session: SSHSession) {
@@ -166,8 +180,7 @@ class BookmarksUI {
 	}
 };
 
-
-const Bookmarks = new BookmarksUI();
+BookmarksUI.createInstance();
 
 document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEvent) => {
 	ipcRenderer.send("OpenNewSessionWindow")
@@ -178,22 +191,22 @@ document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEv
 
 ipcRenderer.on("AddBookmark", (ev, sshSession: SSHSession) => {
 	console.log("Renderer - will add bookmark")
-	Bookmarks.populate(sshSession);
+	BookmarksUI.getInstance().populate(sshSession);
 });
 
 ipcRenderer.on("RemoveBookmark", (ev, bookmarkId: string) => {
 	console.log("Renderer - will remove bookmark")
-	Bookmarks.unpopulate(bookmarkId);
+	BookmarksUI.getInstance().unpopulate(bookmarkId);
 });
 
 ipcRenderer.on("ClearBookmarks", () => {
 	console.log("Renderer - will clear bookmarks");
-	Bookmarks.clear();
+	BookmarksUI.getInstance().clear();
 });
 
 ipcRenderer.on("UpdateBookmark", (ev, session: SSHSession) => {
 	console.log("Renderer - will update bookmark:", session);
 	let text = BookmarksUI.getBookmarkInnerText(session);
 	let bookmarkId = session.uuid;
-	Bookmarks.update(bookmarkId, text);
+	BookmarksUI.getInstance().update(bookmarkId, text);
 });
