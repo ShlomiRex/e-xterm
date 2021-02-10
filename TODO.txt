@@ -2,6 +2,7 @@ High Priority:
 * Learn how other programs, like Hyper or other pgorams that use xterm.js are saving / using SSH sessions.
     Link for programs that use xterm.js: https://github.com/xtermjs/xterm.js/
 * For some reason when entering SSH, closing, then trying again, it doesn't do anything. I think it relates to binding StartSSH ipc once, when opening LoginWindow. But after creating ANOTHER login window, it doesn't. Need to check
+* When creating new seesion and trying to SSH into it, it doesn't work
 
 
 Medium Priority:
