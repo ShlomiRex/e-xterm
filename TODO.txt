@@ -1,15 +1,14 @@
 High Priority:
-* IMPORTANT: Use SSH-KEYGEN to automate SSH logins.  Or find another way.
-* Use SSH2 npm module with private key
 * Learn how other programs, like Hyper or other pgorams that use xterm.js are saving / using SSH sessions.
     Link for programs that use xterm.js: https://github.com/xtermjs/xterm.js/
-* When creating new session and clicking submit, refresh bookmarks!
-* Instead of using incremented id and keep track of bookmarks, use UUID which is unique
+* For some reason when entering SSH, closing, then trying again, it doesn't do anything. I think it relates to binding StartSSH ipc once, when opening LoginWindow. But after creating ANOTHER login window, it doesn't. Need to check
 
 
 Medium Priority:
 * When double clicking the window, it resizes to full screen. Tell terminal to fit.
 * In macOS , creating new seesion window - it's frameless. No close or minimize buttons. Investigate (on windows - yes)
+* Use SSH-KEYGEN to automate SSH logins.  Or find another way.
+* Use SSH2 npm module with private key
 
 
 Low Priority:
