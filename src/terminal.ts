@@ -74,7 +74,7 @@ export class MyTerminal {
 		});
 	}
 
-	init_ssh(parent: HTMLElement, session: SSHSession, password: string) {
+	init_ssh(parent: HTMLElement, session: SSHSession, password: string, error_callback: any) {
 		//Load addons
 		this.xterm.loadAddon(this.fitAddon);
 
@@ -139,6 +139,7 @@ export class MyTerminal {
 
 		conn.on("error", (ev) => {
 			console.error("Error encountered:\n", ev)
+			error_callback(ev);
 		});
 	}
 

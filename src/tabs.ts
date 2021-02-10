@@ -41,8 +41,8 @@ class TabContent {
 	 * 
 	 * @param parent Div element with id="terminal_<id>"
 	 */
-	init_ssh(parent: HTMLElement, session: SSHSession, password: string) {
-		this.myTerminal.init_ssh(parent, session, password)
+	init_ssh(parent: HTMLElement, session: SSHSession, password: string, error_callback: any) {
+		this.myTerminal.init_ssh(parent, session, password, error_callback)
 	}
 
 	showContent() {
@@ -123,12 +123,12 @@ export class Tab {
 		this.tabContent.init_shell(parent)
 	}
 
-	initSSHTerminalUI(parent: HTMLElement, session: SSHSession, password: string) {
+	initSSHTerminalUI(parent: HTMLElement, session: SSHSession, password: string, error_callback: any) {
 		//1. Load addons
 		//2. Open div element
 		//3. Write to terminal stuff
 		//4. Fit terminal
-		this.tabContent.init_ssh(parent, session, password)
+		this.tabContent.init_ssh(parent, session, password, error_callback)
 	}
 
 	/**
@@ -203,9 +203,9 @@ export class Tabs {
 	/**
 	 * Return the tab
 	 */
-	addSSHTerminal(session: SSHSession, password: string, title: string = "SSH"): Tab {
+	addSSHTerminal(session: SSHSession, password: string, error_callback: any, title: string = "SSH"): Tab {
 		let { tab, DOM_terminal } = this.addTerminal(title, "../resources/ssh.png");
-		tab.initSSHTerminalUI(DOM_terminal, session, password);
+		tab.initSSHTerminalUI(DOM_terminal, session, password, error_callback);
 		return tab
 	}
 
@@ -302,7 +302,15 @@ export class Tabs {
 	 * @param id 
 	 */
 	removeTab(id: number) {
-		throw new Error("Not yet implimented")
+		//Get tabEl from id
+
+		let tab = this.getTabById(id);
+		
+		//chromeTabs.removeTab(tab)
+
+		let activeTab = document.querySelector("div.chrome-tab[active]");
+
+		chromeTabs.removeTab(activeTab);
 	}
 
 };

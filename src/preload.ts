@@ -33,7 +33,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			Tabs.getInstance().removeTab(tab.id);
 		}
 
-		let tab: Tab = Tabs.getInstance().addSSHTerminal(session, password, title)
+		let tab: Tab = Tabs.getInstance().addSSHTerminal(session, password, error_callback, title)
 
 		console.log("Created SSH tab:", tab)
 
