@@ -216,7 +216,6 @@ export class Tabs {
 		let tabContent = document.createElement("div")
 		tabContent.style.width = "100%"
 		tabContent.style.height = "100%"
-		console.debug(tabContent);
 		parent.appendChild(tabContent)
 
 

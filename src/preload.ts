@@ -26,9 +26,18 @@ window.addEventListener("DOMContentLoaded", () => {
 		if(! title) {
 			title = session.username + "@" + session.remote_host
 		}
+
+
+		let error_callback = (ev: any) => {
+			console.log("Terminal error callback:", ev)
+			Tabs.getInstance().removeTab(tab.id);
+		}
+
 		let tab: Tab = Tabs.getInstance().addSSHTerminal(session, password, title)
 
 		console.log("Created SSH tab:", tab)
+
+
 	});
 
 
