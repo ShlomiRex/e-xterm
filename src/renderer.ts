@@ -53,7 +53,11 @@ class BookmarksUI {
 		bookmark_item.setAttribute("data-bs-toggle", "list");
 		bookmark_item.setAttribute("role", "tab");
 		bookmark_item.setAttribute("aria-controls", name); //Accessability for screen readers
-		bookmark_item.innerText = name;
+
+		let bookmark_txt_container = createElementFromHTML("<div class='text'></div>");
+		bookmark_txt_container.innerText = name;
+
+		bookmark_item.appendChild(bookmark_txt_container);
 
 		//This makes cursor look like clicking
 		//bookmark_item.setAttribute("href", "");
@@ -156,7 +160,8 @@ class BookmarksUI {
 		if(index >= 0) {
 			let bookmark = this.bookmarks[index];
 			console.log("Updating bookmark inner text from ", bookmark.innerText," to:", innerText);
-			bookmark.innerText = innerText;
+			//bookmark.innerText = innerText;
+			(bookmark.firstElementChild as HTMLElement).innerText = innerText;
 		}
 	}
 };
