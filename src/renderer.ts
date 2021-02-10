@@ -107,19 +107,24 @@ class BookmarksUI {
 	 * @param bookmarkId 
 	 */
 	unpopulate(bookmarkId: string) {
-		let foundIndex = undefined
+
+		let index = this.getBookmarkIndexById(bookmarkId);
+		if(index >= 0) {
+			console.log("Going to remove:", bookmarkId, " with index:", index);
+			this.bookmarks[index].remove(); //Remove HTMLElement
+			this.bookmarks.splice(index, 1)
+		} else {
+			console.error("Could not find bookmark with id:", bookmarkId);
+		}
+	}
+
+	private getBookmarkIndexById(bookmarkId: string) {
 		for(let i = 0; i < this.bookmarks.length; i++) {
 			if(this.bookmarks[i].dataset.bookmarkId == bookmarkId) {
-				console.log("Going to remove:", bookmarkId, " with index:", i);
-				this.bookmarks[i].remove(); //Remove HTMLElement
-				foundIndex = i
-				break
+				return i
 			}
 		}
-
-		if(foundIndex != null) {
-			this.bookmarks.splice(foundIndex, 1)
-		}
+		return -1
 	}
 
 	/**
