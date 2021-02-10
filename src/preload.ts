@@ -68,8 +68,6 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {
-	let width = size[0]
-	let height = size[1]
-
+	console.log("Preload - fit terminal");
 	tabs.fit_terminal()
 });

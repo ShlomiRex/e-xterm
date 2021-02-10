@@ -70,11 +70,35 @@ function createMainWindow() {
 	//on resize
 	mainWindow.on('resize', function () {
 		var size = mainWindow.getSize();
-		var width = size[0];
-		var height = size[1];
-
 		mainWindow.webContents.send("WindowResize", size)
 	});
+
+	mainWindow.on("maximize", (ev: any) => {
+		var size = mainWindow.getSize();
+		mainWindow.webContents.send("WindowResize", size)
+	});
+
+	mainWindow.on("unmaximize", (ev: any) => {
+		var size = mainWindow.getSize();
+		mainWindow.webContents.send("WindowResize", size)
+
+	});
+
+	/*
+	mainWindow.on("restore", (ev: any) => {
+		console.log("Window restore:", ev)
+		var size = mainWindow.getSize();
+		console.log("Window size:", size)
+	})
+
+	mainWindow.on("minimize", (ev: any) => {
+		console.log("Window minimize:", ev)
+		var size = mainWindow.getSize();
+		console.log("Window size:", size)
+	})
+	*/
+
+
 }
 
 // This method will be called when Electron has finished
@@ -213,7 +237,7 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 		MyBookmarks.getInstance().updateBookmark(sshSession.uuid, json);
 		
 		//TODO: Call renderer to re-populate bookmarks
-		
+
 	});
 
 });
