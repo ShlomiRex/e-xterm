@@ -247,7 +247,12 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 	ipcMain.once("UpdateBookmark", (ev, json) => {
 		console.log("Main - UpdateBookmark");
 		MyBookmarks.getInstance().updateBookmark(sshSession.uuid, json);
-		refreshBookmarks();
+		//refreshBookmarks(); //This will refresh entire ui, no need
+
+		//Add run time attribute
+		json.uuid = sshSession.uuid;
+		console.log("New json:", json, " Old session:", sshSession);
+		mainWindow.webContents.send("UpdateBookmark", json);
 	});
 
 });

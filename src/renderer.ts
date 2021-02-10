@@ -25,7 +25,7 @@ class BookmarksUI {
 		this.bookmarks = new Array<HTMLElement>();
 	}
 
-	getBookmarkInnerText(session: SSHSession) {
+	static getBookmarkInnerText(session: SSHSession) {
 		//If user did not give session name, use the hostname instead
 		if (! session.session_name) {
 			if (session.username) {
@@ -43,7 +43,7 @@ class BookmarksUI {
 	 * @param session Session to populate
 	 */
 	populate(session: SSHSession) {
-		let name: string = this.getBookmarkInnerText(session);
+		let name: string = BookmarksUI.getBookmarkInnerText(session);
 
 		var protocol = session.protocol;
 		console.log("Loading session: " + name + " protocol: " + protocol);
@@ -145,6 +145,20 @@ class BookmarksUI {
 			this.unpopulate(bookmarkId);
 		}
 	}
+
+	/**
+	 * Update text of bookmark
+	 * @param bookmarkId 
+	 * @param innerText 
+	 */
+	update(bookmarkId: string, innerText: string) {
+		let index = this.getBookmarkIndexById(bookmarkId);
+		if(index >= 0) {
+			let bookmark = this.bookmarks[index];
+			console.log("Updating bookmark inner text from ", bookmark.innerText," to:", innerText);
+			bookmark.innerText = innerText;
+		}
+	}
 };
 
 
@@ -170,4 +184,11 @@ ipcRenderer.on("RemoveBookmark", (ev, bookmarkId: string) => {
 ipcRenderer.on("ClearBookmarks", () => {
 	console.log("Renderer - will clear bookmarks");
 	Bookmarks.clear();
+});
+
+ipcRenderer.on("UpdateBookmark", (ev, session: SSHSession) => {
+	console.log("Renderer - will update bookmark:", session);
+	let text = BookmarksUI.getBookmarkInnerText(session);
+	let bookmarkId = session.uuid;
+	Bookmarks.update(bookmarkId, text);
 });
