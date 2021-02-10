@@ -70,18 +70,26 @@ export class MyBookmarks {
 	 * Delete existing bookmark
 	 * @param bookmarkId 
 	 */
-	deleteBookmark(bookmarkId: number) {
+	deleteBookmark(bookmarkId: string) {
 		let bookmarks: Array<SSHSession> = undefined;
 		if (store.has("bookmarks")) {
 			bookmarks = store.get("bookmarks") as Array<SSHSession>;
-			let a = bookmarks[bookmarkId];
-			console.log("The json in index bookmarkId is:",a)
 
-			bookmarks.splice(bookmarkId, 1);
-
-			store.set("bookmarks", bookmarks);
-
-			this.uiDeleteCallback(bookmarkId);
+			let removeIndex: number = undefined
+			for(let i = 0; i < bookmarks.length; i++) {
+				if(bookmarks[i].uuid == bookmarkId) {
+					removeIndex = i
+					break
+				}
+			}
+			if(removeIndex != null) {
+				console.log("Deleting bookmark: ", bookmarkId, " it has index of: ", removeIndex);
+				bookmarks.splice(removeIndex, 1);
+				store.set("bookmarks", bookmarks);
+				this.uiDeleteCallback(bookmarkId);
+			} else {
+				console.error("Could not find bookmark to remove with uuid: ", bookmarkId)
+			}
 		}
 	}
 

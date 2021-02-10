@@ -98,6 +98,17 @@ class BookmarksUI {
 
 		this.uiParent.appendChild(bookmark_item);
 	}
+
+	/**
+	 * Remove bookmark by given id
+	 * @param bookmarkId 
+	 */
+	unpopulate(bookmarkId: string) {
+		//Find the HTMLElement and delete it
+		let found = document.querySelector("[data-bookmark-id='" + bookmarkId + "']");
+		console.log("Going to remove:", found)
+		found.remove();
+	}
 };
 
 
@@ -110,15 +121,13 @@ document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEv
 
 
 
-
-ipcRenderer.on("PopulateBookmark", (ev, session: SSHSession) => {
-	console.log("Renderer - populating bookmark:", session)
-	Bookmarks.populate(session);
-});
-
-
-
 ipcRenderer.on("AddBookmark", (ev, sshSession: SSHSession) => {
 	console.log("Renderer - will add bookmark")
 	Bookmarks.populate(sshSession);
 });
+
+ipcRenderer.on("RemoveBookmark", (ev, bookmarkId: string) => {
+	console.log("Renderer - will remove bookmark")
+	Bookmarks.unpopulate(bookmarkId);
+});
+

@@ -28,10 +28,9 @@ let uiPopulateCallback = (sshSession: SSHSession) => {
 	mainWindow.webContents.send("AddBookmark", sshSession);
 };
 
-let uiDeleteCallback = (bookmarkId: number) => {
+let uiDeleteCallback = (bookmarkId: string) => {
 	console.log("Delete callback called")
-
-	//TODO: Call renderer and tell him to remove the bookmark	
+	mainWindow.webContents.send("RemoveBookmark", bookmarkId);
 };
 MyBookmarks.createInstance(uiPopulateCallback, uiDeleteCallback);
 
@@ -57,7 +56,7 @@ function createMainWindow() {
 
 	mainWindow.webContents.once("dom-ready", () => {
 		for(let s of sessions) {
-			mainWindow.webContents.send("PopulateBookmark", s)
+			mainWindow.webContents.send("AddBookmark", s)
 		}
 	});
 
@@ -139,7 +138,7 @@ ipcMain.on("OpenNewSessionWindow", () => {
 
 	const newSessionWindow = new BrowserWindow({
 		width: 800,
-		height: 700,
+		height: 800,
 		show: true,
 		autoHideMenuBar: true,
 		parent: mainWindow,
@@ -192,7 +191,7 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 		bookmarkSettings.show();
 	});
 
-	ipcMain.once("DeleteBookmark", (ev, bookmarkId: number) => {
+	ipcMain.once("DeleteBookmark", (ev, bookmarkId: string) => {
 		console.log("Main - DeleteBookmark called with bookmark id: ", bookmarkId)
 		MyBookmarks.getInstance().deleteBookmark(bookmarkId);
 	});
