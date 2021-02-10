@@ -189,22 +189,22 @@ document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEv
 
 
 
-ipcRenderer.on("AddBookmark", (ev, sshSession: SSHSession) => {
+ipcRenderer.on("Renderer_BookmarksUI_AddBookmark", (ev, sshSession: SSHSession) => {
 	console.log("Renderer - will add bookmark")
 	BookmarksUI.getInstance().populate(sshSession);
 });
 
-ipcRenderer.on("RemoveBookmark", (ev, bookmarkId: string) => {
+ipcRenderer.on("Renderer_BookmarksUI_RemoveBookmark", (ev, bookmarkId: string) => {
 	console.log("Renderer - will remove bookmark")
 	BookmarksUI.getInstance().unpopulate(bookmarkId);
 });
 
-ipcRenderer.on("ClearBookmarks", () => {
+ipcRenderer.on("Renderer_BookmarksUI_ClearBookmarks", () => {
 	console.log("Renderer - will clear bookmarks");
 	BookmarksUI.getInstance().clear();
 });
 
-ipcRenderer.on("UpdateBookmark", (ev, session: SSHSession) => {
+ipcRenderer.on("Renderer_BookmarksUI_UpdateBookmark", (ev, session: SSHSession) => {
 	console.log("Renderer - will update bookmark:", session);
 	let text = BookmarksUI.getBookmarkInnerText(session);
 	let bookmarkId = session.uuid;

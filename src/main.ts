@@ -26,12 +26,12 @@ console.log("main - isRenderer? : ", isRenderer)
 
 let uiPopulateCallback = (sshSession: SSHSession) => {
 	console.log("Populate callback called")
-	mainWindow.webContents.send("AddBookmark", sshSession);
+	mainWindow.webContents.send("Renderer_BookmarksUI_AddBookmark", sshSession);
 };
 
 let uiDeleteCallback = (bookmarkId: string) => {
 	console.log("Delete callback called")
-	mainWindow.webContents.send("RemoveBookmark", bookmarkId);
+	mainWindow.webContents.send("Renderer_BookmarksUI_RemoveBookmark", bookmarkId);
 };
 MyBookmarks.createInstance(uiPopulateCallback, uiDeleteCallback);
 
@@ -57,7 +57,7 @@ function createMainWindow() {
 
 	mainWindow.webContents.once("dom-ready", () => {
 		for(let s of sessions) {
-			mainWindow.webContents.send("AddBookmark", s)
+			mainWindow.webContents.send("Renderer_BookmarksUI_AddBookmark", s)
 		}
 	});
 
@@ -229,12 +229,12 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 
 	function refreshBookmarks() {
 		//Clear UI
-		mainWindow.webContents.send("ClearBookmarks");
+		mainWindow.webContents.send("Renderer_BookmarksUI_ClearBookmarks");
 
 		//Repopulate UI
 		const sessions: Array<SSHSession> = MyBookmarks.getInstance().getSessions();
 		for(let s of sessions) {
-			mainWindow.webContents.send("AddBookmark", s)
+			mainWindow.webContents.send("Renderer_BookmarksUI_AddBookmark", s)
 		}
 	}
 
@@ -244,15 +244,15 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 		//No need to refresh bookmarks. uiDeleteBookmark callback is called instead
 	});
 
-	ipcMain.once("UpdateBookmark", (ev, json) => {
-		console.log("Main - UpdateBookmark");
+	ipcMain.once("Renderer_BookmarksUI_UpdateBookmark", (ev, json) => {
+		console.log("Main - Renderer_BookmarksUI_UpdateBookmark");
 		MyBookmarks.getInstance().updateBookmark(sshSession.uuid, json);
 		//refreshBookmarks(); //This will refresh entire ui, no need
 
 		//Add run time attribute
 		json.uuid = sshSession.uuid;
 		console.log("New json:", json, " Old session:", sshSession);
-		mainWindow.webContents.send("UpdateBookmark", json);
+		mainWindow.webContents.send("Renderer_BookmarksUI_UpdateBookmark", json);
 	});
 
 });
