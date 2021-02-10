@@ -67,6 +67,7 @@ export class Tab {
 	title: string
 	favicon: string
 
+	chromeTabElement: Element
 	tabContent: TabContent
 
 	constructor(content: HTMLElement, title: string = "Terminal", favicon: string = "../resources/terminal.png") {
@@ -79,6 +80,10 @@ export class Tab {
 		this._isSelected = false
 		this.title = title
 		this.favicon = favicon
+	}
+
+	setChromeTabElement(chromeTabElement: Element) {
+		this.chromeTabElement = chromeTabElement;
 	}
 
 	/**
@@ -240,6 +245,11 @@ export class Tabs {
 		//Actually create UI tab
 		chromeTabs.addTab(tab.get())
 
+		//Get the tab created (element)
+		let activeTab = document.querySelector("div.chrome-tab[active]");
+		//Set
+		tab.setChromeTabElement(activeTab);
+
 		//Setup terminal
 		var DOM_terminal = document.createElement("div")
 		DOM_terminal.id = "terminal_" + tab.id
@@ -302,15 +312,8 @@ export class Tabs {
 	 * @param id 
 	 */
 	removeTab(id: number) {
-		//Get tabEl from id
-
 		let tab = this.getTabById(id);
-		
-		//chromeTabs.removeTab(tab)
-
-		let activeTab = document.querySelector("div.chrome-tab[active]");
-
-		chromeTabs.removeTab(activeTab);
+		chromeTabs.removeTab(tab.chromeTabElement);
 	}
 
 };
