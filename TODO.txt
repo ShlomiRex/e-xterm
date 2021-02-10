@@ -20,6 +20,8 @@ Low Priority:
 
 Long term tasks:
 * Add support for SFTP and add on the left panel the SFTP browser. Maybe look into native bootstrap. Or use w2ui.
+* When selecting and right clicking on terminal - it should copy the contents to clipboard
+* When right clicking on terminal and clipboard is text then paste to terminal
 
 
 Materials:
