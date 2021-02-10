@@ -31,6 +31,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		let error_callback = (ev: any) => {
 			console.log("Terminal error callback:", ev)
 			Tabs.getInstance().removeTab(tab.id);
+			ipcRenderer.send("SSHError", ev.message);
 		}
 
 		let tab: Tab = Tabs.getInstance().addSSHTerminal(session, password, error_callback, title)

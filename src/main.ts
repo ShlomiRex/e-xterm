@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog, session } from "electron";
+import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import { IpcMainEvent } from "electron/main";
 import * as path from "path";
 import { MyBookmarks } from "./bookmarks";
@@ -130,6 +130,12 @@ ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
 		//We have session and password. Start SSH.
 		console.log("Login window returned password. Password length:", password.length, "\nWith session:", session)
 		mainWindow.webContents.send("StartSSH", session, password)
+
+		ipcMain.on("SSHError", (e, message) => {
+			console.log("SSH Error occured");
+			dialog.showErrorBox("SSH error", message);
+
+		});
 	};
 	ipcMain.once("LoginWindowPassword", LoginWindowPasswordHandler);
 
