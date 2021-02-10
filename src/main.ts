@@ -227,15 +227,7 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 		bookmarkSettings.show();
 	});
 
-	ipcMain.once("DeleteBookmark", (ev, bookmarkId: string) => {
-		console.log("Main - DeleteBookmark called with bookmark id: ", bookmarkId)
-		MyBookmarks.getInstance().deleteBookmark(bookmarkId);
-	});
-
-	ipcMain.once("UpdateBookmark", (ev, json) => {
-		console.log("Main - UpdateBookmark");
-		MyBookmarks.getInstance().updateBookmark(sshSession.uuid, json);
-		
+	function refreshBookmarks() {
 		//Clear UI
 		mainWindow.webContents.send("ClearBookmarks");
 
@@ -244,6 +236,18 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 		for(let s of sessions) {
 			mainWindow.webContents.send("AddBookmark", s)
 		}
+	}
+
+	ipcMain.once("DeleteBookmark", (ev, bookmarkId: string) => {
+		console.log("Main - DeleteBookmark")
+		MyBookmarks.getInstance().deleteBookmark(bookmarkId);
+		//No need to refresh bookmarks. uiDeleteBookmark callback is called instead
+	});
+
+	ipcMain.once("UpdateBookmark", (ev, json) => {
+		console.log("Main - UpdateBookmark");
+		MyBookmarks.getInstance().updateBookmark(sshSession.uuid, json);
+		refreshBookmarks();
 	});
 
 });
