@@ -199,7 +199,7 @@ ipcMain.on("OpenNewSessionWindow", () => {
 });
 
 ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
-	console.log("Opening bookmark " + sessionUUID + " settings...")
+	console.log("Main - OpenBookmarkSettings")
 
 	let sshSession: SSHSession = MyBookmarks.getInstance().getBookmarkById(sessionUUID);
 
@@ -233,11 +233,17 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 	});
 
 	ipcMain.once("UpdateBookmark", (ev, json) => {
-		console.log("Going to update session:", sshSession, " with session:", json);
+		console.log("Main - UpdateBookmark");
 		MyBookmarks.getInstance().updateBookmark(sshSession.uuid, json);
 		
-		//TODO: Call renderer to re-populate bookmarks
+		//Clear UI
+		mainWindow.webContents.send("ClearBookmarks");
 
+		//Repopulate UI
+		const sessions: Array<SSHSession> = MyBookmarks.getInstance().getSessions();
+		for(let s of sessions) {
+			mainWindow.webContents.send("AddBookmark", s)
+		}
 	});
 
 });

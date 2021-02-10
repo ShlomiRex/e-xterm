@@ -121,6 +121,20 @@ class BookmarksUI {
 			this.bookmarks.splice(foundIndex, 1)
 		}
 	}
+
+	/**
+	 * Remove all bookmarks
+	 */
+	clear() {
+		let bookmarkIds = []
+		for(let bookmark of this.bookmarks) {
+			bookmarkIds.push(bookmark.dataset.bookmarkId);
+		}
+
+		for(let bookmarkId of bookmarkIds) {
+			this.unpopulate(bookmarkId);
+		}
+	}
 };
 
 
@@ -143,3 +157,7 @@ ipcRenderer.on("RemoveBookmark", (ev, bookmarkId: string) => {
 	Bookmarks.unpopulate(bookmarkId);
 });
 
+ipcRenderer.on("ClearBookmarks", () => {
+	console.log("Renderer - will clear bookmarks");
+	Bookmarks.clear();
+});
