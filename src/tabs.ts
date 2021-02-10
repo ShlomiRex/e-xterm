@@ -7,7 +7,7 @@ var chromeTabs = new ChromeTabs();
 class TabContent {
 	private parent: HTMLElement
 	private myTerminal: MyTerminal
-	
+
 	/**
 	 * 
 	 * @param parent Div element with id="content_<id>"
@@ -174,7 +174,7 @@ export class Tabs {
 			console.debug('Active tab changed to: ', tabId, event)
 			this.selectTab(tabId)
 		});
-	
+
 		el.addEventListener('tabAdd', (event: CustomEvent) => {
 			console.debug("Tab added", event.detail.tabEl)
 			let lastAddedTab = this.getLastAddedTab()
@@ -182,7 +182,7 @@ export class Tabs {
 			//Set newly added tab attribute "data-id" to be last added tab's id
 			event.detail.tabEl["data-id"] = id
 		});
-	
+
 		el.addEventListener("tabRemove", (event: CustomEvent) => {
 			console.debug("Tab remove: ", event.detail.tabEl)
 		});
@@ -192,12 +192,12 @@ export class Tabs {
 
 	addTextTerminal() {
 		let { tab, DOM_terminal } = this.addTerminal("Text", null);
-		tab.initTextTerminalUI(DOM_terminal, "Terminal with tab id: " + String(tab.id));	
+		tab.initTextTerminalUI(DOM_terminal, "Terminal with tab id: " + String(tab.id));
 	}
 
 	addShellTerminal() {
 		let { tab, DOM_terminal } = this.addTerminal("Terminal", "../resources/terminal.png");
-		tab.initShellTerminalUI(DOM_terminal);	
+		tab.initShellTerminalUI(DOM_terminal);
 	}
 
 	/**
@@ -249,9 +249,18 @@ export class Tabs {
 		tabContent.appendChild(DOM_terminal);
 
 		return {
-			tab: tab, 
+			tab: tab,
 			DOM_terminal: DOM_terminal
 		}
+	}
+
+	getTabById(id: number): Tab {
+		for (var tab of this.tabs) {
+			if (tab.id == id) {
+				return tab;
+			}
+		}
+		return null
 	}
 
 	/**
@@ -260,27 +269,20 @@ export class Tabs {
 	 */
 	selectTab(id: number) {
 		console.debug("Going to select tab: ", id)
-		var found = false
-		for (var tab of this.tabs) {
-			if (tab.id == id) {
-				//Deselect current tab
-				console.debug("Deselecting tab: ", this.tabSelected)
-				this.tabSelected.deselect()
 
-				//Select the tab requested
-				console.debug("Selecting tab: ", tab)
-				tab.select()
+		let tab = this.getTabById(id);
+		if (tab) {
+			//Deselect current tab
+			console.debug("Deselecting tab: ", this.tabSelected)
+			this.tabSelected.deselect()
 
-				//Set new tabSelected
-				this.tabSelected = tab
+			//Select the tab requested
+			console.debug("Selecting tab: ", tab)
+			tab.select()
 
-				found = true
-				break
-			}
-		}
-
-		if (!found) {
-			//This is critical, problem with tab managment
+			//Set new tabSelected
+			this.tabSelected = tab
+		} else {
 			console.error("Did not find tab with id: ", id, "to select!")
 		}
 	}
@@ -294,6 +296,14 @@ export class Tabs {
 
 		console.debug("fit")
 		this.tabSelected.tabContent.fitTerminal()
+	}
+
+	/**
+	 * Remove tab by given ID
+	 * @param id 
+	 */
+	removeTab(id: number) {
+		throw new Error("Not yet implimented")
 	}
 
 };

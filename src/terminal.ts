@@ -109,7 +109,10 @@ export class MyTerminal {
 
 		conn.on('ready', function () {
 			conn.shell(function (err: Error, stream: ssh2.ClientChannel) {
-				if (err) throw err;
+				if (err) {
+					console.error("Error when trying to open shell")
+					throw err;
+				}
 
 				myStream = stream
 
@@ -134,14 +137,12 @@ export class MyTerminal {
 			password: password
 		});
 
-
+		conn.on("error", (ev) => {
+			console.error("Error encountered:\n", ev)
+		});
 	}
 
 	fit() {
 		this.fitAddon.fit()
-	}
-
-	open(element: HTMLDivElement) {
-		this.xterm.open(element)
 	}
 };
