@@ -11,8 +11,14 @@
 <body>
 
 	<div class="container">
+		<div id="username_container">
+			Username:
+			<input id="username" type="text" class="form-control">	
+		</div>
+
 		Password:
 		<input id="password" type="password" class="form-control">
+
 		<button type="submit" class="btn btn-primary" onclick="submit()">OK</button>
 		<button class="btn btn-outline-danger" onclick="closeWindow()">Cancel</button>
 	</div>
@@ -21,9 +27,24 @@
 		const { ipcRenderer, remote } = require('electron')
 		var window = remote.getCurrentWindow();
 
+
+		let username_input = document.getElementById("username");
 		let password_input = document.getElementById("password");
-		password_input.focus();
+
+
+		ipcRenderer.once("get-args", (ev, username_required) => {
+			console.log("get-args, ask for username? ", username_required)
+			if(! username_required) {
+				password_input.focus();
+
+				document.getElementById("username_container").remove();
+			} else {
+				username_input.focus();
+			}
+		});
+
 		password_input.addEventListener("keyup", (ev) => {
+			console.log("Key pressed:", ev.keyCode)
 			if(ev.keyCode == 13) {
 				//Enter pressed
 
@@ -33,9 +54,13 @@
 		});
 
 		function submit() {
-			console.log("Submit")
-			const password = document.getElementById("password").value;
-			ipcRenderer.send("LoginWindowPassword", password);
+			console.log("Submit");
+			const username = null;
+			if(username) {
+				username = username_input.value;
+			}
+			const password = password.value;
+			ipcRenderer.send("LoginWindowResult", username, password);
 			
 			closeWindow()
 		}

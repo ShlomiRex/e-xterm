@@ -148,7 +148,7 @@ ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
 		}
 	});
 
-	loginWindow.loadFile(path.join(__dirname, "../html/password_login.html"));
+	loginWindow.loadFile(path.join(__dirname, "../html/login_window.html"));
 
 	var LoginWindowPasswordHandler = (event: IpcMainEvent, password: string) => {
 		//We have session and password. Start SSH.
