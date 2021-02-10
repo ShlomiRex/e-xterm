@@ -25,20 +25,25 @@ class BookmarksUI {
 		this.bookmarks = new Array<HTMLElement>();
 	}
 
+	getBookmarkInnerText(session: SSHSession) {
+		//If user did not give session name, use the hostname instead
+		if (! session.session_name) {
+			if (session.username) {
+				return session.username + "@" + session.remote_host;
+			} else {
+				return session.remote_host;
+			}
+		} else {
+			return session.session_name;
+		}
+	}
+
 	/**
 	 * Add bookmarks to ui
 	 * @param session Session to populate
 	 */
 	populate(session: SSHSession) {
-		var name = session.session_name;
-		//If user did not give session name, use the hostname instead
-		if (!name) {
-			if (session.username) {
-				name = session.username + "@" + session.remote_host;
-			} else {
-				name = session.remote_host;
-			}
-		}
+		let name: string = this.getBookmarkInnerText(session);
 
 		var protocol = session.protocol;
 		console.log("Loading session: " + name + " protocol: " + protocol);
