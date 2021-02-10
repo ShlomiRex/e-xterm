@@ -8,6 +8,14 @@
 import { SSHSession } from "./session";
 import { ipcRenderer } from 'electron';
 
+function createElementFromHTML(htmlString: string): HTMLElement {
+	var div: any = document.createElement('div');
+	div.innerHTML = htmlString.trim();
+
+	// Change this to div.childNodes to support multiple top-level nodes
+	return div.firstChild;
+}
+
 class BookmarksUI {
 	private uiParent: HTMLElement;
 
@@ -21,18 +29,6 @@ class BookmarksUI {
 	 * @param session Session to populate
 	 */
 	populate(session: SSHSession) {
-		/*
-			Example to create:
-			<a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-				id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab"
-				aria-controls="home">
-				root@10.0.0.9
-				<span class="badge rounded-pill"
-					style="background-color:black; color: white;">SSH</span>
-			</a>
-		*/
-
-
 		var name = session.session_name;
 		//If user did not give session name, use the hostname instead
 		if (!name) {
@@ -52,15 +48,6 @@ class BookmarksUI {
 		bookmark_item.setAttribute("role", "tab");
 		bookmark_item.setAttribute("aria-controls", name); //Accessability for screen readers
 		bookmark_item.innerText = name;
-
-
-		function createElementFromHTML(htmlString: string): HTMLElement {
-			var div: any = document.createElement('div');
-			div.innerHTML = htmlString.trim();
-
-			// Change this to div.childNodes to support multiple top-level nodes
-			return div.firstChild;
-		}
 
 		//This makes cursor look like clicking
 		//bookmark_item.setAttribute("href", "");
@@ -129,3 +116,9 @@ ipcRenderer.on("PopulateBookmark", (ev, session: SSHSession) => {
 	Bookmarks.populate(session);
 });
 
+
+
+ipcRenderer.on("AddBookmark", (ev, sshSession: SSHSession) => {
+	console.log("Renderer - will add bookmark")
+	Bookmarks.populate(sshSession);
+});

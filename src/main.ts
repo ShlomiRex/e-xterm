@@ -25,6 +25,7 @@ console.log("main - isRenderer? : ", isRenderer)
 
 let uiPopulateCallback = (sshSession: SSHSession) => {
 	console.log("Populate callback called")
+	mainWindow.webContents.send("AddBookmark", sshSession);
 };
 
 let uiDeleteCallback = (bookmarkId: number) => {
