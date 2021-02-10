@@ -62,7 +62,8 @@ export class MyBookmarks {
 		bookmarks.push(session)
 		store.set("bookmarks", bookmarks)
 
-		//TODO: Call renderer process and tell him to populate bookmark!
+		this.sessions.push(session);
+
 		this.uiPopulateCallback(session)
 	}
 
