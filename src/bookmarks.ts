@@ -11,7 +11,7 @@ export class MyBookmarks {
 
 	private uiPopulateCallback: any;
 	private uiDeleteCallback: any;
-		
+
 	/**
 	 * 
 	 * @param sessions The sessions to populate
@@ -77,13 +77,13 @@ export class MyBookmarks {
 			bookmarks = store.get("bookmarks") as Array<SSHSession>;
 
 			let removeIndex: number = undefined
-			for(let i = 0; i < bookmarks.length; i++) {
-				if(bookmarks[i].uuid == bookmarkId) {
+			for (let i = 0; i < bookmarks.length; i++) {
+				if (bookmarks[i].uuid == bookmarkId) {
 					removeIndex = i
 					break
 				}
 			}
-			if(removeIndex != null) {
+			if (removeIndex != null) {
 				console.log("Deleting bookmark: ", bookmarkId, " it has index of: ", removeIndex);
 				bookmarks.splice(removeIndex, 1);
 				store.set("bookmarks", bookmarks);
@@ -94,18 +94,73 @@ export class MyBookmarks {
 		}
 	}
 
-	getSessions() : Array<SSHSession> {
+	getSessions(): Array<SSHSession> {
 		return this.sessions;
 	}
 
 	getBookmarkById(uuid: string): SSHSession {
-		for(let s of this.sessions) {
-			if(s.uuid == uuid) {
+		for (let s of this.sessions) {
+			if (s.uuid == uuid) {
 				return s
 			}
 		}
 		return null
 	}
-	
 
+	private getIndexOfSessionByBookmarkId(uuid: string): number {
+		for (let i = 0; i < this.sessions.length; i++) {
+			if (this.sessions[i].uuid == uuid) {
+				return i
+			}
+		}
+		return -1
+	}
+
+	/**
+	 * Update existing bookmark with new settings
+	 * @param uuid The ID of the bookmark
+	 * @param json The new settings to set for the bookmark
+	 */
+	updateBookmark(uuid: string, json: SSHSession) {
+		//Here we actually change the item in the array. So we need pointer.
+		//getBookmarkById returns a copy. So don't use it.
+
+		let index = this.getIndexOfSessionByBookmarkId(uuid);
+		if (index < 0) {
+			console.error("Did not find bookmark with id:", uuid)
+		} else {
+			this.sessions[index] = json
+			this.sessions[index].uuid = uuid //The argument json doesn't have uuid because renderer is stupid and has no main context (json.uuid not exist)
+
+			//Store has bookmarks because of index >= 0
+			let bookmarks_json: any = store.get("bookmarks")
+			let bookmarks = new Array<SSHSession>(); //bookmarks from store
+	
+			//Just push everything onto stack
+			for (let bookmark of bookmarks_json) {
+				bookmarks.push(bookmark)
+			}
+
+			//Update the array
+			for(let i = 0; i < bookmarks.length; i++) {
+				if(bookmarks[i].uuid == uuid) {
+					bookmarks[i] = this.sessions[index]
+					break
+				}
+			}
+
+			//Set store to be the updated array
+			store.set("bookmarks", bookmarks)
+		}
+
+
+
+		// let bookmark = this.getBookmarkById(uuid);
+		// bookmark = json;
+		// console.log(this.getBookmarkById(uuid));
+
+		//Set config json file
+		//Convert simple array of json object in js to Array<SSHSession>
+
+	}
 };

@@ -208,4 +208,12 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 		MyBookmarks.getInstance().deleteBookmark(bookmarkId);
 	});
 
+	ipcMain.once("UpdateBookmark", (ev, json) => {
+		console.log("Going to update session:", sshSession, " with session:", json);
+		MyBookmarks.getInstance().updateBookmark(sshSession.uuid, json);
+		
+		//TODO: Call renderer to re-populate bookmarks
+		
+	});
+
 });

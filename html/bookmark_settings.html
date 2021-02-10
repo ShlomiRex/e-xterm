@@ -151,8 +151,9 @@
 				<div>
 					<button type="submit" class="btn btn-primary">Apply</button>
 					<a id="cancel" name="cancel" class="btn btn-outline-danger" onclick="cancel()">Cancel</a>
-					
-					<button onclick="deleteClicked()" class="btn btn-danger" style="position: relative;float: right;" title="Delete this bookmark">Delete</button>
+
+					<button onclick="deleteClicked()" class="btn btn-danger" style="position: relative;float: right;"
+						title="Delete this bookmark">Delete</button>
 				</div>
 			</form>
 		</div>
@@ -165,6 +166,8 @@
 
 
 	let bookmarkId = undefined;
+
+	//This parameter is set after DOM is loaded from main process.
 	let session = undefined;
 
 	const e_remote_host = document.getElementById("remote_host");
@@ -220,27 +223,21 @@
 	function submitForm() {
 		console.log("Submit form")
 
-		const form = document.getElementById("form")
-		console.dir(form);
+		let json = {};
+		json["protocol"] = "SSH";
+		json["remote_host"] = e_remote_host.value;
+		json["username"] = e_username.value;
+		json["port"] = e_port.value;
 
-		var json = {
-			"protocol": selected
-		}
+		json["x11_forwarding"] = e_x11_forwarding.checked;
+		json["compression"] = e_compression.checked;
 
-		if (selected == "SSH") {
-			json["remote_host"] = e_remote_host.value;
-			json["username"] = e_username.value;
-			json["port"] = e_port.value;
+		json["session_name"] = e_session_name.value;
+		json["session_description"] = e_session_description.value;
 
-			json["x11_forwarding"] = e_x11_forwarding.checked;
-			json["compression"] = e_compression.checked;
 
-			json["session_name"] = e_session_name.value;
-			json["session_description"] = e_session_description.value;
-		}
-
-		//Save bookmark
-		ipcRenderer.send("NewBookmark", json)
+		//Update bookmark
+		ipcRenderer.send("UpdateBookmark", json)
 
 		window.close()
 	}
