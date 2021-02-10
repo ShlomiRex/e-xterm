@@ -74,7 +74,7 @@ export class MyTerminal {
 		});
 	}
 
-	init_ssh(parent: HTMLElement, session: SSHSession, password: string, error_callback: any) {
+	init_ssh(parent: HTMLElement, username: string, password: string, hostname: string, port: number, error_callback: any) {
 		//Load addons
 		this.xterm.loadAddon(this.fitAddon);
 
@@ -101,11 +101,6 @@ export class MyTerminal {
 			//this.keyPressed(data)
 			this.xterm.write(data);
 		}
-
-		let port = session.port;
-		let hostname = session.remote_host;
-		let username = session.username;
-
 
 		conn.on('ready', function () {
 			conn.shell(function (err: Error, stream: ssh2.ClientChannel) {

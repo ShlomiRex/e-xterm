@@ -150,10 +150,18 @@ ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
 
 	loginWindow.loadFile(path.join(__dirname, "../html/login_window.html"));
 
-	var LoginWindowPasswordHandler = (event: IpcMainEvent, password: string) => {
+	loginWindow.webContents.once("did-finish-load", () => {
+		let ask_for_username = true
+		if(session.username != null && session.username.length > 0) {
+			ask_for_username = false
+		}
+		loginWindow.webContents.send("get-args", ask_for_username);
+	});
+
+	var LoginWindowHandler = (event: IpcMainEvent, username: string, password: string) => {
 		//We have session and password. Start SSH.
-		console.log("Login window returned password. Password length:", password.length, "\nWith session:", session)
-		mainWindow.webContents.send("StartSSH", session, password)
+		console.log("Handling result of login window")
+		mainWindow.webContents.send("StartSSH", session, username, password)
 
 		ipcMain.on("SSHError", (e, message) => {
 			console.log("SSH Error occured");
@@ -161,10 +169,11 @@ ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
 
 		});
 	};
-	ipcMain.once("LoginWindowPassword", LoginWindowPasswordHandler);
+	ipcMain.once("LoginWindowResult", LoginWindowHandler);
 
 	loginWindow.once("closed", () => {
-		ipcMain.removeListener("LoginWindowPassword", LoginWindowPasswordHandler);
+		//When window finishes, don't listen to result listiner anymore
+		ipcMain.removeListener("LoginWindowResult", LoginWindowHandler);
 	});
 
 });

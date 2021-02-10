@@ -18,13 +18,17 @@ window.addEventListener("DOMContentLoaded", () => {
 	var isRenderer = require('is-electron-renderer')
 	console.log("preload - isRenderer? : ", isRenderer)
 
-	ipcRenderer.on("StartSSH", (event, session: SSHSession, password: string) => {
+	ipcRenderer.on("StartSSH", (event, session: SSHSession, username: string, password: string) => {
 		console.log("Session:", session)
 		console.log("Password length:", password.length)
 
-		let title = session.session_name;
+		if(session.username != null && session.username.length > 0) {
+			username = session.username
+		}
+
+		let title = username;
 		if(! title) {
-			title = session.username + "@" + session.remote_host
+			title = username + "@" + session.remote_host
 		}
 
 
@@ -34,7 +38,9 @@ window.addEventListener("DOMContentLoaded", () => {
 			ipcRenderer.send("SSHError", ev.message);
 		}
 
-		let tab: Tab = Tabs.getInstance().addSSHTerminal(session, password, error_callback, title)
+		let hostname = session.remote_host;
+		let port = session.port;
+		let tab: Tab = Tabs.getInstance().addSSHTerminal(username, password, hostname, port, error_callback, title)
 
 		console.log("Created SSH tab:", tab)
 

@@ -31,9 +31,11 @@
 		let username_input = document.getElementById("username");
 		let password_input = document.getElementById("password");
 
+		let username_required = undefined;
 
-		ipcRenderer.once("get-args", (ev, username_required) => {
-			console.log("get-args, ask for username? ", username_required)
+		ipcRenderer.once("get-args", (ev, _username_required) => {
+			console.log("get-args, ask for username? ", _username_required)
+			username_required = _username_required
 			if(! username_required) {
 				password_input.focus();
 
@@ -55,11 +57,12 @@
 
 		function submit() {
 			console.log("Submit");
-			const username = null;
-			if(username) {
+			let username = null;
+			const password = password_input.value;
+
+			if(username_required) {
 				username = username_input.value;
 			}
-			const password = password.value;
 			ipcRenderer.send("LoginWindowResult", username, password);
 			
 			closeWindow()
