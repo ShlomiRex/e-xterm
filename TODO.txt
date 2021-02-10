@@ -18,5 +18,9 @@ Low Priority:
 * Change default app menus (top menu - file, help..)
 
 
+Long term tasks:
+* Add support for SFTP and add on the left panel the SFTP browser. Maybe look into native bootstrap. Or use w2ui.
+
+
 Materials:
 * xterm.js sequences: https://xtermjs.org/docs/api/vtfeatures/
