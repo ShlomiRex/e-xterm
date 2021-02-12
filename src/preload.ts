@@ -2,7 +2,8 @@
 // It has the same sandbox as a Chrome extension.
 
 import * as Store from 'electron-store';
-import { BrowserWindow, ipcRenderer, remote} from 'electron';
+import { ipcRenderer, remote} from 'electron';
+const { Menu, MenuItem } = remote;
 
 import { SSHSession } from './session';
 import { Tabs, Tab } from "./tabs";
@@ -106,55 +107,88 @@ ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {
 	tabs.fit_terminal()
 });
 
-const { Menu, MenuItem } = remote;
 
-let settings_clicked = (menuItem: any) => {
-	console.log("Clicked on settings", menuItem.id)
-	
-}
-let deleteBookmark_called = (menuItem: any) => {
-	console.log("Clicked on delete bookmark", menuItem.id)
-};
 
 const bookmarkContextMenu = new Menu();
 bookmarkContextMenu.append(new MenuItem({
-	"click": settings_clicked,
 	"label": 'Settings',
-	"id": "settings"
+	"id": "settings",
+	"click": (menuItem: any) => {
+		console.log("Clicked on settings", menuItem.id)
+	}
 }));
 bookmarkContextMenu.append(new MenuItem({
 	"type": "separator"
 }));
 bookmarkContextMenu.append(new MenuItem({
-	"click": deleteBookmark_called,
 	"label": "Delete bookmark",
-	"id": "delete"
+	"id": "delete",
+	"click": (menuItem: any) => {
+		console.log("Clicked on delete bookmark", menuItem.id)
+	}
 }));
 
 
 
-window.addEventListener('contextmenu', (e: MouseEvent) => {
-	e.preventDefault()
-	console.log("Context menu fired!", e)
+const terminalContextMenu = new Menu();
+terminalContextMenu.append(new MenuItem({
+	"label": "Copy",
+	"id": "terminal_copy",
+	"click": (menuItem: any) => {
+		console.log("Terminal copy clicked")
+	}
+}));
+terminalContextMenu.append(new MenuItem({
+	"label": "Paste",
+	"id": "terminal_paste",
+	"click": (menuItem: any) => {
+		console.log("Terminal paste clicked")
+	}
+}))
 
-	//Find if path is bookmark. Object may not have "hasAttribute"
+
+
+window.addEventListener('contextmenu', (mouseEvent: MouseEvent) => {
+	mouseEvent.preventDefault()
+	console.log("Context menu fired!", mouseEvent)
+
+	//Find if path is bookmark. Object may not have "hasAttribute" so try catch
 	try {
-		for (let path of (e as any).path) {
+		for (let path of (mouseEvent as any).path) {
 			if (path.hasAttribute("data-bookmark-id")) {
 				let bookmarkId = path.getAttribute("data-bookmark-id");
 				console.log("Right clicked on bookmark id:", bookmarkId)
-				let callback = () => {
-					console.log("ContextMenu closed")
-				};
 				bookmarkContextMenu.popup({
 					"window": remote.getCurrentWindow(),
-					"callback": callback
+					"callback": () => {
+						console.log("Bookmark ContextMenu closed")
+					}
 				})
 				break
 			}
 		}
 	} catch (e: any) {
-		//do nothing
+		//did not find bookmark target
+		//maybe user clicked on terminal?
+		try {
+			for(let path of (mouseEvent as any).path) {
+				if(path.id.startsWith("terminal_")) {
+					console.log(path);
+					let terminal_id = path.id;
+					console.log("Found target is terminal", terminal_id);
+					terminalContextMenu.popup({
+						"window": remote.getCurrentWindow(),
+						"callback": () => {
+							console.log("Terminal ContextMenu closed")
+						}
+					})
+					break;
+				}
+			}
+		} catch(e: any) {
+			//user did not clicked on terminal
+			console.log(e);
+		}
 	}
 
 
