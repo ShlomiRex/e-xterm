@@ -58,7 +58,7 @@ function createMainWindow() {
 	mainWindow.loadFile(path.join(__dirname, "../html/index.html"));
 
 	// Open the DevTools.
-	//mainWindow.webContents.openDevTools();
+	mainWindow.webContents.openDevTools();
 
 	const sessions: Array<SSHSession> = MyBookmarks.getInstance().getSessions();
 
@@ -256,11 +256,7 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 		}
 	}
 
-	ipcMain.once("DeleteBookmark", (ev, bookmarkId: string) => {
-		console.log("Main - DeleteBookmark")
-		MyBookmarks.getInstance().deleteBookmark(bookmarkId);
-		//No need to refresh bookmarks. uiDeleteBookmark callback is called instead
-	});
+
 
 	ipcMain.once("Renderer_BookmarksUI_UpdateBookmark", (ev, json) => {
 		console.log("Main - Renderer_BookmarksUI_UpdateBookmark");
@@ -273,6 +269,12 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 		mainWindow.webContents.send("Renderer_BookmarksUI_UpdateBookmark", json);
 	});
 
+});
+
+ipcMain.on("DeleteBookmark", (ev, bookmarkId: string) => {
+	console.log("Main - DeleteBookmark")
+	MyBookmarks.getInstance().deleteBookmark(bookmarkId);
+	//No need to refresh bookmarks. uiDeleteBookmark callback is called instead
 });
 
 ipcMain.on("ShowMessage", (ev: any, message: string, title: string, type: string = "info", detail: string = "") => {

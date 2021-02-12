@@ -120,6 +120,7 @@ bookmarkContextMenu.append(new MenuItem({
 	"id": "settings",
 	"click": (menuItem: any) => {
 		console.log("Clicked on settings", bookmarkIdTarget)
+		ipcRenderer.send("OpenBookmarkSettings", bookmarkIdTarget)
 	}
 }));
 bookmarkContextMenu.append(new MenuItem({
@@ -128,9 +129,9 @@ bookmarkContextMenu.append(new MenuItem({
 bookmarkContextMenu.append(new MenuItem({
 	"label": "Delete bookmark",
 	"id": "delete",
-	"role": "delete",
 	"click": (menuItem: any) => {
 		console.log("Clicked on delete bookmark", bookmarkIdTarget)
+		ipcRenderer.send("DeleteBookmark", bookmarkIdTarget)
 	}
 }));
 
