@@ -7,6 +7,7 @@ import * as os from 'os';
 
 import * as ssh2 from 'ssh2';
 import { SSHSession } from './session';
+import { EventEmitter } from 'events';
 
 
 export class MyTerminal {
@@ -74,7 +75,7 @@ export class MyTerminal {
 		});
 	}
 
-	init_ssh(parent: HTMLElement, username: string, password: string, hostname: string, port: number, error_callback: any) {
+	init_ssh(parent: HTMLElement, username: string, password: string, hostname: string, port: number, eventEmitter: EventEmitter) {
 		//Load addons
 		this.xterm.loadAddon(this.fitAddon);
 
@@ -102,7 +103,12 @@ export class MyTerminal {
 			this.xterm.write(data);
 		}
 
+
 		conn.on('ready', function () {
+
+			//SSH auth was success!
+			eventEmitter.emit("ready");
+
 			conn.shell(function (err: Error, stream: ssh2.ClientChannel) {
 				if (err) {
 					console.error("Error when trying to open shell")
@@ -132,10 +138,21 @@ export class MyTerminal {
 			password: password
 		});
 
-		conn.on("error", (ev) => {
+		conn.on("error", (ev: Error & ssh2.ClientErrorExtensions) => {
 			console.error("Error encountered:\n", ev)
-			error_callback(ev);
+			eventEmitter.emit("error", ev);
 		});
+
+		conn.on("greeting", (greetings: string) => {
+			console.log("Greeting!", greetings)
+			eventEmitter.emit("greeting", greetings);
+		});
+
+		conn.on("banner", (message: string) => {
+			console.log("banner!", message)
+			eventEmitter.emit("banner", message);
+		});
+
 	}
 
 	fit() {

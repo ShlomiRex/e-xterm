@@ -2,12 +2,12 @@
 // It has the same sandbox as a Chrome extension.
 
 import * as Store from 'electron-store';
-import { contextBridge, ipcRenderer } from 'electron'
+import { ipcRenderer } from 'electron';
 
-import { MyBookmarks } from './bookmarks'
 import { SSHSession } from './session';
-import { Tabs, Tab } from "./tabs"
-import * as Split from 'split.js'
+import { Tabs, Tab } from "./tabs";
+import * as Split from 'split.js';
+import { EventEmitter } from 'events';
 
 const store = new Store();
 console.log("electron-store path: ", store.path)
@@ -32,15 +32,33 @@ window.addEventListener("DOMContentLoaded", () => {
 		}
 
 
-		let error_callback = (ev: any) => {
-			console.log("Terminal error callback:", ev)
+		let eventEmitter = new EventEmitter();
+		eventEmitter.once("ready", () => {
+			console.log("Successfuly connected!");
+		})
+
+		eventEmitter.once("error", (ev: Error) => {
+			console.log("Error! : ", ev)
 			Tabs.getInstance().removeTab(tab.id);
 			ipcRenderer.send("SSHError", ev.message);
-		}
+		})
+
+		eventEmitter.once("greeting", (greetings: string) => {
+			console.log("Greetings! : ", greetings);
+			let title = "SSH Greetings message";
+			ipcRenderer.send("ShowMessage", greetings, title);
+		});
+
+		eventEmitter.once("banner", (message: string) => {
+			console.log("Banner! : ", message);
+			let title = "SSH Banner message";
+			ipcRenderer.send("ShowMessage", message, title);
+		});
+		
 
 		let hostname = session.remote_host;
 		let port = session.port;
-		let tab: Tab = Tabs.getInstance().addSSHTerminal(username, password, hostname, port, error_callback, title)
+		let tab: Tab = Tabs.getInstance().addSSHTerminal(username, password, hostname, port, eventEmitter, title)
 
 		console.log("Created SSH tab:", tab)
 

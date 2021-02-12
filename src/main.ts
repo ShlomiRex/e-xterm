@@ -3,6 +3,8 @@ import { IpcMainEvent } from "electron/main";
 import * as path from "path";
 import { MyBookmarks } from "./bookmarks";
 import { SSHSession } from "./session";
+import * as events from 'events';
+
 try {
 	require('electron-reloader')(module);
 } catch {
@@ -158,22 +160,29 @@ ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
 		loginWindow.webContents.send("get-args", ask_for_username);
 	});
 
+
 	var LoginWindowHandler = (event: IpcMainEvent, username: string, password: string) => {
 		//We have session and password. Start SSH.
 		console.log("Handling result of login window")
 		mainWindow.webContents.send("StartSSH", session, username, password)
 
-		ipcMain.on("SSHError", (e, message) => {
+		ipcMain.once("SSHError", (e, message) => {
 			console.log("SSH Error occured");
 			dialog.showErrorBox("SSH error", message);
-
 		});
 	};
+
+	//TODO: Listiner for new event. The SSH manager will emit this event every time we try to log in.
+	//If the event it sends is "OK" then don't show error message. Else, show error message.
+	
+
+
 	ipcMain.once("LoginWindowResult", LoginWindowHandler);
 
 	loginWindow.once("closed", () => {
+		console.log("Login window closed")
 		//When window finishes, don't listen to result listiner anymore
-		ipcMain.removeListener("LoginWindowResult", LoginWindowHandler);
+		ipcMain.removeAllListeners("LoginWindowResult");
 	});
 
 });
@@ -264,4 +273,11 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 		mainWindow.webContents.send("Renderer_BookmarksUI_UpdateBookmark", json);
 	});
 
+});
+
+ipcMain.on("ShowMessage", (ev: any, message: string, title: string) => {
+	dialog.showMessageBox(mainWindow, {
+		"message": message,
+		"title": title
+	});
 });

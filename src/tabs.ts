@@ -41,8 +41,8 @@ class TabContent {
 	 * 
 	 * @param parent Div element with id="terminal_<id>"
 	 */
-	init_ssh(parent: HTMLElement, username: string, password: string, hostname: string, port: number, error_callback: any) {
-		this.myTerminal.init_ssh(parent, username, password, hostname, port, error_callback);
+	init_ssh(parent: HTMLElement, username: string, password: string, hostname: string, port: number, eventEmitter: any) {
+		this.myTerminal.init_ssh(parent, username, password, hostname, port, eventEmitter);
 	}
 
 	showContent() {
@@ -128,12 +128,12 @@ export class Tab {
 		this.tabContent.init_shell(parent)
 	}
 
-	initSSHTerminalUI(parent: HTMLElement, username: string, password: string, hostname: string, port: number, error_callback: any) {
+	initSSHTerminalUI(parent: HTMLElement, username: string, password: string, hostname: string, port: number, eventEmitter: any) {
 		//1. Load addons
 		//2. Open div element
 		//3. Write to terminal stuff
 		//4. Fit terminal
-		this.tabContent.init_ssh(parent, username, password, hostname, port,error_callback)
+		this.tabContent.init_ssh(parent, username, password, hostname, port, eventEmitter)
 	}
 
 	/**
@@ -208,9 +208,9 @@ export class Tabs {
 	/**
 	 * Return the tab
 	 */
-	addSSHTerminal(username: string, password: string, hostname: string, port:number, error_callback: any, title: string = "SSH"): Tab {
+	addSSHTerminal(username: string, password: string, hostname: string, port:number, eventEmitter: any, title: string = "SSH"): Tab {
 		let { tab, DOM_terminal } = this.addTerminal(title, "../resources/ssh.png");
-		tab.initSSHTerminalUI(DOM_terminal, username, password, hostname, port, error_callback);
+		tab.initSSHTerminalUI(DOM_terminal, username, password, hostname, port, eventEmitter);
 		return tab
 	}
 
