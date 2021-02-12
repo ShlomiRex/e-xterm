@@ -15,6 +15,8 @@ try {
 //node-pty is not context aware
 app.allowRendererProcessReuse = false
 
+console.log("Electron app path:", app.getAppPath());
+
 const Store = require('electron-store');
 var isRenderer = require('is-electron-renderer')
 

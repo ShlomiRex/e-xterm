@@ -3,10 +3,12 @@ High Priority:
     Link for programs that use xterm.js: https://github.com/xtermjs/xterm.js/
 * Use SSH-KEYGEN to automate SSH logins.  Or find another way.
 * Use SSH2 npm module with private key
+* Instead of electron-store look for json file read-write so I don't have to manage appending and removing from the json file.
 
 
 Medium Priority:
 * In macOS , creating new seesion window - it's frameless. No close or minimize buttons. Investigate (on windows - yes)
+* When selecting and right clicking on terminal - it should copy the contents to clipboard
 
 
 Low Priority:
@@ -17,7 +19,6 @@ Low Priority:
 
 Long term goals:
 * Add support for SFTP and add on the left panel the SFTP browser. Maybe look into native bootstrap. Or use w2ui.
-* When selecting and right clicking on terminal - it should copy the contents to clipboard
 * When right clicking on terminal and clipboard is text then paste to terminal
 * Add support for Dark Mode (like in macOS) (For now it's light force)
 
