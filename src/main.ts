@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog } from "electron";
+import { app, BrowserWindow, ipcMain, dialog, Menu } from "electron";
 import { IpcMainEvent } from "electron/main";
 import * as path from "path";
 import { MyBookmarks } from "./bookmarks";
@@ -10,6 +10,8 @@ try {
 } catch {
 	console.warn("Production, not loading dev modules")
 }
+
+const isMac = process.platform === 'darwin'
 
 
 //node-pty is not context aware
@@ -46,7 +48,8 @@ function createMainWindow() {
 		height: 800,
 		webPreferences: {
 			preload: path.join(__dirname, "preload.js"),
-			nodeIntegration: true
+			nodeIntegration: true,
+			enableRemoteModule: true
 		},
 		show: false
 	});
@@ -122,7 +125,7 @@ app.on("ready", () => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
-	if (process.platform !== "darwin") {
+	if (! isMac) {
 		app.quit();
 	}
 });
@@ -284,3 +287,4 @@ ipcMain.on("ShowMessage", (ev: any, message: string, title: string, type: string
 ipcMain.on("ShowError", (ev: any, message: string, title: string) => {
 	dialog.showErrorBox(title, message);
 });
+
