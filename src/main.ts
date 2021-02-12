@@ -165,11 +165,6 @@ ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
 		//We have session and password. Start SSH.
 		console.log("Handling result of login window")
 		mainWindow.webContents.send("StartSSH", session, username, password)
-
-		ipcMain.once("SSHError", (e, message) => {
-			console.log("SSH Error occured");
-			dialog.showErrorBox("SSH error", message);
-		});
 	};
 
 	//TODO: Listiner for new event. The SSH manager will emit this event every time we try to log in.
@@ -280,4 +275,8 @@ ipcMain.on("ShowMessage", (ev: any, message: string, title: string) => {
 		"message": message,
 		"title": title
 	});
+});
+
+ipcMain.on("ShowError", (ev: any, message: string, title: string) => {
+	dialog.showErrorBox(title, message);
 });

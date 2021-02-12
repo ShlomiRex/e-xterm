@@ -108,6 +108,7 @@ export class MyTerminal {
 
 			//SSH auth was success!
 			eventEmitter.emit("ready");
+			eventEmitter.removeAllListeners("error");
 
 			conn.shell(function (err: Error, stream: ssh2.ClientChannel) {
 				if (err) {
@@ -138,20 +139,22 @@ export class MyTerminal {
 			password: password
 		});
 
-		conn.on("error", (ev: Error & ssh2.ClientErrorExtensions) => {
-			console.error("Error encountered:\n", ev)
+		conn.once("error", (ev: Error & ssh2.ClientErrorExtensions) => {
 			eventEmitter.emit("error", ev);
 		});
 
-		conn.on("greeting", (greetings: string) => {
+		conn.once("greeting", (greetings: string) => {
 			console.log("Greeting!", greetings)
 			eventEmitter.emit("greeting", greetings);
 		});
 
-		conn.on("banner", (message: string) => {
-			console.log("banner!", message)
+		conn.once("banner", (message: string) => {
 			eventEmitter.emit("banner", message);
 		});
+
+		conn.once("close", (hadError: boolean) => {
+			eventEmitter.emit("close", hadError);
+		})
 
 	}
 

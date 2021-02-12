@@ -35,12 +35,16 @@ window.addEventListener("DOMContentLoaded", () => {
 		let eventEmitter = new EventEmitter();
 		eventEmitter.once("ready", () => {
 			console.log("Successfuly connected!");
+			console.log("Removing error listiner")
+			eventEmitter.removeAllListeners("error");
+			console.log("Event names:", eventEmitter.eventNames())
 		})
 
 		eventEmitter.once("error", (ev: Error) => {
-			console.log("Error! : ", ev)
 			Tabs.getInstance().removeTab(tab.id);
-			ipcRenderer.send("SSHError", ev.message);
+			let title = "SSH Error";
+			let message = ev.message;
+			ipcRenderer.send("ShowError", message, title);
 		})
 
 		eventEmitter.once("greeting", (greetings: string) => {
@@ -50,9 +54,13 @@ window.addEventListener("DOMContentLoaded", () => {
 		});
 
 		eventEmitter.once("banner", (message: string) => {
-			console.log("Banner! : ", message);
 			let title = "SSH Banner message";
 			ipcRenderer.send("ShowMessage", message, title);
+		});
+
+		eventEmitter.once("close", (hadError: boolean) => {
+			console.log("Close emitted, hadError? ", hadError);
+			Tabs.getInstance().removeTab(tab.id);
 		});
 		
 
