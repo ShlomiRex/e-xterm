@@ -108,13 +108,18 @@ ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {
 });
 
 
+//These 2 variables help determined what is the target, when MenuItem's click() function is called
+//So we know what is the target when we get to that function
+//They are set to null after contextmenu closes
+let bookmarkIdTarget: string = undefined
+let terminalIdTarget: string = undefined 
 
 const bookmarkContextMenu = new Menu();
 bookmarkContextMenu.append(new MenuItem({
 	"label": 'Settings',
 	"id": "settings",
 	"click": (menuItem: any) => {
-		console.log("Clicked on settings", menuItem.id)
+		console.log("Clicked on settings", bookmarkIdTarget)
 	}
 }));
 bookmarkContextMenu.append(new MenuItem({
@@ -123,8 +128,9 @@ bookmarkContextMenu.append(new MenuItem({
 bookmarkContextMenu.append(new MenuItem({
 	"label": "Delete bookmark",
 	"id": "delete",
+	"role": "delete",
 	"click": (menuItem: any) => {
-		console.log("Clicked on delete bookmark", menuItem.id)
+		console.log("Clicked on delete bookmark", bookmarkIdTarget)
 	}
 }));
 
@@ -134,18 +140,19 @@ const terminalContextMenu = new Menu();
 terminalContextMenu.append(new MenuItem({
 	"label": "Copy",
 	"id": "terminal_copy",
+	"role": "copy",
 	"click": (menuItem: any) => {
-		console.log("Terminal copy clicked")
+		console.log("Terminal copy clicked", terminalIdTarget)
 	}
 }));
 terminalContextMenu.append(new MenuItem({
 	"label": "Paste",
 	"id": "terminal_paste",
+	"role": "paste",
 	"click": (menuItem: any) => {
-		console.log("Terminal paste clicked")
+		console.log("Terminal paste clicked", terminalIdTarget)
 	}
 }))
-
 
 
 window.addEventListener('contextmenu', (mouseEvent: MouseEvent) => {
@@ -157,11 +164,13 @@ window.addEventListener('contextmenu', (mouseEvent: MouseEvent) => {
 		for (let path of (mouseEvent as any).path) {
 			if (path.hasAttribute("data-bookmark-id")) {
 				let bookmarkId = path.getAttribute("data-bookmark-id");
+				bookmarkIdTarget = bookmarkId
 				console.log("Right clicked on bookmark id:", bookmarkId)
 				bookmarkContextMenu.popup({
 					"window": remote.getCurrentWindow(),
 					"callback": () => {
 						console.log("Bookmark ContextMenu closed")
+						bookmarkIdTarget = null
 					}
 				})
 				break
@@ -173,13 +182,14 @@ window.addEventListener('contextmenu', (mouseEvent: MouseEvent) => {
 		try {
 			for(let path of (mouseEvent as any).path) {
 				if(path.id.startsWith("terminal_")) {
-					console.log(path);
 					let terminal_id = path.id;
 					console.log("Found target is terminal", terminal_id);
+					terminalIdTarget = terminal_id
 					terminalContextMenu.popup({
 						"window": remote.getCurrentWindow(),
 						"callback": () => {
 							console.log("Terminal ContextMenu closed")
+							terminalIdTarget = null
 						}
 					})
 					break;
@@ -187,9 +197,8 @@ window.addEventListener('contextmenu', (mouseEvent: MouseEvent) => {
 			}
 		} catch(e: any) {
 			//user did not clicked on terminal
-			console.log(e);
 		}
 	}
 
 
-}, false)
+})
