@@ -55,7 +55,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
 		eventEmitter.once("banner", (message: string) => {
 			let title = "SSH Banner message";
-			ipcRenderer.send("ShowMessage", message, title);
+			let type = "info";
+			let detail = "Banner message";
+			ipcRenderer.send("ShowMessage", detail, title, type, message);
 		});
 
 		eventEmitter.once("close", (hadError: boolean) => {

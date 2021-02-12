@@ -270,10 +270,12 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 
 });
 
-ipcMain.on("ShowMessage", (ev: any, message: string, title: string) => {
+ipcMain.on("ShowMessage", (ev: any, message: string, title: string, type: string = "info", detail: string = "") => {
 	dialog.showMessageBox(mainWindow, {
 		"message": message,
-		"title": title
+		"title": title,
+		"type": type,
+		"detail": detail
 	});
 });
 
