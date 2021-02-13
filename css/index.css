@@ -70,15 +70,10 @@ body {
 	display: flex;
 }
 
-#collapseTwo {
-	height: fit-content;
-}
-
 /* Fill remaining space of left-panel */
 #accordion2 {
 	display: flex;
 	flex-flow: column;
-	height: 100%;
 }
 
 .ui-resizable-handle {
