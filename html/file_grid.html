@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="height: 100%;">
 <head>
 
 	<!-- third-party/w2ui -->
@@ -7,8 +7,8 @@
     <script src="../third-party/w2ui/libs/jquery/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="../third-party/w2ui/dist/w2ui-1.5.rc1.min.js"></script>
 </head>
-<body>
-    <div id="grid" style="width: 100%; height: 250px;"></div>
+<body style="height: 100%; overflow: hidden;">
+    <div id="grid" style="width: 100%; height: 100%;"></div>
 </body>
 <script>
 $(function () {
@@ -16,12 +16,12 @@ $(function () {
         name: 'grid',
         header: 'List of Names',
         columns: [
-            { field: 'name', caption: 'File', size: '30%' },
-            { field: 'size', caption: 'Size (KB)', size: '30%' },
-            { field: 'lastmodified', caption: 'Last modified', size: '40%' },
-            { field: 'owner', caption: 'Owner', size: '120px' },
-			{ field: 'group', caption: 'Group', size: '120px' },
-			{ field: 'access', caption: 'Access', size: '120px' },
+            { field: 'name', caption: 'File name', size: '30%' },
+            { field: 'size', caption: 'Size (KB)', size: '15%' },
+            { field: 'lastmodified', caption: 'Last modified', size: '20%' },
+            { field: 'owner', caption: 'Owner', size: '5%' },
+			{ field: 'group', caption: 'Group', size: '5%' },
+			{ field: 'access', caption: 'Access', size: '5%' },
         ],
         records: [
             { recid: 1, name: "test.txt", size: "1", lastmodified: '2021-02-10 11:19', owner: 'test', group: "test", access: "-rw-r--r---" }

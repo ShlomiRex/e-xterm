@@ -24,7 +24,7 @@
 
 <body>
 
-	<div id="left-panel" class="split" style="background-color: rgb(230, 230, 230);">
+	<div id="left-panel" class="split" style="background-color: rgb(230, 230, 230); height: 100%; display: flex; flex-flow: column;">
 		<a id="btn_newSession" class="btn btn-primary" role="button">
 			New session
 		</a>
@@ -52,7 +52,10 @@
 				</div>
 			</div>
 		</div>
-		<iframe src="file_grid.html" style="width: 100%;"></iframe>
+		<!-- This div will fill the remaining height of left panel -->
+		<div style="width: 100%; background-color: #818080; flex-grow : 1;">
+			<iframe src="file_grid.html" style="width: 100%; height: 100%; padding-bottom: 10px; background-color: yellow;"></iframe>
+		</div>
 	</div>
 
 	<div id="main-panel" class="split">
