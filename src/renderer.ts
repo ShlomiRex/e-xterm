@@ -53,7 +53,7 @@ class BookmarksUI {
 	}
 
 	/**
-	 * Add bookmarks to ui
+	 * Create bookmark item (UI) and add it
 	 * @param session Session to populate
 	 */
 	populate(session: SSHSession) {
@@ -67,6 +67,7 @@ class BookmarksUI {
 		bookmark_item.setAttribute("data-bs-toggle", "list");
 		bookmark_item.setAttribute("role", "tab");
 		bookmark_item.setAttribute("aria-controls", name); //Accessability for screen readers
+		bookmark_item.setAttribute("style", "user-select: none;")
 
 		let bookmark_txt_container = createElementFromHTML("<div class='text'></div>");
 		bookmark_txt_container.innerText = name;
