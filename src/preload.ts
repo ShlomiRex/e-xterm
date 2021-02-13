@@ -13,6 +13,7 @@ import { EventEmitter } from 'events';
 const store = new Store();
 console.log("electron-store path: ", store.path)
 
+Tabs.createInstance();
 let tabs = Tabs.getInstance();
 
 window.addEventListener("DOMContentLoaded", () => {

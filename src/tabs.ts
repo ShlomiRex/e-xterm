@@ -162,11 +162,13 @@ export class Tabs {
 	}
 
 	static getInstance(): Tabs {
+		return Tabs.instance;
+	}
+
+	static createInstance() {
 		if (!Tabs.instance) {
 			Tabs.instance = new Tabs();
 		}
-
-		return Tabs.instance;
 	}
 
 	/**
