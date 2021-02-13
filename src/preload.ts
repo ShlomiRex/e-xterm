@@ -77,6 +77,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	});
 
+	ipcRenderer.on("StartShell", () => {
+		Tabs.getInstance().addShellTerminal();
+	});
+
 
 	//TODO: Do something, call renderer...
 	//let DOM_SessionContainer = document.getElementById("SessionsContainer");

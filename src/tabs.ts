@@ -148,7 +148,7 @@ export class Tab {
 };
 
 /**
- * Manage the tabs. Singleton
+ * Manage the tabs. Singleton. Must be created in renderer context, like preload or renderer.
  */
 export class Tabs {
 	private tabs: Array<Tab>

@@ -186,6 +186,10 @@ document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEv
 	ipcRenderer.send("OpenNewSessionWindow")
 });
 
+document.getElementById("btn_newShell").addEventListener("click", (ev: MouseEvent) => {
+	ipcRenderer.send("NewShell")
+})
+
 
 
 

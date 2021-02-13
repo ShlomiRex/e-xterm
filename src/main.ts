@@ -3,7 +3,6 @@ import { IpcMainEvent } from "electron/main";
 import * as path from "path";
 import { MyBookmarks } from "./bookmarks";
 import { SSHSession } from "./session";
-import * as events from 'events';
 
 try {
 	require('electron-reloader')(module);
@@ -290,3 +289,7 @@ ipcMain.on("ShowError", (ev: any, message: string, title: string) => {
 	dialog.showErrorBox(title, message);
 });
 
+ipcMain.on("NewShell", () => {
+	console.log("Main - NewShell")
+	mainWindow.webContents.send("StartShell")
+})
