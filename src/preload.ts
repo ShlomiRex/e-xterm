@@ -8,6 +8,7 @@ const { Menu, MenuItem } = remote;
 import { SSHSession } from './session';
 import { Tabs, Tab } from "./tabs";
 import * as Split from 'split.js';
+
 import { EventEmitter } from 'events';
 
 const store = new Store();
@@ -100,8 +101,13 @@ window.addEventListener("DOMContentLoaded", () => {
 	//Setup split.js
 	Split(['#left-panel', '#main-panel'],
 		{
-			sizes: [50, 50],
-			gutterSize: 300
+			direction: "horizontal"
+		}
+	);
+
+	Split(['#split1', '#split2'],
+		{
+			direction: "vertical"
 		}
 	);
 });
