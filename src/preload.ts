@@ -105,11 +105,13 @@ window.addEventListener("DOMContentLoaded", () => {
 		}
 	);
 
+	/*
 	Split(['#split1', '#split2'],
 		{
 			direction: "vertical"
 		}
 	);
+	*/
 });
 
 ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {

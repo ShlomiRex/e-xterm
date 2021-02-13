@@ -20,6 +20,21 @@
 	<script src="../third-party/draggabilly/dist/draggabilly.pkgd.js"></script>
 	<script src="../third-party/chrome-tabs/js/chrome-tabs.js"></script>
 	<link rel="stylesheet" href="../third-party/chrome-tabs/css/chrome-tabs.css">
+
+	<script src="../third-party/jquery/jquery-3.5.1.min.js"></script>
+  <script src="../third-party/jquery/jquery-ui-1.12.1.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
+
+  <script>
+	$( function() {
+		//Only allow resize in south direction (bottom)
+	  $( "#collapseTwo" ).resizable({
+		  handles: "s"
+	  });
+	} );
+	</script>
+
+
 </head>
 
 <body>
@@ -68,9 +83,12 @@
 				<div class="accordion-body" style="padding: 0px; margin: 0px; height: 100%;">
 					<iframe src="file_grid.html" id="file_grid" class="list-group" role="tablist"></iframe>
 				</div>
+				
 			</div>
 		</div>
 
+
+		<!--
 		<div id="split1" class="split2" style="background-color: yellow;">
 			test
 		</div>
@@ -78,6 +96,7 @@
 		<div id="split2" class="split2" style="background-color: violet;">
 			test 2
 		</div>
+		-->
 	</div>
 
 	<div id="main-panel" class="split">

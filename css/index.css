@@ -72,7 +72,6 @@ body {
 
 #collapseTwo {
 	height: fit-content;
-	background-color: red;
 }
 
 /* Fill remaining space of left-panel */
@@ -80,4 +79,8 @@ body {
 	display: flex;
 	flex-flow: column;
 	height: 100%;
+}
+
+.ui-resizable-handle {
+	height: 10px;
 }
