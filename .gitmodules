@@ -7,3 +7,6 @@
 [submodule "third-party/split"]
 	path = third-party/split
 	url = https://github.com/nathancahill/split
+[submodule "third-party/w2ui"]
+	path = third-party/w2ui
+	url = https://github.com/vitmalina/w2ui
