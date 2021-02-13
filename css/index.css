@@ -63,3 +63,15 @@ body {
 	flex-grow : 1; 	
 	display: flex;
 }
+
+#collapseTwo {
+	height: fit-content;
+	background-color: red;
+}
+
+/* Fill remaining space of left-panel */
+#accordion2 {
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+}
