@@ -24,13 +24,20 @@
 
 <body>
 
-	<div id="left-panel" class="split" style="background-color: rgb(230, 230, 230); height: 100%; display: flex; flex-flow: column;">
-		<a id="btn_newSession" class="btn btn-primary" role="button">
-			New session
-		</a>
-		<a id="btn_newShell" class="btn btn-dark" role="button">
-			New shell
-		</a>
+	<div id="left-panel" class="split"
+		style="background-color: rgb(230, 230, 230); height: 100%; display: flex; flex-flow: column;">
+
+		<div style="width: 100%; background-color: rgb(180, 180, 180);">
+			<div style="padding: 10px">
+				<a id="btn_newSession" class="btn btn-primary" role="button">
+					New session
+				</a>
+				<a id="btn_newShell" class="btn btn-dark" role="button">
+					New shell
+				</a>
+			</div>
+
+		</div>
 
 		<div id="bookmarks-container">
 			<div class="accordion" id="accordionExample">
@@ -41,8 +48,7 @@
 							Bookmarks
 						</button>
 					</h2>
-					<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-						data-bs-parent="#accordionExample">
+					<div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
 						<div class="accordion-body" id="ToPopulate" style="padding: 0px;">
 							<div class="list-group" id="SessionsContainer" role="tablist">
 								<!-- The program will populate bookmarks here -->
@@ -52,10 +58,28 @@
 				</div>
 			</div>
 		</div>
-		<!-- This div will fill the remaining height of left panel -->
-		<div style="width: 100%; flex-grow : 1; overflow: hidden;">
-			<iframe src="file_grid.html" style="width: 100%; height: 100%; padding-bottom: 10px;"></iframe>
+		<div class="accordion" id="accordionExample2">
+			<div class="accordion-item">
+				<h2 class="accordion-header">
+					<button class="accordion-button" type="button" data-bs-toggle="collapse"
+						data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+						Remote files
+					</button>
+				</h2>
+				<div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#accordionExample2">
+					<div class="accordion-body" style="padding: 0px;">
+						<div class="list-group" role="tablist">
+							<!-- This div will fill the remaining height of left panel -->
+							<div style="width: 100%; flex-grow : 1; overflow: hidden;">
+								<iframe src="file_grid.html"
+									style="width: 100%; height: 100%; padding-bottom: 10px;"></iframe>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
+
 	</div>
 
 	<div id="main-panel" class="split">
@@ -73,10 +97,10 @@
 
 
 	<!-- You can also require other files to run in this process -->
-	
+
 	<script>
 		require("../dist/renderer.js")
-	 </script>
+	</script>
 
 </body>
 

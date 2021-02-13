@@ -24,6 +24,7 @@ Long term goals:
 * Add support for SFTP and add on the left panel the SFTP browser. Maybe look into native bootstrap. Or use w2ui.
 * When right clicking on terminal and clipboard is text then paste to terminal
 * Add support for Dark Mode (like in macOS) (For now it's light force)
+* Think about UI and useability. Maybe we can make it better looking while having better productivity. Think what you would like to add to make it easier.
 
 
 Materials:
