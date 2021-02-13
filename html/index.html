@@ -40,7 +40,7 @@
 		</div>
 
 		<div id="bookmarks-container">
-			<div class="accordion" id="accordionExample">
+			<div class="accordion" id="accordion1">
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="headingOne">
 						<button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -48,7 +48,7 @@
 							Bookmarks
 						</button>
 					</h2>
-					<div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+					<div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordion1">
 						<div class="accordion-body" id="ToPopulate" style="padding: 0px;">
 							<div class="list-group" id="SessionsContainer" role="tablist">
 								<!-- The program will populate bookmarks here -->
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="accordion" id="accordionExample2">
+		<div class="accordion" id="accordion2">
 			<div class="accordion-item">
 				<h2 class="accordion-header">
 					<button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -66,15 +66,9 @@
 						Remote files
 					</button>
 				</h2>
-				<div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#accordionExample2">
-					<div class="accordion-body" style="padding: 0px;">
-						<div class="list-group" role="tablist">
-							<!-- This div will fill the remaining height of left panel -->
-							<div style="width: 100%; flex-grow : 1; overflow: hidden;">
-								<iframe src="file_grid.html"
-									style="width: 100%; height: 100%; padding-bottom: 10px;"></iframe>
-							</div>
-						</div>
+				<div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#accordion2" style="height: 250px; background-color: lightgreen;">
+					<div class="accordion-body" style="padding: 0px; margin: 0px; height: 100%;">
+						<iframe src="file_grid.html" id="file_grid" class="list-group" role="tablist"></iframe>
 					</div>
 				</div>
 			</div>

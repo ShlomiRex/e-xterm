@@ -100,9 +100,8 @@ window.addEventListener("DOMContentLoaded", () => {
 	//Setup split.js
 	Split(['#left-panel', '#main-panel'],
 		{
-			sizes: [20, 80],
-			gutterSize: 5,
-
+			sizes: [50, 50],
+			gutterSize: 300
 		}
 	);
 });

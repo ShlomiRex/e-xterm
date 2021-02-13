@@ -57,7 +57,7 @@ function createMainWindow() {
 	mainWindow.loadFile(path.join(__dirname, "../html/index.html"));
 
 	// Open the DevTools.
-	mainWindow.webContents.openDevTools();
+	//mainWindow.webContents.openDevTools();
 
 	const sessions: Array<SSHSession> = MyBookmarks.getInstance().getSessions();
 
