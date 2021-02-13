@@ -74,6 +74,12 @@ body {
 #accordion2 {
 	display: flex;
 	flex-flow: column;
+	height: 100%;
+}
+
+#collapseTwo {
+	height: 50%;
+	min-height: 130px;
 }
 
 .ui-resizable-handle {
