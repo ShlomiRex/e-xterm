@@ -5,12 +5,12 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Electron: Main",
+			"name": "Debug main process",
 			"type": "node",
 			"request": "launch",
 			"program": "${workspaceRoot}/src/main.ts",
 			"protocol": "inspector",
-			"stopOnEntry": false,
+			"stopOnEntry": false,  //If you set it true then it will first go to main.js instead of main.ts.
 			"args": [],
 			"cwd": "${workspaceRoot}/dist",
 			"runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
@@ -27,23 +27,33 @@
 			],
 			"internalConsoleOptions": "openOnSessionStart",
 			"console": "integratedTerminal",
-			"preLaunchTask": "build"
+			"preLaunchTask": "build",
+			"presentation": {
+				"hidden": true,  //Hide this configuration, use compound launch configuration : "Debug main and renderer processes"
+				"group": "",
+				"order": 1
+			}
 		},
 		{
-			"name": "Electron: Renderer",
+			"name": "Attach renderer debugger to main process",
 			"type": "chrome",
 			"request": "attach",
 			"port": 9223,
 			"webRoot": "${workspaceFolder}",
-			"timeout": 30000
+			"sourceMaps": true,
+			"presentation": {
+				"hidden": true,  //Hide this configuration, use compound launch configuration : "Debug main and renderer processes"
+				"group": "",
+				"order": 1
+			}
 		}
 	],
 	"compounds": [
 		{
-			"name": "Electron: All",
+			"name": "Debug main and renderer processes",
 			"configurations": [
-				"Electron: Main",
-				"Electron: Renderer"
+				"Debug main process",
+				"Attach renderer debugger to main process"
 			]
 		}
 	]
