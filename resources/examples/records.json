@@ -1,0 +1,9 @@
+[
+	{ "recid": 1, "name": "test.txt",  "size": "1",   "lastmodified": "2021-02-10 11:19", "owner": "test", "group": "test", "access": "-rw-r--r---" },
+	{ "recid": 2, "name": "test2.txt", "size": "5",   "lastmodified": "2021-02-10 11:19", "owner": "test", "group": "test", "access": "-rw-r--r---" },
+	{ "recid": 3, "name": "test3.txt", "size": "163", "lastmodified": "2021-02-10 12:42", "owner": "test", "group": "test", "access": "-rw-r--r---" },
+	{ "recid": 4, "name": "test4.txt", "size": "3",   "lastmodified": "2021-02-10 11:19", "owner": "test", "group": "test", "access": "-rw-r--r---" },
+	{ "recid": 5, "name": "test.txt",  "size": "1",   "lastmodified": "2021-02-10 11:19", "owner": "test", "group": "test", "access": "-rw-r--r---" },
+	{ "recid": 6, "name": "test.txt",  "size": "1",   "lastmodified": "2021-02-10 11:19", "owner": "test", "group": "test", "access": "-rw-r--r---" },
+	{ "recid": 7, "name": "test.txt",  "size": "1",   "lastmodified": "2021-02-10 11:19", "owner": "test", "group": "test", "access": "-rw-r--r---" }
+]
