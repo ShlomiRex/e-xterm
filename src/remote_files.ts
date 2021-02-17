@@ -1,7 +1,5 @@
 //In renderer context
 
-import { w2grid } from "w2ui"
-
 export interface Row {
 	recid: number,              //unique id for the row
 
