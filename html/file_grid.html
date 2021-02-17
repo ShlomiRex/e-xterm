@@ -2,6 +2,8 @@
 <html>
 <head>
 
+	<script src="../third-party/jquery/jquery-3.5.1.min.js"></script>
+
 	<link rel="stylesheet" type="text/css" href="../css/file_grid.css">
 
 	<!-- third-party/w2ui -->
@@ -14,33 +16,11 @@
 <body>
     <div id="grid"></div>
 </body>
+
 <script>
-$(function () {
-    $('#grid').w2grid({
-        name: 'grid',
-        header: 'List of Names',
-		show: {
-			toolbar: true,
-			footer: true
-		},
-        columns: [
-            { field: 'name', caption: 'File name', size: '170px', sortable: true },
-            { field: 'size', caption: 'Size (KB)', size: '66px', sortable: false },
-            { field: 'lastmodified', caption: 'Last modified', size: '115px', sortable: false },
-            { field: 'owner', caption: 'Owner', size: '60px', sortable: true },
-			{ field: 'group', caption: 'Group', size: '60px', sortable: true },
-			{ field: 'access', caption: 'Access', size: '70px', sortable: false, resizable: false },
-        ],
-        records: [
-            { recid: 1, name: "test.txt", size: "1", lastmodified: '2021-02-10 11:19', owner: 'test', group: "test", access: "-rw-r--r---" },
-			{ recid: 2, name: "test2.txt", size: "5", lastmodified: '2021-02-10 11:19', owner: 'test', group: "test", access: "-rw-r--r---" },
-			{ recid: 3, name: "test3.txt", size: "163", lastmodified: '2021-02-10 12:42', owner: 'test', group: "test", access: "-rw-r--r---" },
-			{ recid: 4, name: "test4.txt", size: "3", lastmodified: '2021-02-10 11:19', owner: 'test', group: "test", access: "-rw-r--r---" },
-			{ recid: 5, name: "test.txt", size: "1", lastmodified: '2021-02-10 11:19', owner: 'test', group: "test", access: "-rw-r--r---" },
-			{ recid: 6, name: "test.txt", size: "1", lastmodified: '2021-02-10 11:19', owner: 'test', group: "test", access: "-rw-r--r---" },
-			{ recid: 7, name: "test.txt", size: "1", lastmodified: '2021-02-10 11:19', owner: 'test', group: "test", access: "-rw-r--r---" }
-        ]
-    });
-});
+	console.log("Test")
+	require("../dist/remote_files.js")
+
 </script>
+
 </html>
