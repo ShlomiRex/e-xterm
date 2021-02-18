@@ -49,7 +49,7 @@ function createMainWindow() {
 			preload: path.join(__dirname, "preload.js"),
 			nodeIntegration: true,
 			enableRemoteModule: true,
-			nodeIntegrationInSubFrames: true
+			contextIsolation: false
 		},
 		show: false
 	});

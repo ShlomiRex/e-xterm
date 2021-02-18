@@ -91,11 +91,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	tabs.init()
 	tabs.addShellTerminal();
-	//tabs.addTextTerminal();
-	//tabs.addShellTerminal();
-	//tabs.addTextTerminal();
-
-	//tabs.addSSHTerminal();
 
 
 	//Setup split.js
