@@ -178,12 +178,12 @@ export class Tabs {
 		var el: Element = document.querySelector('.chrome-tabs');
 		el.addEventListener("activeTabChange", (event: CustomEvent) => {
 			let tabId: any = event.detail.tabEl["data-id"]
-			console.debug('Active tab changed to: ', tabId, event)
+			console.log('Active tab changed to: ', tabId, event)
 			this.selectTab(tabId)
 		});
 
 		el.addEventListener('tabAdd', (event: CustomEvent) => {
-			console.debug("Tab added", event.detail.tabEl)
+			console.log("Tab added", event.detail.tabEl)
 			let lastAddedTab = this.getLastAddedTab()
 			let id = lastAddedTab.id
 			//Set newly added tab attribute "data-id" to be last added tab's id
@@ -191,7 +191,7 @@ export class Tabs {
 		});
 
 		el.addEventListener("tabRemove", (event: CustomEvent) => {
-			console.debug("Tab remove: ", event.detail.tabEl)
+			console.log("Tab remove: ", event.detail.tabEl)
 		});
 
 		chromeTabs.init(el)
