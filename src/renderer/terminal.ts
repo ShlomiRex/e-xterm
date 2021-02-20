@@ -9,6 +9,9 @@ import * as ssh2 from 'ssh2';
 import { SSHSession } from '../shared/session';
 import { EventEmitter } from 'events';
 
+/**
+ * Terminal is special case, since it must be initialized in renderer context
+ */
 
 export class MyTerminal {
 	//The terminal Object (UI and API)
@@ -18,7 +21,8 @@ export class MyTerminal {
 
 	constructor() {
 		this.xterm = new Terminal({
-			"cursorBlink": true
+			"cursorBlink": true,
+			"fontSize": 21
 		});
 
 		this.fitAddon = new FitAddon();

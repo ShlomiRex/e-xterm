@@ -155,7 +155,7 @@ ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
 		}
 	});
 
-	loginWindow.loadFile(path.join(__dirname, "../html/login_window.html"));
+	loginWindow.loadFile(path.join(__dirname, "../../html/login_window.html"));
 
 	loginWindow.webContents.once("did-finish-load", () => {
 		let ask_for_username = true
@@ -204,7 +204,7 @@ ipcMain.on("OpenNewSessionWindow", () => {
 		}
 	});
 
-	newSessionWindow.loadFile(path.join(__dirname, "../html/new_session.html"));
+	newSessionWindow.loadFile(path.join(__dirname, "../../html/new_session.html"));
 
 	newSessionWindow.on("close", (ev: any) => {
 		console.log("New session window closed");
@@ -235,7 +235,7 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 		}
 	});
 
-	bookmarkSettings.loadFile(path.join(__dirname, "../html/bookmark_settings.html"));
+	bookmarkSettings.loadFile(path.join(__dirname, "../../html/bookmark_settings.html"));
 
 	bookmarkSettings.webContents.once("did-finish-load", () => {
 		bookmarkSettings.webContents.send("get-args", sessionUUID, sshSession);
