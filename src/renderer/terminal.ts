@@ -96,7 +96,7 @@ export class MyTerminal {
 		let myStream: ssh2.ClientChannel = undefined;
 
 		this.xterm.onKey((arg: any) => {
-			console.log("Writing to stream: ", arg.key)
+			console.debug("Writing to stream: ", arg.key)
 			myStream.write(arg.key);
 		});
 		

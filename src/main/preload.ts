@@ -19,7 +19,7 @@ let tabs = Tabs.getInstance();
 
 window.addEventListener("DOMContentLoaded", () => {
 	var isRenderer = require('is-electron-renderer')
-	console.log("preload - isRenderer? : ", isRenderer)
+	console.debug("preload - isRenderer? : ", isRenderer)
 
 	ipcRenderer.on("StartSSH", (event, session: SSHSession, username: string, password: string) => {
 		console.log("Session:", session)
@@ -111,7 +111,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {
-	console.log("Preload - fit terminal");
+	console.debug("Preload - fit terminal");
 	tabs.fit_terminal()
 });
 

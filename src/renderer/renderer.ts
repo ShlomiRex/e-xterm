@@ -60,7 +60,7 @@ class BookmarksUI {
 		let name: string = BookmarksUI.getBookmarkInnerText(session);
 
 		var protocol = session.protocol;
-		console.log("Loading session: " + name + " protocol: " + protocol);
+		console.debug("Loading session: " + name + " protocol: " + protocol);
 
 		var bookmark_item = document.createElement("a");
 		bookmark_item.className = "bookmarks-item list-group-item list-group-item-action d-flex justify-content-between align-items-center";
@@ -195,22 +195,22 @@ document.getElementById("btn_newShell").addEventListener("click", (ev: MouseEven
 
 
 ipcRenderer.on("Renderer_BookmarksUI_AddBookmark", (ev, sshSession: SSHSession) => {
-	console.log("Renderer - will add bookmark")
+	console.debug("Renderer - will add bookmark")
 	BookmarksUI.getInstance().populate(sshSession);
 });
 
 ipcRenderer.on("Renderer_BookmarksUI_RemoveBookmark", (ev, bookmarkId: string) => {
-	console.log("Renderer - will remove bookmark")
+	console.debug("Renderer - will remove bookmark")
 	BookmarksUI.getInstance().unpopulate(bookmarkId);
 });
 
 ipcRenderer.on("Renderer_BookmarksUI_ClearBookmarks", () => {
-	console.log("Renderer - will clear bookmarks");
+	console.debug("Renderer - will clear bookmarks");
 	BookmarksUI.getInstance().clear();
 });
 
 ipcRenderer.on("Renderer_BookmarksUI_UpdateBookmark", (ev, session: SSHSession) => {
-	console.log("Renderer - will update bookmark:", session);
+	console.debug("Renderer - will update bookmark:", session);
 	let text = BookmarksUI.getBookmarkInnerText(session);
 	let bookmarkId = session.uuid;
 	BookmarksUI.getInstance().update(bookmarkId, text);
