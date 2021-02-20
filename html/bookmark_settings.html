@@ -80,7 +80,7 @@
 						<div id="AdvancedSettings" class="accordion-collapse collapse show"
 							data-bs-parent="#AdvancedSettings">
 							<div class="accordion-body">
-								<div class="list-group" id="list-tab" role="tablist">
+								<div class="list-group" role="tablist">
 									<div class="row">
 										<div class="col"
 											title="X11-Forwarding allows executing a program remotly through SSH and the GUI will run locally">
@@ -97,6 +97,27 @@
 											<label class="form-check-label" for="compression">
 												Compression
 											</label>
+										</div>
+									</div>
+								</div>
+								<hr>
+								<div class="list-group" role="tablist">
+									<div class="row">
+										<div class="col-3" title="Enable private key in login">
+											<input class="form-check-input" type="checkbox" value=""
+												id="private_key" />
+											<label class="form-check-label" for="private_key">
+												Private key
+											</label>
+										</div>
+
+										<div class="col">
+											<input type="file" class="form-control" id="private_key_file" />
+										</div>
+										<div class="col-3">
+											<button type="button" class="btn btn-outline-dark" id="private_key_btn">
+												Open containing folder
+											</button>
 										</div>
 									</div>
 								</div>
@@ -175,6 +196,9 @@
 	const e_port = document.getElementById("port");
 	const e_x11_forwarding = document.getElementById("x11_forwarding");
 	const e_compression = document.getElementById("compression");
+	const e_private_key_checkbox = document.getElementById("private_key");
+	const e_private_key_file = document.getElementById("private_key_file");
+	const e_private_key_btn = document.getElementById("private_key_btn");
 	const e_session_name = document.getElementById("session_name");
 	const e_session_description = document.getElementById("session_description");
 
@@ -231,6 +255,8 @@
 
 		json["x11_forwarding"] = e_x11_forwarding.checked;
 		json["compression"] = e_compression.checked;
+
+		
 
 		json["session_name"] = e_session_name.value;
 		json["session_description"] = e_session_description.value;

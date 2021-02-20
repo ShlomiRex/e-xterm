@@ -10,5 +10,7 @@ export interface SSHSession {
 	session_name: string,
 	session_description: string
 	x11_forwarding: boolean,
-	compression: boolean
+	compression: boolean,
+	private_key: boolean,
+	private_key_path?: string
 };

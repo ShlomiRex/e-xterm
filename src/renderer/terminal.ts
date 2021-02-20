@@ -63,7 +63,7 @@ export class MyTerminal {
 
 		//Initialize node-pty with an appropriate shell
 		const WINDOWS = os.platform() === 'win32';
-		console.log("Platform:", os.platform())
+		console.debug("Platform:", os.platform())
 		const shell = process.env[WINDOWS ? 'COMSPEC' : 'SHELL'];
 		const ptyProcess = pty.spawn(shell, [], {
 			name: 'xterm-color',
