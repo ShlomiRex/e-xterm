@@ -145,7 +145,7 @@ ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
 	const loginWindow = new BrowserWindow({
 		width: 300,
 		height: 200,
-		show: true,
+		show: false,
 		autoHideMenuBar: true,
 		parent: mainWindow,
 		modal: true,
@@ -165,6 +165,9 @@ ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
 		loginWindow.webContents.send("get-args", ask_for_username);
 	});
 
+	loginWindow.once("ready-to-show", () => {
+		loginWindow.show();
+	});
 
 	var LoginWindowHandler = (event: IpcMainEvent, username: string, password: string) => {
 		//We have session and password. Start SSH.
@@ -223,7 +226,7 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 
 	const bookmarkSettings = new BrowserWindow({
 		width: 800,
-		height: 700,
+		height: 800,
 		show: false,
 		autoHideMenuBar: true,
 		parent: mainWindow,
@@ -258,7 +261,10 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 
 
 
-	ipcMain.once("Renderer_BookmarksUI_UpdateBookmark", (ev, json) => {
+	/**
+	 * json - SSHSession with uuid set to null. Called from bookmarks settings renderer
+	 */
+	ipcMain.once("Renderer_BookmarksUI_UpdateBookmark", (ev, json: SSHSession) => {
 		console.log("Main - Renderer_BookmarksUI_UpdateBookmark");
 		MyBookmarks.getInstance().updateBookmark(sshSession.uuid, json);
 		//refreshBookmarks(); //This will refresh entire ui, no need
