@@ -8,7 +8,7 @@
 			"name": "Debug main process",
 			"type": "node",
 			"request": "launch",
-			"program": "${workspaceRoot}/src/main.ts",
+			"program": "${workspaceRoot}/src/main/main.ts",
 			"protocol": "inspector",
 			"stopOnEntry": false,  //If you set it true then it will first go to main.js instead of main.ts.
 			"args": [],
