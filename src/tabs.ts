@@ -192,6 +192,9 @@ export class Tabs {
 
 		el.addEventListener("tabRemove", (event: CustomEvent) => {
 			console.log("Tab remove: ", event.detail.tabEl)
+
+			let tabId = event.detail.tabEl["data-id"]
+			document.getElementById("content_" + tabId).remove()
 		});
 
 		chromeTabs.init(el)
@@ -307,15 +310,6 @@ export class Tabs {
 
 		console.debug("fit")
 		this.tabSelected.tabContent.fitTerminal()
-	}
-
-	/**
-	 * Remove tab by given ID
-	 * @param id 
-	 */
-	removeTab(id: number) {
-		let tab = this.getTabById(id);
-		chromeTabs.removeTab(tab.chromeTabElement);
 	}
 
 };

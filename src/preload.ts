@@ -44,7 +44,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		})
 
 		eventEmitter.once("error", (ev: Error) => {
-			Tabs.getInstance().removeTab(tab.id);
+			//Tabs.getInstance().removeTabContent(tab.id);
 			let title = "SSH Error";
 			let message = ev.message;
 			ipcRenderer.send("ShowError", message, title);
@@ -65,7 +65,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 		eventEmitter.once("close", (hadError: boolean) => {
 			console.log("Close emitted, hadError? ", hadError);
-			Tabs.getInstance().removeTab(tab.id);
+			//Tabs.getInstance().removeTabContent(tab.id);
 		});
 
 
