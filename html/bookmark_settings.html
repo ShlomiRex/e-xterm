@@ -170,103 +170,18 @@
 
 				<br>
 				<div>
-					<button type="submit" class="btn btn-primary">Apply</button>
-					<a id="cancel" name="cancel" class="btn btn-outline-danger" onclick="cancel()">Cancel</a>
+					<button type="submit" class="btn btn-primary" id="apply">Apply</button>
+					<a id="cancel" name="cancel" class="btn btn-outline-danger">Cancel</a>
 
-					<button onclick="deleteClicked()" class="btn btn-danger" style="position: relative;float: right;"
-						title="Delete this bookmark" type="button">Delete</button>
+					<button class="btn btn-danger" style="position: relative;float: right;"
+						title="Delete this bookmark" type="button" id="delete">Delete</button>
 				</div>
 			</form>
 		</div>
 	</div>
 
+	<script>var exports = {"__esModule": true};</script>
+	<script src="../dist/renderer/bookmarks_settings.js"></script>
+
 </body>
-
-<script>
-	const { ipcRenderer } = require('electron')
-
-
-	let bookmarkId = undefined;
-
-	//This parameter is set after DOM is loaded from main process.
-	let session = undefined;
-
-	const e_remote_host = document.getElementById("remote_host");
-	const e_username = document.getElementById("username");
-	const e_port = document.getElementById("port");
-	const e_x11_forwarding = document.getElementById("x11_forwarding");
-	const e_compression = document.getElementById("compression");
-	const e_private_key_checkbox = document.getElementById("private_key");
-	const e_private_key_file = document.getElementById("private_key_file");
-	const e_private_key_btn = document.getElementById("private_key_btn");
-	const e_session_name = document.getElementById("session_name");
-	const e_session_description = document.getElementById("session_description");
-
-
-	function updateGUI(session) {
-		//Update the GUI to match the given session (set GUI elements to match the session settings)
-		const protocol = session.protocol;
-		const remote_host = session.remote_host;
-		const username = session.username;
-		const port = session.port;
-		const session_name = session.session_name;
-		const session_description = session.session_description;
-		const x11_forwarding = session.x11_forwarding;
-		const compression = session.compression;
-
-		console.log(protocol, remote_host, username, port, session_name, session_description, x11_forwarding, compression)
-
-		e_remote_host.value = remote_host;
-		e_username.value = username;
-		e_port.value = port;
-
-		e_session_name.value = session_name;
-		e_session_description.value = session_description;
-
-		e_x11_forwarding.checked = x11_forwarding;
-		e_compression.checked = compression;
-	}
-
-	ipcRenderer.once("get-args", (ev, _bookmarkId, _session) => {
-		console.log("Got bookmarkId and session:", _bookmarkId, _session)
-		bookmarkId = _bookmarkId;
-		session = _session;
-
-		updateGUI(session);
-	});
-
-	function cancel() {
-		window.close()
-	}
-
-	function deleteClicked() {
-		ipcRenderer.send("DeleteBookmark", bookmarkId)
-		close()
-	}
-
-	function submitForm() {
-		console.log("Submit form")
-
-		let json = {};
-		json["protocol"] = "SSH";
-		json["remote_host"] = e_remote_host.value;
-		json["username"] = e_username.value;
-		json["port"] = e_port.value;
-
-		json["x11_forwarding"] = e_x11_forwarding.checked;
-		json["compression"] = e_compression.checked;
-
-		
-
-		json["session_name"] = e_session_name.value;
-		json["session_description"] = e_session_description.value;
-
-
-		//Update bookmark
-		ipcRenderer.send("Renderer_BookmarksUI_UpdateBookmark", json)
-
-		window.close()
-	}
-</script>
-
 </html>
