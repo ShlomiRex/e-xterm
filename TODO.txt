@@ -4,6 +4,8 @@ High Priority:
 * Use SSH-KEYGEN to automate SSH logins.  Or find another way.
 * Use SSH2 npm module with private key
 * Instead of electron-store look for json file read-write so I don't have to manage appending and removing from the json file.
+* Check that the code of bookmarks settings works after moving it to typescript
+* Bookmarks settings - finish working on private key
 
 
 Medium Priority:

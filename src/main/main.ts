@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog, Menu } from "electron";
+import { app, BrowserWindow, ipcMain, dialog, shell } from "electron";
 import { IpcMainEvent } from "electron/main";
 import * as path from "path";
 import { MyBookmarks } from "./bookmarks";
@@ -299,4 +299,9 @@ ipcMain.on("ShowError", (ev: any, message: string, title: string) => {
 ipcMain.on("NewShell", () => {
 	console.log("Main - NewShell")
 	mainWindow.webContents.send("StartShell")
+})
+
+ipcMain.on("OpenContainingFolder", (ev, filepath: string) => {
+	console.log("Main - OpenContainingFolder")
+	shell.showItemInFolder(filepath)
 })

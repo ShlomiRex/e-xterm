@@ -2,14 +2,14 @@ import { SSHSession } from "../shared/session";
 
 const { ipcRenderer } = require('electron')
 
-let bookmarkId: string = undefined;
+
 
 //This parameter is set after DOM is loaded from main process.
 let session: SSHSession = undefined;
 
 const btn_apply = document.getElementById("apply")
 const btn_cancel = document.getElementById("cancel")
-const btn_delete = document.getElementById("deelete")
+const btn_delete = document.getElementById("delete")
 const btn_private_key = <HTMLInputElement>document.getElementById("private_key_btn")
 
 const e_remote_host = <HTMLInputElement>document.getElementById("remote_host");
@@ -52,6 +52,7 @@ function updateGUI(session: SSHSession) {
 	e_compression.checked = compression;
 }
 
+let bookmarkId: string = undefined;
 ipcRenderer.once("get-args", (ev, _bookmarkId, _session: SSHSession) => {
 	console.log("Got bookmarkId and session:", _bookmarkId, _session)
 	bookmarkId = _bookmarkId;
@@ -116,8 +117,9 @@ function submitForm() {
  * Called when user clicks on Open containing folder for private key file
  */
 function openContainingFolder() {
-	//TODO: Step 1: Get file path
-	//TODO: Step 2: Tell main to open file explorer / windows linux mac with the spesified file
+	let files = e_private_key_file.files
+	if(files.length != 0) {
+		ipcRenderer.send("OpenContainingFolder", files[0].path)
+	}
 
-	
 }
