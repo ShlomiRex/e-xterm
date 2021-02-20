@@ -18,19 +18,19 @@ body {
 }
 
 #left-panel {
-	width: 660px; 
+	margin-right: -5px; /* Hide splitjs halfway */
 }
 
 #main-panel {
-	width: 100%;
+	margin-left: -5px; /* Hide splitjs halfway */
 }
 
 .gutter-horizontal {
 	cursor: col-resize;
-	height: 100%;
-	background: gray;
-	width: 5px !important;
+	width: 10px !important;
+	z-index: 5;
 }
+
 
 .gutter-vertical {
 	width: 100%;

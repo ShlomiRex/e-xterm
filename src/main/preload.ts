@@ -96,7 +96,8 @@ window.addEventListener("DOMContentLoaded", () => {
 	//Setup split.js
 	Split(['#left-panel', '#main-panel'],
 		{
-			direction: "horizontal"
+			direction: "horizontal",
+			sizes: [25, 75]
 		}
 	);
 
