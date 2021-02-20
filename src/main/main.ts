@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain, dialog, Menu } from "electron";
 import { IpcMainEvent } from "electron/main";
 import * as path from "path";
 import { MyBookmarks } from "./bookmarks";
-import { SSHSession } from "./session";
+import { SSHSession } from "../shared/session";
 
 try {
 	require('electron-reloader')(module);
@@ -55,7 +55,7 @@ function createMainWindow() {
 	});
 
 	// and load the index.html of the app.
-	mainWindow.loadFile(path.join(__dirname, "../html/index.html"));
+	mainWindow.loadFile(path.join(__dirname, "../../html/index.html"));
 
 	// Open the DevTools.
 	//mainWindow.webContents.openDevTools();

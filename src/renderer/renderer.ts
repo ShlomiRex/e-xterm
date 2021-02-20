@@ -5,7 +5,7 @@
 // Use preload.js to selectively enable features
 // needed in the renderer process.
 
-import { SSHSession } from "./session";
+import { SSHSession } from "../shared/session";
 import { ipcRenderer, remote } from 'electron';
 
 function createElementFromHTML(htmlString: string): HTMLElement {

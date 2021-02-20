@@ -1,5 +1,5 @@
 import * as ChromeTabs from 'chrome-tabs';
-import { SSHSession } from './session';
+import { SSHSession } from '../shared/session';
 import { MyTerminal } from './terminal'
 
 var chromeTabs = new ChromeTabs();

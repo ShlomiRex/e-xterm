@@ -5,8 +5,8 @@ import * as Store from 'electron-store';
 import { ipcRenderer, remote} from 'electron';
 const { Menu, MenuItem } = remote;
 
-import { SSHSession } from './session';
-import { Tabs, Tab } from "./tabs";
+import { SSHSession } from '../shared/session';
+import { Tabs, Tab } from "../renderer/tabs";
 import * as Split from 'split.js';
 
 import { EventEmitter } from 'events';

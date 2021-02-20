@@ -6,7 +6,7 @@ import * as pty from 'node-pty';
 import * as os from 'os';
 
 import * as ssh2 from 'ssh2';
-import { SSHSession } from './session';
+import { SSHSession } from '../shared/session';
 import { EventEmitter } from 'events';
 
 

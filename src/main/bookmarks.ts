@@ -1,4 +1,4 @@
-import { SSHSession } from './session';
+import { SSHSession } from '../shared/session';
 import * as Store from 'electron-store';
 import { v4 as uuidv4 } from 'uuid';
 
