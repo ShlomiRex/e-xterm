@@ -35,7 +35,7 @@
 
 	<div id="content" style="margin-top: 10px;">
 		<div id="hidden_content_SSH" style="display: none;">
-			<form id="form" onsubmit="submitForm()">
+			<form id="form">
 				<div class="accordion">
 					<div class="accordion-item">
 						<h2 class="accordion-header">
@@ -103,7 +103,7 @@
 						<div id="AdvancedSettings" class="accordion-collapse collapse show"
 							data-bs-parent="#AdvancedSettings">
 							<div class="accordion-body">
-								<div class="list-group" id="list-tab" role="tablist">
+								<div class="list-group" role="tablist">
 									<div class="row">
 										<div class="col"
 											title="X11-Forwarding allows executing a program remotly through SSH and the GUI will run locally">
@@ -120,6 +120,27 @@
 											<label class="form-check-label" for="compression">
 												Compression
 											</label>
+										</div>
+									</div>
+								</div>
+								<hr>
+								<div class="list-group" role="tablist">
+									<div class="row">
+										<div class="col-3" title="Enable private key in login">
+											<input class="form-check-input" type="checkbox" value=""
+												id="private_key" />
+											<label class="form-check-label" for="private_key">
+												Private key
+											</label>
+										</div>
+
+										<div class="col">
+											<input type="file" class="form-control" id="private_key_file" />
+										</div>
+										<div class="col-3">
+											<button type="button" class="btn btn-outline-dark" id="private_key_btn">
+												Open containing folder
+											</button>
 										</div>
 									</div>
 								</div>
@@ -171,59 +192,14 @@
 				</div>
 
 				<br>
-				<button type="submit" class="btn btn-primary">Submit</button>
-				<a id="cancel" name="cancel" class="btn btn-outline-danger" onclick="cancel()">Cancel</a>
+				<button type="submit" class="btn btn-primary" id="submit">Submit</button>
+				<a id="cancel" name="cancel" class="btn btn-outline-danger">Cancel</a>
 			</form>
 		</div>
 	</div>
 
+
+	<script>var exports = {"__esModule": true};</script>
+	<script src="../dist/renderer/new_session.js"></script>
 </body>
-
-<script>
-	var selected = null;
-
-	const btnGroup = document.getElementById("choose_protocol");
-	btnGroup.addEventListener('click', ({ target }) => { // handler fires on root container click
-		if (target.getAttribute('name') === 'btnradio') { // check if user clicks right element
-			selected = target.id;
-			//TODO: For now display only SSH form
-			//Show hidden content for selected protocol
-			document.getElementById("hidden_content_" + selected).style.display = "block";
-		}
-	});
-
-	function cancel() {
-		window.close()
-	}
-
-	function submitForm() {
-		console.log("Submit form")
-
-		const form = document.getElementById("form")
-		console.dir(form);
-
-		var json = {
-			"protocol": selected
-		}
-
-		if (selected == "SSH") {
-			json["remote_host"] = document.getElementById("remote_host").value;
-			json["username"] = document.getElementById("username").value;
-			json["port"] = document.getElementById("port").value;
-
-			json["x11_forwarding"] = document.getElementById("x11_forwarding").checked;
-			json["compression"] = document.getElementById("compression").checked;
-
-			json["session_name"] = document.getElementById("session_name").value;
-			json["session_description"] = document.getElementById("session_description").value;
-		}
-
-		//Save bookmark
-		const { ipcRenderer } = require('electron')
-		ipcRenderer.send("NewBookmark", json)
-
-		window.close()
-	}
-</script>
-
 </html>
