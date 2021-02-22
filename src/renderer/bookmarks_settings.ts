@@ -27,6 +27,7 @@ btn_apply.onclick = submitForm
 btn_cancel.onclick = cancel
 btn_delete.onclick = deleteClicked
 btn_private_key.onclick = openContainingFolder
+e_private_key.onclick = privateKeyCheckboxChanged
 
 function updateGUI(session: SSHSession) {
 	//Update the GUI to match the given session (set GUI elements to match the session settings)
@@ -38,8 +39,8 @@ function updateGUI(session: SSHSession) {
 	const session_description = session.session_description;
 	const x11_forwarding = session.x11_forwarding;
 	const compression = session.compression;
+	const private_key = session.private_key
 
-	console.log(protocol, remote_host, username, port, session_name, session_description, x11_forwarding, compression)
 
 	e_remote_host.value = remote_host;
 	e_username.value = username;
@@ -50,6 +51,15 @@ function updateGUI(session: SSHSession) {
 
 	e_x11_forwarding.checked = x11_forwarding;
 	e_compression.checked = compression;
+
+	e_private_key.checked = private_key
+	if(private_key) {
+		//e_private_key_file.value = session.private_key_path
+
+		//Removed disabled elements
+		e_private_key_file.disabled = false
+		btn_private_key.disabled = false
+	}
 }
 
 let bookmarkId: string = undefined;
@@ -122,4 +132,20 @@ function openContainingFolder() {
 		ipcRenderer.send("OpenContainingFolder", files[0].path)
 	}
 
+}
+
+/**
+ * Called when user clicks on the checkbox of private key
+ */
+function privateKeyCheckboxChanged() {
+	let checked = e_private_key.checked
+	if(checked) { 
+		//Show content
+		e_private_key_file.disabled = false
+		btn_private_key.disabled = false
+	} else {
+		//Disable content
+		e_private_key_file.disabled = true
+		btn_private_key.disabled = true
+	}
 }

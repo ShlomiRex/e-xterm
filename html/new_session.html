@@ -127,18 +127,19 @@
 								<div class="list-group" role="tablist">
 									<div class="row">
 										<div class="col-3" title="Enable private key in login">
-											<input class="form-check-input" type="checkbox" value=""
-												id="private_key" />
+											<input class="form-check-input" type="checkbox" id="private_key" />
 											<label class="form-check-label" for="private_key">
 												Private key
 											</label>
 										</div>
 
 										<div class="col">
-											<input type="file" class="form-control" id="private_key_file" />
+											<input type="file" class="form-control" id="private_key_file" multiple=false
+												disabled />
 										</div>
 										<div class="col-3">
-											<button type="button" class="btn btn-outline-dark" id="private_key_btn">
+											<button type="button" class="btn btn-outline-dark" id="private_key_btn"
+												title="Open the containing folder of selected file" disabled>
 												Open containing folder
 											</button>
 										</div>
@@ -199,7 +200,8 @@
 	</div>
 
 
-	<script>var exports = {"__esModule": true};</script>
+	<script>var exports = { "__esModule": true };</script>
 	<script src="../dist/renderer/new_session.js"></script>
 </body>
+
 </html>

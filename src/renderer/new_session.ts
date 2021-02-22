@@ -35,6 +35,7 @@ const e_session_description = <HTMLInputElement>document.getElementById("session
 form.onsubmit = submitForm
 btn_cancel.onclick = cancel
 btn_private_key.onclick = openContainingFolder
+e_private_key.onclick = privateKeyCheckboxChanged
 
 function cancel() {
 	window.close()
@@ -61,8 +62,11 @@ function submitForm() {
 		private_key: e_private_key.checked
 	}
 
+	if(e_private_key.checked && e_private_key_file.files.length > 0) {
+		modal["private_key_path"] = e_private_key_file.files[0].path
+	}
+
 	//Save bookmark
-	const { ipcRenderer } = require('electron')
 	ipcRenderer.send("NewBookmark", modal)
 
 	window.close()
@@ -78,4 +82,20 @@ function openContainingFolder() {
 		ipcRenderer.send("OpenContainingFolder", files[0].path)
 	}
 
+}
+
+/**
+ * Called when user clicks on the checkbox of private key
+ */
+function privateKeyCheckboxChanged() {
+	let checked = e_private_key.checked
+	if(checked) { 
+		//Show content
+		e_private_key_file.disabled = false
+		btn_private_key.disabled = false
+	} else {
+		//Disable content
+		e_private_key_file.disabled = true
+		btn_private_key.disabled = true
+	}
 }

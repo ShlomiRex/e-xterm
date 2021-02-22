@@ -104,18 +104,18 @@
 								<div class="list-group" role="tablist">
 									<div class="row">
 										<div class="col-3" title="Enable private key in login">
-											<input class="form-check-input" type="checkbox" value=""
-												id="private_key" />
+											<input class="form-check-input" type="checkbox" id="private_key" />
 											<label class="form-check-label" for="private_key">
 												Private key
 											</label>
 										</div>
 
 										<div class="col">
-											<input type="file" class="form-control" id="private_key_file" />
+											<input type="file" class="form-control" id="private_key_file" disabled />
 										</div>
 										<div class="col-3">
-											<button type="button" class="btn btn-outline-dark" id="private_key_btn">
+											<button type="button" class="btn btn-outline-dark" id="private_key_btn"
+												title="Open the containing folder of selected file" disabled>
 												Open containing folder
 											</button>
 										</div>
@@ -173,15 +173,16 @@
 					<button type="submit" class="btn btn-primary" id="apply">Apply</button>
 					<a id="cancel" name="cancel" class="btn btn-outline-danger">Cancel</a>
 
-					<button class="btn btn-danger" style="position: relative;float: right;"
-						title="Delete this bookmark" type="button" id="delete">Delete</button>
+					<button class="btn btn-danger" style="position: relative;float: right;" title="Delete this bookmark"
+						type="button" id="delete">Delete</button>
 				</div>
 			</form>
 		</div>
 	</div>
 
-	<script>var exports = {"__esModule": true};</script>
+	<script>var exports = { "__esModule": true };</script>
 	<script src="../dist/renderer/bookmarks_settings.js"></script>
 
 </body>
+
 </html>
