@@ -29,7 +29,10 @@ btn_delete.onclick = deleteClicked
 btn_private_key.onclick = openContainingFolder
 e_private_key.onclick = privateKeyCheckboxChanged
 
+
+let opened_session :SSHSession = undefined
 function updateGUI(session: SSHSession) {
+	opened_session = session
 	//Update the GUI to match the given session (set GUI elements to match the session settings)
 	const protocol = session.protocol;
 	const remote_host = session.remote_host;
@@ -63,7 +66,7 @@ function updateGUI(session: SSHSession) {
 		//Set private key text field to be the file path
 		let private_key_path = session.private_key_path
 		e_private_key_text.value = private_key_path
-	}	
+	}
 }
 
 let bookmarkId: string = undefined;
@@ -115,9 +118,10 @@ function submitForm() {
 
 
 	if(e_private_key.checked) {
-		//TODO: Get file path from file input
-		let filepath = null
+		let filepath = e_private_key_text.value
 		modal.private_key_path = filepath
+	} else {
+		modal.private_key_path = opened_session.private_key_path
 	}
 
 
