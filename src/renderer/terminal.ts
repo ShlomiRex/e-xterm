@@ -9,6 +9,8 @@ import * as ssh2 from 'ssh2';
 import { SSHSession } from '../shared/session';
 import { EventEmitter } from 'events';
 
+import * as net from 'net';
+
 /**
  * Terminal is special case, since it must be initialized in renderer context
  */
@@ -133,6 +135,20 @@ export class MyTerminal {
 					write_to_terminal(data)
 				});
 			});
+
+			conn.exec('xeyes', { x11: true }, function(err, stream) {
+				if (err) throw err;
+				var code = 0;
+				stream.on('end', function() {
+				  if (code !== 0)
+					console.log('Do you have X11 forwarding enabled on your SSH server?');
+				  conn.end();
+				}).on('exit', function(exitcode) {
+				  code = exitcode;
+				});
+			});
+
+
 		});
 		
 		
@@ -159,6 +175,17 @@ export class MyTerminal {
 		conn.once("close", (hadError: boolean) => {
 			eventEmitter.emit("close", hadError);
 		})
+
+		conn.on('x11', function(info, accept, reject) {
+			console.log("X11 CALLED @@@@@@@@@@@@")
+			var xserversock = new net.Socket();
+			xserversock.on('connect', function() {
+			  var xclientsock = accept();
+			  xclientsock.pipe(xserversock).pipe(xclientsock);
+			});
+			// connects to localhost:0.0
+			xserversock.connect(6000, 'localhost');
+		  });
 
 	}
 

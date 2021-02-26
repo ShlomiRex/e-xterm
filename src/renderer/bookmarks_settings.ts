@@ -18,7 +18,7 @@ const e_port = <HTMLInputElement>document.getElementById("port");
 const e_x11_forwarding = <HTMLInputElement>document.getElementById("x11_forwarding");
 const e_compression = <HTMLInputElement>document.getElementById("compression");
 const e_private_key = <HTMLInputElement>document.getElementById("private_key");
-const e_private_key_file = <HTMLInputElement>document.getElementById("private_key_file");
+const e_private_key_text = <HTMLInputElement>document.getElementById("private_key_file_text");
 const e_session_name = <HTMLInputElement>document.getElementById("session_name");
 const e_session_description = <HTMLInputElement>document.getElementById("session_description");
 
@@ -57,9 +57,13 @@ function updateGUI(session: SSHSession) {
 		//e_private_key_file.value = session.private_key_path
 
 		//Removed disabled elements
-		e_private_key_file.disabled = false
+		e_private_key_text.disabled = false
 		btn_private_key.disabled = false
-	}
+
+		//Set private key text field to be the file path
+		let private_key_path = session.private_key_path
+		e_private_key_text.value = private_key_path
+	}	
 }
 
 let bookmarkId: string = undefined;
@@ -127,9 +131,11 @@ function submitForm() {
  * Called when user clicks on Open containing folder for private key file
  */
 function openContainingFolder() {
-	let files = e_private_key_file.files
-	if(files.length != 0) {
-		ipcRenderer.send("OpenContainingFolder", files[0].path)
+	let private_key_path = e_private_key_text.value
+	if(private_key_path.length > 0) {
+		ipcRenderer.send("OpenContainingFolder", private_key_path)
+	} else {
+		console.debug("Cannot open empty containing folder")
 	}
 
 }
@@ -139,13 +145,14 @@ function openContainingFolder() {
  */
 function privateKeyCheckboxChanged() {
 	let checked = e_private_key.checked
+	console.log("Private key clicked")
 	if(checked) { 
 		//Show content
-		e_private_key_file.disabled = false
+		e_private_key_text.disabled = false
 		btn_private_key.disabled = false
 	} else {
 		//Disable content
-		e_private_key_file.disabled = true
+		e_private_key_text.disabled = true
 		btn_private_key.disabled = true
 	}
 }
