@@ -33,8 +33,6 @@ export class MyTerminal {
 		this.uiTerm.init(terminalContainer)
 
 		//Initialize node-pty with an appropriate shell
-
-		
 		let shell;
 		if(WINDOWS) {
 			shell = Shell.POWERSHELL
@@ -43,18 +41,24 @@ export class MyTerminal {
 		} else {
 			shell = Shell.BASH
 		}
+
 		const ptyProcess = pty.spawn(shell, [], {
 			name: 'xterm-color',
 			cwd: process.cwd(),
-			env: process.env
+			env: process.env,
+			encoding: "UTF-8"
 		});
 
+		//When user types(input), write to node-pty
+		this.uiTerm.getXTerm().onData((data: any) => {
+			ptyProcess.write(data)
+		})
 		
-		this.uiTerm.getXTerm().onData((data: any) => ptyProcess.write(data));
+		//When receving output, write to terminal
 		ptyProcess.onData((data: any) => {
-			//console.log("Writing:", data)
 			this.uiTerm.getXTerm().write(data);
 		});
+
 	}
 
 	init_ssh(terminalContainer: HTMLElement, sshSession: SSHSession, pass: string, eventEmitter: EventEmitter) {
