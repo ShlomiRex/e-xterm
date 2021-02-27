@@ -4,6 +4,7 @@ import { AttachAddon } from 'xterm-addon-attach';
 
 import * as pty from 'node-pty';
 import * as os from 'os';
+import * as fs from "fs"
 
 import * as ssh2 from 'ssh2';
 import { SSHSession } from '../shared/session';
@@ -160,7 +161,7 @@ export class MyTerminal {
 		});
 		
 		if(sshSession.private_key) {
-			let privateKeyFS = require('fs').readFileSync(sshSession.private_key_path)
+			let privateKeyFS = fs.readFileSync(sshSession.private_key_path)
 			//Connect with private key and passphrase
 			conn.connect({
 				host: sshSession.remote_host,

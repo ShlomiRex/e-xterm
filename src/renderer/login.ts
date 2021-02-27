@@ -47,9 +47,15 @@ function submit() {
 	}
 	ipcRenderer.send("LoginWindowResult", username, password);
 	
-	closeWindow()
+	cancel()
 }
 
-function closeWindow() {
+function cancel() {
 	window.close();
+}
+
+document.onkeydown = (ev: KeyboardEvent) => {
+	if(ev.code == "Escape") {
+		cancel()
+	}
 }
