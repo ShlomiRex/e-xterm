@@ -1,0 +1,5 @@
+
+/* When selecting containing folder button, invert the child (svg image) */
+#private_key_btn:hover :first-child {
+	filter: invert(1);
+}

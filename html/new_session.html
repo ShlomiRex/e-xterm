@@ -3,6 +3,7 @@
 
 <head>
 	<link rel="stylesheet" href="../third-party/bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
+	<link rel="stylesheet" href="../css/new_session.css">
 	<script src="../third-party/bootstrap-5.0.0-beta1-dist/js/bootstrap.min.js"></script>
 </head>
 
@@ -132,16 +133,16 @@
 												Private key
 											</label>
 										</div>
-
-										<div class="col">
-											<input type="file" class="form-control" id="private_key_file" multiple=false
-												disabled />
-										</div>
-										<div class="col-3">
-											<button type="button" class="btn btn-outline-dark" id="private_key_btn"
-												title="Open the containing folder of selected file" disabled>
-												Open containing folder
-											</button>
+										<div class="col-9">
+											<div class="input-group">
+												<input type="file" class="form-control" id="private_key_file"
+													multiple=false disabled />
+												<button type="button" class="btn btn-outline-dark flex-nowrap"
+													id="private_key_btn"
+													title="Open the containing folder of selected file" disabled>
+													<img src="../resources/folder2-open.svg">
+												</button>
+											</div>
 										</div>
 									</div>
 								</div>
