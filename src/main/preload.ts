@@ -69,9 +69,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		});
 
 
-		let hostname = session.remote_host;
-		let port = session.port;
-		let tab: Tab = Tabs.getInstance().addSSHTerminal(username, password, hostname, port, eventEmitter, title)
+		let tab: Tab = Tabs.getInstance().addSSHTerminal(session, password, eventEmitter, title)
 
 		console.log("Created SSH tab:", tab)
 

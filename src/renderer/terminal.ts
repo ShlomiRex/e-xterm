@@ -81,7 +81,14 @@ export class MyTerminal {
 		});
 	}
 
-	init_ssh(parent: HTMLElement, username: string, password: string, hostname: string, port: number, eventEmitter: EventEmitter) {
+	/**
+	 * 
+	 * @param parent UI element to setup the xterm ui.
+	 * @param sshSession 
+	 * @param pass Can be password for SSH or passphrase for private key.
+	 * @param eventEmitter 
+	 */
+	init_ssh(parent: HTMLElement, sshSession: SSHSession, pass: string, eventEmitter: EventEmitter) {
 		//Load addons
 		this.xterm.loadAddon(this.fitAddon);
 
@@ -151,13 +158,27 @@ export class MyTerminal {
 
 		});
 		
-		
-		conn.connect({
-			host: hostname,
-			port: port,
-			username: username,
-			password: password
-		});
+		let test = require('fs').readFileSync(sshSession.private_key_path)
+		if(sshSession.private_key) {
+			//Connect with private key and passphrase
+			conn.connect({
+				host: sshSession.remote_host,
+				port: sshSession.port,
+				username: sshSession.username,
+				compress: sshSession.compression,
+				privateKey: test,
+				passphrase: pass
+			});
+		} else {
+			//Connect with password
+			conn.connect({
+				host: sshSession.remote_host,
+				port: sshSession.port,
+				username: sshSession.username,
+				password: pass,
+				compress: sshSession.compression
+			});
+		}
 
 		conn.once("error", (ev: Error & ssh2.ClientErrorExtensions) => {
 			eventEmitter.emit("error", ev);

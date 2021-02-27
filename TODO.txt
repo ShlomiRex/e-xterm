@@ -1,11 +1,5 @@
 High Priority:
-* Learn how other programs, like Hyper or other pgorams that use xterm.js are saving / using SSH sessions.
-    Link for programs that use xterm.js: https://github.com/xtermjs/xterm.js/
-* Use SSH-KEYGEN to automate SSH logins.  Or find another way.
-* Use SSH2 npm module with private key
-* Instead of electron-store look for json file read-write so I don't have to manage appending and removing from the json file.
-* Check that the code of bookmarks settings works after moving it to typescript
-* Bookmarks settings - finish working on private key
+* When setting private key unchecked and applying changes and coming back to bookmark settings, the path is empty!
 
 
 Medium Priority:
@@ -20,6 +14,7 @@ Low Priority:
 * Support "folders" in bookmarks and also recursive folders
 * Change default app menus (top menu - file, help..)
 * When pressing ESC on login window, bookmarks settings window, or anything like that, close the window
+* Instead of electron-store look for json file read-write so I don't have to manage appending and removing from the json file.
 
 
 Long term goals:
