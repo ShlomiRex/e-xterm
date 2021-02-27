@@ -29,8 +29,10 @@ window.addEventListener("DOMContentLoaded", () => {
 			username = session.username
 		}
 
-		let title = username;
-		if (!title) {
+		let title: string = undefined
+		if(session.session_name) {
+			title = session.session_name
+		} else {
 			title = username + "@" + session.remote_host
 		}
 
