@@ -16,8 +16,11 @@
 			<input id="username" type="text" class="form-control">	
 		</div>
 
-		Password:
-		<input id="password" type="password" class="form-control">
+		
+		<div id="pass_text_container">
+			Password:
+		</div>
+		<input id="pass" type="password" class="form-control">
 
 		<button type="submit" class="btn btn-primary" onclick="submit()">OK</button>
 		<button class="btn btn-outline-danger" onclick="closeWindow()">Cancel</button>
@@ -29,23 +32,32 @@
 
 
 		let username_input = document.getElementById("username");
-		let password_input = document.getElementById("password");
+		let pass_input = document.getElementById("pass");
+		let pass_text_container = document.getElementById("pass_text_container")
 
 		let username_required = undefined;
+		let passphrase_required = undefined
 
-		ipcRenderer.once("get-args", (ev, _username_required) => {
+		ipcRenderer.once("get-args", (ev, _username_required, _passphrase_required) => {
 			console.log("get-args, ask for username? ", _username_required)
+
 			username_required = _username_required
+			passphrase_required = _passphrase_required
+
 			if(! username_required) {
-				password_input.focus();
+				pass_input.focus();
 
 				document.getElementById("username_container").remove();
 			} else {
 				username_input.focus();
 			}
+
+			if(passphrase_required) {
+				pass_text_container.textContent = "Private key passphrase:"
+			}
 		});
 
-		password_input.addEventListener("keyup", (ev) => {
+		pass_input.addEventListener("keyup", (ev) => {
 			console.log("Key pressed:", ev.keyCode)
 			if(ev.keyCode == 13) {
 				//Enter pressed
@@ -58,7 +70,7 @@
 		function submit() {
 			console.log("Submit");
 			let username = null;
-			const password = password_input.value;
+			const password = pass_input.value;
 
 			if(username_required) {
 				username = username_input.value;

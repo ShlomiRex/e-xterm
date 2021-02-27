@@ -162,7 +162,12 @@ ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
 		if(session.username != null && session.username.length > 0) {
 			ask_for_username = false
 		}
-		loginWindow.webContents.send("get-args", ask_for_username);
+
+		let ask_for_passphrase = false
+		if(session.private_key) {
+			ask_for_passphrase = true
+		}
+		loginWindow.webContents.send("get-args", ask_for_username, ask_for_passphrase);
 	});
 
 	loginWindow.once("ready-to-show", () => {

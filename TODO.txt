@@ -1,6 +1,6 @@
 High Priority:
 * When setting private key unchecked and applying changes and coming back to bookmark settings, the path is empty!
-
+* When typing wrong password / passphrase - show user error
 
 Medium Priority:
 * In macOS , creating new seesion window - it's frameless. No close or minimize buttons. Investigate (on windows - yes)
