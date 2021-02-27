@@ -1,13 +1,27 @@
 # e-xterm
-Electron based SSH client, with managed bookmarks and in the future with SFTP browser and remote monitoring tools.
+Cross-platform (Windows, Mac, Linux) electron based SSH client, with managed bookmarks, and tab system for managing sessions. 
 
-![](./README-resources/screenshot.png)
+And most exciting for me is SFTP browser support - which you can drag and drop files and view remote files while SSH into it.
 
-# How to run
+And lastly, remote monitoring tools, such as CPU %, RAM %, DISK %, all in one package.
+
+Supported terminals for windows: **CMD, Powershell**
+
+Supported terminals for linux: **Bash, ZSH, and more**
+
+Note: This project is in the very early stages.
+
+# Screenshots
+
+![](./README-resources/screenshot.png "Ubuntu VM and bookmark settings")
+
+![](./README-resources/powershell.png "Powershell winfetch")
+
+## How to run
 ```
 $ npm start
 ```
 
-# How to download submodules in third-party directory
+## How to download submodules in third-party directory
 
 `$ cd third-party && git submodule update`

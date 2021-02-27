@@ -24,7 +24,7 @@ export class MyTerminal {
 	constructor() {
 		this.xterm = new Terminal({
 			"cursorBlink": true,
-			"fontSize": 21
+			"fontSize": 18
 		});
 
 		this.fitAddon = new FitAddon();
@@ -69,8 +69,6 @@ export class MyTerminal {
 		const shell = process.env[WINDOWS ? 'COMSPEC' : 'SHELL'];
 		const ptyProcess = pty.spawn(shell, [], {
 			name: 'xterm-color',
-			cols: 100,
-			rows: 50,
 			cwd: process.cwd(),
 			env: process.env
 		});
