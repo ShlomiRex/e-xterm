@@ -67,6 +67,9 @@ export class MyTerminal {
 		const WINDOWS = os.platform() === 'win32';
 		console.debug("Platform:", os.platform())
 		const shell = process.env[WINDOWS ? 'COMSPEC' : 'SHELL'];
+		//Better:
+		//const shell = os.platform() == "win32" ? "powershell.exe" : "bash"
+
 		const ptyProcess = pty.spawn(shell, [], {
 			name: 'xterm-color',
 			cwd: process.cwd(),
