@@ -56,16 +56,15 @@ function updateGUI(session: SSHSession) {
 	e_compression.checked = compression;
 
 	e_private_key.checked = private_key
-	if(private_key) {
-		//e_private_key_file.value = session.private_key_path
 
+	//Set private key text field to be the file path
+	let private_key_path = session.private_key_path
+	e_private_key_text.value = private_key_path
+
+	if(private_key) {
 		//Removed disabled elements
 		e_private_key_text.disabled = false
 		btn_private_key.disabled = false
-
-		//Set private key text field to be the file path
-		let private_key_path = session.private_key_path
-		e_private_key_text.value = private_key_path
 	}
 }
 
