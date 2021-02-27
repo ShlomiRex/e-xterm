@@ -163,3 +163,9 @@ function privateKeyCheckboxChanged() {
 		btn_private_key.disabled = true
 	}
 }
+
+document.onkeydown = (ev: KeyboardEvent) => {
+	if(ev.code == "Escape") {
+		cancel()
+	}
+}

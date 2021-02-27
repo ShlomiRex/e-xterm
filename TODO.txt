@@ -5,17 +5,12 @@ High Priority:
 
 Medium Priority:
 * In macOS , creating new seesion window - it's frameless. No close or minimize buttons. Investigate (on windows - yes)
-* When selecting and right clicking on terminal - it should copy the contents to clipboard
-* When closing all tabs, it still shows last tab contents. It should not show anything.
-* You can select the text and icon and badge of bookmark. Don't do it. "user-select: none;"
 * Instead of dynamically create bookmark, make it template, and somehow get that template and change it.
-* Instead of button "Open Containing Directory" use icon from bootstrap "folder2-open"
 
 
 Low Priority:
 * Support "folders" in bookmarks and also recursive folders
 * Change default app menus (top menu - file, help..)
-* When pressing ESC on login window, bookmarks settings window, or anything like that, close the window
 * Instead of electron-store look for json file read-write so I don't have to manage appending and removing from the json file.
 
 
