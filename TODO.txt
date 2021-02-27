@@ -1,7 +1,6 @@
 High Priority:
 * When typing wrong passphrase - show user error
 * When failed to authenticate, remove the added tab
-* When adding tab, the title says "test" and not "Ubuntu 18 VM" for example
 
 
 Medium Priority:

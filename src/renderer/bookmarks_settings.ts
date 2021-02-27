@@ -59,7 +59,11 @@ function updateGUI(session: SSHSession) {
 
 	//Set private key text field to be the file path
 	let private_key_path = session.private_key_path
-	e_private_key_text.value = private_key_path
+	if(private_key_path) {
+		e_private_key_text.value = private_key_path
+	} else {
+		e_private_key_text.value = ""
+	}
 
 	if(private_key) {
 		//Removed disabled elements
