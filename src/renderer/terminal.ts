@@ -10,12 +10,16 @@ import * as net from 'net';
 
 import { MyTerminalUI } from "./terminal_ui"
 
+const WINDOWS = os.platform() === 'win32';
+const MAC = os.platform() == "darwin";
+
+console.info("Platform:", os.platform())
 
 enum Shell {
 	CMD = "COMSPEC",
-	BASH = "BASH",
+	BASH = "bash",
 	POWERSHELL = "powershell.exe",
-	SHELL = "SHELL"
+	ZSH = "zsh"
 }
 
 export class MyTerminal {
@@ -29,10 +33,16 @@ export class MyTerminal {
 		this.uiTerm.init(terminalContainer)
 
 		//Initialize node-pty with an appropriate shell
-		const WINDOWS = os.platform() === 'win32';
-		console.debug("Platform:", os.platform())
-		const shell = WINDOWS ? Shell.POWERSHELL : Shell.SHELL
 
+		
+		let shell;
+		if(WINDOWS) {
+			shell = Shell.POWERSHELL
+		} else if(MAC) {
+			shell = Shell.ZSH
+		} else {
+			shell = Shell.BASH
+		}
 		const ptyProcess = pty.spawn(shell, [], {
 			name: 'xterm-color',
 			cwd: process.cwd(),
