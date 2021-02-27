@@ -159,15 +159,15 @@ export class MyTerminal {
 
 		});
 		
-		let test = require('fs').readFileSync(sshSession.private_key_path)
 		if(sshSession.private_key) {
+			let privateKeyFS = require('fs').readFileSync(sshSession.private_key_path)
 			//Connect with private key and passphrase
 			conn.connect({
 				host: sshSession.remote_host,
 				port: sshSession.port,
 				username: sshSession.username,
 				compress: sshSession.compression,
-				privateKey: test,
+				privateKey: privateKeyFS,
 				passphrase: pass
 			});
 		} else {
