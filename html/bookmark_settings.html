@@ -3,6 +3,7 @@
 
 <head>
 	<link rel="stylesheet" href="../third-party/bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
+	<link rel="stylesheet" href="../css/bookmarks_settings.css">
 	<script src="../third-party/bootstrap-5.0.0-beta1-dist/js/bootstrap.min.js"></script>
 	<title>
 		Bookmark Settings
@@ -109,14 +110,16 @@
 												Private key
 											</label>
 										</div>
-										<div class="col-6">
-											<input type="text" id="private_key_file_text" style="width: 100%; padding-left: 5%; padding-right: 5%;" disabled>
-										</div>
-										<div class="col-3">
-											<button type="button" class="btn btn-outline-dark" id="private_key_btn"
-												title="Open the containing folder of selected file" disabled>
-												Open containing folder
-											</button>
+										<div class="col-9">
+											<div class="input-group">
+												<input type="text" id="private_key_file_text"
+													class="form-control flex-nowrap" disabled>
+												<button type="button" class="btn btn-outline-dark flex-nowrap"
+													id="private_key_btn"
+													title="Open the containing folder of selected file" disabled>
+													<img src="../resources/folder2-open.svg">
+												</button>
+											</div>
 										</div>
 									</div>
 								</div>
