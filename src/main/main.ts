@@ -62,7 +62,7 @@ function createMainWindow() {
 
 	const sessions: Array<SSHSession> = MyBookmarks.getInstance().getSessions();
 
-	mainWindow.webContents.once("dom-ready", () => {
+	mainWindow.webContents.on("dom-ready", () => {
 		for(let s of sessions) {
 			mainWindow.webContents.send("Renderer_BookmarksUI_AddBookmark", s)
 		}
