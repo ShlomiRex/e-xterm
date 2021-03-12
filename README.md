@@ -24,4 +24,4 @@ $ npm start
 
 ## How to download submodules in third-party directory
 
-`$ cd third-party && git submodule update`
+`git clone --recursive https://github.com/ShlomiRex/e-xterm`
