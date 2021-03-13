@@ -16,16 +16,13 @@
 	<link rel="stylesheet" href="../third-party/bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
 	<script src="../third-party/bootstrap-5.0.0-beta1-dist/js/bootstrap.min.js"></script>
 
-	<!-- Chrome tabs -->
-	<script src="../third-party/draggabilly/dist/draggabilly.pkgd.js"></script>
-	<script src="../third-party/chrome-tabs/js/chrome-tabs.js"></script>
-	<link rel="stylesheet" href="../third-party/chrome-tabs/css/chrome-tabs.css">
-
 	<!-- jQuery , used for resizing -->
 	<script src="../third-party/jquery/jquery-3.5.1.min.js"></script>
   	<script src="../third-party/jquery/jquery-ui-1.12.1.min.js"></script>
   	<link rel="stylesheet" type="text/css" href="../third-party/jquery/jquery-ui.min.css"/>
 
+	<!-- electron-chrome-tabs -->
+	<link rel="stylesheet" type="text/css" href="../node_modules/electron-chrome-tabs/src/electron-chrome-tabs.css">
   <script>
 	$( function() {
 		//Only allow resize in south direction (bottom)
@@ -68,15 +65,13 @@
 	</div>
 
 	<div id="main-panel" class="split">
-		<div class="chrome-tabs">
-			<div class="chrome-tabs-content"></div>
-			<div class="chrome-tabs-bottom-bar">
+		<div class="etabs-tabgroup">
+			<div class="chrome-tabs">
+				<div class="chrome-tabs-content"></div>
+				<div class="chrome-tabs-bottom-bar"></div>
 			</div>
 		</div>
-
-		<div id="tabs-content" style="width: 100%; height: 95%;">
-			<!-- Populated with hidden content and 1 visible content -->
-		</div>
+		<div class="ect-views"></div>
 	</div>
 
 

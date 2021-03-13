@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog, shell } from "electron";
+import { app, BrowserWindow, ipcMain, dialog, shell, nativeTheme } from "electron";
 import { IpcMainEvent } from "electron/main";
 import * as path from "path";
 import { MyBookmarks } from "./bookmarks";
@@ -12,6 +12,7 @@ try {
 
 const isMac = process.platform === 'darwin'
 
+nativeTheme.themeSource = 'dark'
 
 //node-pty is not context aware
 app.allowRendererProcessReuse = false
@@ -47,7 +48,8 @@ function createMainWindow() {
 			preload: path.join(__dirname, "preload.js"),
 			nodeIntegration: true,
 			enableRemoteModule: true,
-			contextIsolation: false
+			contextIsolation: false,
+			webviewTag: true
 		},
 		show: false
 	});
@@ -56,7 +58,7 @@ function createMainWindow() {
 	mainWindow.loadFile(path.join(__dirname, "../../html/index.html"));
 
 	// Open the DevTools.
-	//mainWindow.webContents.openDevTools();
+	mainWindow.webContents.openDevTools();
 
 	const sessions: Array<SSHSession> = MyBookmarks.getInstance().getSessions();
 
@@ -106,11 +108,31 @@ function createMainWindow() {
 
 }
 
+function createTestWindow() {
+	let testWindow = new BrowserWindow({
+		width: 1600,
+		height: 800,
+		webPreferences: {
+			nodeIntegration: true,
+			enableRemoteModule: true,
+			contextIsolation: false,
+			webviewTag: true
+		},
+		show: true
+	});
+	testWindow.loadFile(path.join(__dirname, "../../html/test.html"));
+
+	testWindow.webContents.openDevTools();
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
 	createMainWindow();
+
+	//For testing purposes
+	//createTestWindow()
 
 	app.on("activate", function () {
 		// On macOS it's common to re-create a window in the app when the

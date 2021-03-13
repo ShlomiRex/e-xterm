@@ -86,8 +86,8 @@ window.addEventListener("DOMContentLoaded", () => {
 	//let book = MyBookmarks.getInstance();
 	//console.log("Bookmark instance: ", book)
 
-	tabs.init()
-	tabs.addShellTerminal();
+	//tabs.init()
+	//tabs.addShellTerminal();
 
 
 	//Setup split.js

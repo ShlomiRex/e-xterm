@@ -8,6 +8,16 @@
 import { SSHSession } from "../shared/session";
 import { ipcRenderer, remote } from 'electron';
 
+function initElectronChromeTabs() {
+	const ElectronChromeTabs = require("electron-chrome-tabs")
+	const electronTabs = new ElectronChromeTabs()
+
+	electronTabs.addTab("Google", "https://google.com")
+	electronTabs.addTab("YouTube", "https://youtube.com")
+}
+
+initElectronChromeTabs();
+
 function createElementFromHTML(htmlString: string): HTMLElement {
 	var div: any = document.createElement('div');
 	div.innerHTML = htmlString.trim();
