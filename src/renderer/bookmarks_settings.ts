@@ -73,7 +73,7 @@ function updateGUI(session: SSHSession) {
 }
 
 let bookmarkId: string = undefined;
-ipcRenderer.once("get-args", (ev, _bookmarkId, _session: SSHSession) => {
+ipcRenderer.once("get-args", (ev: any, _bookmarkId: string, _session: SSHSession) => {
 	console.log("Got bookmarkId and session:", _bookmarkId, _session)
 	bookmarkId = _bookmarkId;
 	session = _session;
