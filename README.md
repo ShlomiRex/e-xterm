@@ -24,4 +24,8 @@ $ npm start
 
 ## How to download submodules in third-party directory
 
-`git clone --recursive https://github.com/ShlomiRex/e-xterm`
+`$ git clone --recursive https://github.com/ShlomiRex/e-xterm`
+
+If you have problems with node-pty NODE_MODULE_VERSION, then run:
+`$ .\node_modules\.bin\electron-rebuild`
+to fix the errors.

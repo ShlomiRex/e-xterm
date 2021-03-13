@@ -8,7 +8,7 @@ let pass_text_container = <HTMLInputElement>document.getElementById("pass_text_c
 let username_required: boolean = undefined;
 let passphrase_required: boolean = undefined
 
-ipcRenderer.once("get-args", (ev, _username_required, _passphrase_required) => {
+ipcRenderer.once("get-args", (ev: any, _username_required: boolean, _passphrase_required: boolean) => {
 	console.log("get-args, ask for username? ", _username_required)
 
 	username_required = _username_required
