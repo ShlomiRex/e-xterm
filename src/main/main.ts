@@ -19,7 +19,6 @@ app.allowRendererProcessReuse = false
 console.log("Electron app path:", app.getAppPath());
 
 const Store = require('electron-store');
-var isRenderer = require('is-electron-renderer')
 
 let mainWindow: BrowserWindow = undefined
 
@@ -27,7 +26,6 @@ let mainWindow: BrowserWindow = undefined
 
 //give permission for renderer process to use electron-store
 Store.initRenderer();
-console.log("main - isRenderer? : ", isRenderer)
 
 let uiPopulateCallback = (sshSession: SSHSession) => {
 	console.log("Populate callback called")
