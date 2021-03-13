@@ -23,7 +23,7 @@ class BookmarksUI {
 	private static instance: BookmarksUI
 
 	private constructor() {
-		this.uiParent = document.getElementById("SessionsContainer");
+		this.uiParent = document.getElementById("bookmarks-container");
 		this.bookmarks = new Array<HTMLElement>();
 	}
 
@@ -39,9 +39,9 @@ class BookmarksUI {
 		return BookmarksUI.instance;
 	}
 
-	static getBookmarkInnerText(session: SSHSession) {
+	static getBookmarkLabelFromSession(session: SSHSession) {
 		//If user did not give session name, use the hostname instead
-		if (! session.session_name) {
+		if (!session.session_name) {
 			if (session.username) {
 				return session.username + "@" + session.remote_host;
 			} else {
@@ -57,69 +57,29 @@ class BookmarksUI {
 	 * @param session Session to populate
 	 */
 	populate(session: SSHSession) {
-		let name: string = BookmarksUI.getBookmarkInnerText(session);
-
+		let bookmark_label: string = BookmarksUI.getBookmarkLabelFromSession(session);
 		var protocol = session.protocol;
-		console.debug("Loading session: " + name + " protocol: " + protocol);
 
-		var bookmark_item = document.createElement("a");
-		bookmark_item.className = "bookmarks-item list-group-item list-group-item-action d-flex justify-content-between align-items-center";
-		bookmark_item.setAttribute("data-bs-toggle", "list");
-		bookmark_item.setAttribute("role", "tab");
-		bookmark_item.setAttribute("aria-controls", name); //Accessability for screen readers
-		bookmark_item.setAttribute("style", "user-select: none;")
+		console.debug("Loading session: " + bookmark_label + " protocol: " + protocol);
 
-		let bookmark_txt_container = createElementFromHTML("<div class='text'></div>");
-		bookmark_txt_container.innerText = name;
+		let template = `\
+		<div class="list-item"> \
+			<label> \
+				${bookmark_label} \
+			</label> \
+			<span class="badge rounded-pill" style="background-color:black; color: white;">${protocol}</span> \
+		</div>\
+		`;
 
-		bookmark_item.appendChild(bookmark_txt_container);
-
-		//This makes cursor look like clicking
-		//bookmark_item.setAttribute("href", "");
-
-		bookmark_item.setAttribute("data-bookmark-id", "" + session.uuid)
-
-		function getBookmarkIdFromMouseEvent(ev: any): string {
-			//Traverse path and find the bookmarkId
-			//User can click on the pill element / not directly on the text. So we traverse path
-			for (var path of ev.path) {
-				if (path.hasAttribute("data-bookmark-id")) {
-					return path.getAttribute("data-bookmark-id");
-				}
-			}
-			return undefined
-		}
+		var bookmark_item = createElementFromHTML(template);
+		console.log("Bookmark item: \n", bookmark_item);
+		bookmark_item.setAttribute("data-bookmark-id", "" + session.uuid);
 
 		bookmark_item.addEventListener("dblclick", (ev: MouseEvent) => {
 			let bid = getBookmarkIdFromMouseEvent(ev)
 			console.log("Double click on bookmarkId: ", bid)
 			ipcRenderer.send("OpenLoginWindow", bid);
 		});
-
-		let gear_image: HTMLElement = createElementFromHTML("<img class='hide settings-icon' src='../resources/gear.svg' alt='Settings'>");
-		gear_image.onclick = (ev: MouseEvent) => {
-			let bookmarkId: string = getBookmarkIdFromMouseEvent(ev);
-			console.log("On click settings of bookmarkId:", bookmarkId);
-			if (bookmarkId != null) {
-				ipcRenderer.send("OpenBookmarkSettings", bookmarkId);
-			} else {
-				console.error("Could not find bookmarkId")
-			}
-
-
-		};
-
-		var badge = document.createElement("span");
-		badge.className = "badge rounded-pill";
-		badge.innerText = protocol;
-		badge.setAttribute("style", "background-color:black; color: white;");
-
-		let right_div: HTMLElement = document.createElement("div");
-
-		right_div.appendChild(gear_image);
-		right_div.appendChild(badge);
-
-		bookmark_item.appendChild(right_div);
 
 		this.uiParent.appendChild(bookmark_item);
 
@@ -133,7 +93,7 @@ class BookmarksUI {
 	unpopulate(bookmarkId: string) {
 
 		let index = this.getBookmarkIndexById(bookmarkId);
-		if(index >= 0) {
+		if (index >= 0) {
 			console.log("Going to remove:", bookmarkId, " with index:", index);
 			this.bookmarks[index].remove(); //Remove HTMLElement
 			this.bookmarks.splice(index, 1)
@@ -143,8 +103,8 @@ class BookmarksUI {
 	}
 
 	private getBookmarkIndexById(bookmarkId: string) {
-		for(let i = 0; i < this.bookmarks.length; i++) {
-			if(this.bookmarks[i].dataset.bookmarkId == bookmarkId) {
+		for (let i = 0; i < this.bookmarks.length; i++) {
+			if (this.bookmarks[i].dataset.bookmarkId == bookmarkId) {
 				return i
 			}
 		}
@@ -156,11 +116,11 @@ class BookmarksUI {
 	 */
 	clear() {
 		let bookmarkIds = []
-		for(let bookmark of this.bookmarks) {
+		for (let bookmark of this.bookmarks) {
 			bookmarkIds.push(bookmark.dataset.bookmarkId);
 		}
 
-		for(let bookmarkId of bookmarkIds) {
+		for (let bookmarkId of bookmarkIds) {
 			this.unpopulate(bookmarkId);
 		}
 	}
@@ -172,14 +132,25 @@ class BookmarksUI {
 	 */
 	update(bookmarkId: string, innerText: string) {
 		let index = this.getBookmarkIndexById(bookmarkId);
-		if(index >= 0) {
+		if (index >= 0) {
 			let bookmark = this.bookmarks[index];
-			console.log("Updating bookmark inner text from ", bookmark.innerText," to:", innerText);
+			console.log("Updating bookmark inner text from ", bookmark.innerText, " to:", innerText);
 			//bookmark.innerText = innerText;
 			(bookmark.firstElementChild as HTMLElement).innerText = innerText;
 		}
 	}
 };
+
+function getBookmarkIdFromMouseEvent(ev: any): string {
+	//Traverse path and find the bookmarkId
+	//User can click on the pill element / not directly on the text. So we traverse path
+	for (var path of ev.path) {
+		if (path.hasAttribute("data-bookmark-id")) {
+			return path.getAttribute("data-bookmark-id");
+		}
+	}
+	return undefined
+}
 
 BookmarksUI.createInstance();
 
@@ -190,9 +161,6 @@ document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEv
 document.getElementById("btn_newShell").addEventListener("click", (ev: MouseEvent) => {
 	ipcRenderer.send("NewShell")
 })
-
-
-
 
 ipcRenderer.on("Renderer_BookmarksUI_AddBookmark", (ev, sshSession: SSHSession) => {
 	console.debug("Renderer - will add bookmark")
@@ -211,7 +179,7 @@ ipcRenderer.on("Renderer_BookmarksUI_ClearBookmarks", () => {
 
 ipcRenderer.on("Renderer_BookmarksUI_UpdateBookmark", (ev, session: SSHSession) => {
 	console.debug("Renderer - will update bookmark:", session);
-	let text = BookmarksUI.getBookmarkInnerText(session);
+	let text = BookmarksUI.getBookmarkLabelFromSession(session);
 	let bookmarkId = session.uuid;
 	BookmarksUI.getInstance().update(bookmarkId, text);
 });

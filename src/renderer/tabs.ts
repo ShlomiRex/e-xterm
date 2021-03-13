@@ -23,15 +23,6 @@ class TabContent {
 	/**
 	 * 
 	 * @param parent Div element with id="terminal_<id>"
-	 * @param writedata Write this string to the terminal
-	 */
-	init(parent: HTMLElement, writedata: string) {
-		this.myTerminal.init(parent, writedata)
-	}
-
-	/**
-	 * 
-	 * @param parent Div element with id="terminal_<id>"
 	 */
 	init_shell(parent: HTMLElement) {
 		this.myTerminal.init_shell(parent)
@@ -112,14 +103,6 @@ export class Tab {
 		return this._isSelected
 	}
 
-	initTextTerminalUI(parent: HTMLElement, writedata: string) {
-		//1. Load addons
-		//2. Open div element
-		//3. Write to terminal stuff
-		//4. Fit terminal
-		this.tabContent.init(parent, writedata)
-	}
-
 	initShellTerminalUI(parent: HTMLElement) {
 		//1. Load addons
 		//2. Open div element
@@ -198,11 +181,6 @@ export class Tabs {
 		});
 
 		chromeTabs.init(el)
-	}
-
-	addTextTerminal() {
-		let { tab, DOM_terminal } = this.addTerminal("Text", null);
-		tab.initTextTerminalUI(DOM_terminal, "Terminal with tab id: " + String(tab.id));
 	}
 
 	addShellTerminal() {

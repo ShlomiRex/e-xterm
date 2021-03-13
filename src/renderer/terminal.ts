@@ -1,7 +1,3 @@
-import { Terminal } from 'xterm';
-import { FitAddon } from 'xterm-addon-fit';
-import { AttachAddon } from 'xterm-addon-attach';
-
 import * as pty from 'node-pty';
 import * as os from 'os';
 import * as fs from "fs"
@@ -12,101 +8,68 @@ import { EventEmitter } from 'events';
 
 import * as net from 'net';
 
-/**
- * Terminal is special case, since it must be initialized in renderer context
- */
+import { MyTerminalUI } from "./terminal_ui"
+
+const WINDOWS = os.platform() === 'win32';
+const MAC = os.platform() == "darwin";
+
+console.info("Platform:", os.platform())
+
+enum Shell {
+	CMD = "COMSPEC",
+	BASH = "bash",
+	POWERSHELL = "powershell.exe",
+	ZSH = "zsh"
+}
 
 export class MyTerminal {
-	//The terminal Object (UI and API)
-	private xterm: Terminal
-
-	private fitAddon: FitAddon
+	private uiTerm: MyTerminalUI;
 
 	constructor() {
-		this.xterm = new Terminal({
-			"cursorBlink": true,
-			"fontSize": 18
-		});
-
-		this.fitAddon = new FitAddon();
+		this.uiTerm = new  MyTerminalUI()
 	}
 
-	/**
-	 * Initialize this terminal and write string to it
-	 * @param parent 
-	 * @param writedata 
-	 */
-	init(parent: HTMLElement, writedata: string) {
-		//Load addons
-		this.xterm.loadAddon(this.fitAddon);
-
-		//Attach to parent
-		this.xterm.open(parent)
-
-		//Write stuff
-		this.xterm.write(writedata)
-
-		//Fit container
-		this.fitAddon.fit()
-	}
-
-	/**
-	 * Initialize this terminal and connect to OS shell (Windows CMD / Linux bash)
-	 * @param parent 
-	 */
-	init_shell(parent: HTMLElement) {
-		//Load addons
-		this.xterm.loadAddon(this.fitAddon);
-
-		//Attach to parent
-		this.xterm.open(parent)
-
-		//Fit container
-		this.fitAddon.fit()
+	init_shell(terminalContainer: HTMLElement) {
+		this.uiTerm.init(terminalContainer)
 
 		//Initialize node-pty with an appropriate shell
-		const WINDOWS = os.platform() === 'win32';
-		console.debug("Platform:", os.platform())
-		const shell = process.env[WINDOWS ? 'COMSPEC' : 'SHELL'];
-		//Better:
-		//const shell = os.platform() == "win32" ? "powershell.exe" : "bash"
+		let shell;
+		if(WINDOWS) {
+			shell = Shell.POWERSHELL
+		} else if(MAC) {
+			shell = Shell.ZSH
+		} else {
+			shell = Shell.BASH
+		}
 
 		const ptyProcess = pty.spawn(shell, [], {
 			name: 'xterm-color',
 			cwd: process.cwd(),
-			env: process.env
+			env: process.env,
+			encoding: "UTF-8"
 		});
-		this.xterm.onData((data: any) => ptyProcess.write(data));
+
+		//When user types(input), write to node-pty
+		this.uiTerm.getXTerm().onData((data: any) => {
+			ptyProcess.write(data)
+		})
+		
+		//When receving output, write to terminal
 		ptyProcess.onData((data: any) => {
-			//console.log("Writing:", data)
-			this.xterm.write(data);
+			this.uiTerm.getXTerm().write(data);
 		});
+
 	}
 
-	/**
-	 * 
-	 * @param parent UI element to setup the xterm ui.
-	 * @param sshSession 
-	 * @param pass Can be password for SSH or passphrase for private key.
-	 * @param eventEmitter 
-	 */
-	init_ssh(parent: HTMLElement, sshSession: SSHSession, pass: string, eventEmitter: EventEmitter) {
-		//Load addons
-		this.xterm.loadAddon(this.fitAddon);
-
-		//Attach to parent
-		this.xterm.open(parent)
-
-		//Fit container
-		this.fitAddon.fit()
-
+	init_ssh(terminalContainer: HTMLElement, sshSession: SSHSession, pass: string, eventEmitter: EventEmitter) {
+		this.uiTerm.init(terminalContainer)
 
 		var Client = ssh2.Client
 		var conn = new Client();
 
 		let myStream: ssh2.ClientChannel = undefined;
 
-		this.xterm.onKey((arg: any) => {
+		this.uiTerm.getXTerm().onKey((arg: any) => {
 			console.debug("Writing to stream: ", arg.key)
 			myStream.write(arg.key);
 		});
@@ -115,7 +78,7 @@ export class MyTerminal {
 		//We need to write to function because if we write this.write() it calls the internal function inside ssh2 and not our function
 		let write_to_terminal = (data: string) => {
 			//this.keyPressed(data)
-			this.xterm.write(data);
+			this.uiTerm.getXTerm().write(data);
 		}
 
 
@@ -209,10 +172,10 @@ export class MyTerminal {
 			// connects to localhost:0.0
 			xserversock.connect(6000, 'localhost');
 		  });
-
 	}
 
 	fit() {
-		this.fitAddon.fit()
+		this.uiTerm.fit()
 	}
 };
+
