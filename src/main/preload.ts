@@ -18,9 +18,6 @@ Tabs.createInstance();
 let tabs = Tabs.getInstance();
 
 window.addEventListener("DOMContentLoaded", () => {
-	var isRenderer = require('is-electron-renderer')
-	console.debug("preload - isRenderer? : ", isRenderer)
-
 	ipcRenderer.on("StartSSH", (event, session: SSHSession, username: string, password: string) => {
 		console.log("Session:", session)
 		console.log("Password length:", password.length)
