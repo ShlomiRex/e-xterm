@@ -16,6 +16,7 @@
 		"bootstrap": "^5.0.0-beta1",
 		"chrome-tabs": "^5.4.0",
 		"electron": "^11.2.0",
+		"electron-chrome-tabs": "git+https://github.com/ShlomiRex/electron-chrome-tabs.git",
 		"electron-store": "^7.0.0",
 		"jquery": "^3.5.1",
 		"node-pty": "^0.9.0",
