@@ -38,11 +38,10 @@
 
 </head>
 
-<body>
+<body class="theme-dark">
 	<div id="left-panel" class="split"
-		style="background-color: rgb(230, 230, 230); height: 100%; display: flex; flex-flow: column;">
-
-		<div style="width: 100%; background-color: rgb(180, 180, 180);">
+		style="height: 100%; display: flex; flex-flow: column;">
+		<div id="buttons-pane">
 			<div style="padding: 10px">
 				<a id="btn_newSession" class="btn btn-primary" role="button">
 					New session
@@ -51,7 +50,6 @@
 					New shell
 				</a>
 			</div>
-
 		</div>
 
 		<div id="bookmarks-container">
@@ -74,6 +72,25 @@
 			</div>
 		</div>
 
+		<div class="tab-bar" role="tablist">
+			<button class="tab-bar-item selected" role="tab" type="button" aria-selected="true">
+				Bookmarks
+			</button>
+
+			<button class="tab-bar-item" role="tab" type="button">
+				Files
+			</button>
+		</div>
+
+		<div id="__bookmarks" class="list" role="listbox">
+			<div>
+				test
+			</div>
+
+			<div>
+				test 2
+			</div>
+		</div>
 		<!-- <div class="accordion accordion-item" id="accordion2">
 			<h2 class="accordion-header">
 				<button class="accordion-button" type="button" data-bs-toggle="collapse"
