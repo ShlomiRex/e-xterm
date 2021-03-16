@@ -3,6 +3,7 @@ import { IpcMainEvent } from "electron/main";
 import * as path from "path";
 import { MyBookmarks } from "./bookmarks";
 import { SSHSession } from "../shared/session";
+import * as Store from 'electron-store';
 
 try {
 	require('electron-reloader')(module);
@@ -19,11 +20,11 @@ app.allowRendererProcessReuse = false
 
 console.log("Electron app path:", app.getAppPath());
 
-const Store = require('electron-store');
-
 let mainWindow: BrowserWindow = undefined
 
 //Init
+const store = new Store();
+console.log("electron-store path: ", store.path)
 
 //give permission for renderer process to use electron-store
 Store.initRenderer();
@@ -45,7 +46,6 @@ function createMainWindow() {
 		width: 1600,
 		height: 800,
 		webPreferences: {
-			preload: path.join(__dirname, "preload.js"),
 			nodeIntegration: true,
 			enableRemoteModule: true,
 			contextIsolation: false,

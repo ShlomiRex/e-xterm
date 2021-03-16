@@ -14,7 +14,6 @@
 	"author": "Shlomi Domnenko",
 	"dependencies": {
 		"bootstrap": "^5.0.0-beta1",
-		"chrome-tabs": "^5.4.0",
 		"electron": "^11.2.0",
 		"electron-chrome-tabs": "file:../electron-chrome-tabs",
 		"electron-store": "^7.0.0",

@@ -1,8 +1,7 @@
-import * as ChromeTabs from 'chrome-tabs';
+import { ipcRenderer } from 'electron';
 import { SSHSession } from '../shared/session';
 import { MyTerminal } from './terminal'
 
-var chromeTabs = new ChromeTabs();
 
 class TabContent {
 	private parent: HTMLElement
@@ -131,7 +130,7 @@ export class Tab {
 };
 
 /**
- * Manage the tabs. Singleton. Must be created in renderer context, like preload or renderer.
+ * Manage the tabs. Singleton. Must be created in renderer context
  */
 export class Tabs {
 	private tabs: Array<Tab>
@@ -180,69 +179,82 @@ export class Tabs {
 			document.getElementById("content_" + tabId).remove()
 		});
 
-		chromeTabs.init(el)
+		//chromeTabs.init(el)
 	}
 
 	addShellTerminal() {
-		let { tab, DOM_terminal } = this.addTerminal("Terminal", "../resources/terminal.png");
-		tab.initShellTerminalUI(DOM_terminal);
+		// let { tab, DOM_terminal } = this.addTerminal("Terminal", "../resources/terminal.png");
+		// tab.initShellTerminalUI(DOM_terminal);
+
+		this.addTerminal("Terminal", "../resources/terminal.png");
 	}
 
 	/**
 	 * Return the tab
 	 */
 	addSSHTerminal(session: SSHSession, password: string, eventEmitter: any, title: string = "SSH"): Tab {
-		let { tab, DOM_terminal } = this.addTerminal(title, "../resources/ssh.png");
-		tab.initSSHTerminalUI(DOM_terminal, session, password, eventEmitter);
-		return tab
+		// let { tab, DOM_terminal } = this.addTerminal(title, "../resources/ssh.png");
+		// tab.initSSHTerminalUI(DOM_terminal, session, password, eventEmitter);
+		// return tab
+		return null
 	}
 
 	private addTerminal(tabTitle: string, favicon: string) {
-		let parent = document.getElementById("tabs-content");
-
-		//Create content container
-		let tabContent = document.createElement("div")
-		tabContent.style.width = "100%"
-		tabContent.style.height = "100%"
-		parent.appendChild(tabContent)
-
-
-		let tab = new Tab(tabContent)
-		tabContent.id = "content_" + tab.id
-		tab.title = tabTitle
-		tab.favicon = favicon
-
-		//Add to array
-		this.tabs.push(tab)
-		this.lastAddedTab = tab
-
-		//Deselect currently selected tab
-		if (this.tabSelected) {
-			this.tabSelected.deselect()
-		}
-
-		//Set selected tab to this
-		this.tabSelected = tab
-		this.tabSelected.select()
-
+		
 		//Actually create UI tab
-		chromeTabs.addTab(tab.get())
+		//chromeTabs.addTab(tab.get())
+		console.log("Sending to Renderer_Tabs_AddTab")
+		ipcRenderer.sendToHost("Renderer_Tabs_AddTab", "Test", "../../html/test.html")
 
-		//Get the tab created (element)
-		let activeTab = document.querySelector("div.chrome-tab[active]");
-		//Set
-		tab.setChromeTabElement(activeTab);
 
-		//Setup terminal
-		var DOM_terminal = document.createElement("div")
-		DOM_terminal.id = "terminal_" + tab.id
-		DOM_terminal.style.width = "100%"
-		DOM_terminal.style.height = "100%"
-		tabContent.appendChild(DOM_terminal);
+		// let parent = document.getElementById("tabs-content");
+
+		// //Create content container
+		// let tabContent = document.createElement("div")
+		// tabContent.style.width = "100%"
+		// tabContent.style.height = "100%"
+		// parent.appendChild(tabContent)
+
+
+		// let tab = new Tab(tabContent)
+		// tabContent.id = "content_" + tab.id
+		// tab.title = tabTitle
+		// tab.favicon = favicon
+
+		// //Add to array
+		// this.tabs.push(tab)
+		// this.lastAddedTab = tab
+
+		// //Deselect currently selected tab
+		// if (this.tabSelected) {
+		// 	this.tabSelected.deselect()
+		// }
+
+		// //Set selected tab to this
+		// this.tabSelected = tab
+		// this.tabSelected.select()
+
+
+		// //Get the tab created (element)
+		// let activeTab = document.querySelector("div.chrome-tab[active]");
+		// //Set
+		// tab.setChromeTabElement(activeTab);
+
+		// //Setup terminal
+		// var DOM_terminal = document.createElement("div")
+		// DOM_terminal.id = "terminal_" + tab.id
+		// DOM_terminal.style.width = "100%"
+		// DOM_terminal.style.height = "100%"
+		// tabContent.appendChild(DOM_terminal);
+
+		// return {
+		// 	tab: tab,
+		// 	DOM_terminal: DOM_terminal
+		// }
 
 		return {
-			tab: tab,
-			DOM_terminal: DOM_terminal
+			tab: "",
+			DOM_terminal: ""
 		}
 	}
 
