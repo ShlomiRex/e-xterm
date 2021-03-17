@@ -8,7 +8,8 @@
 		"build": "tsc",
 		"watch": "tsc -w",
 		"lint": "eslint -c .eslintrc --ext .ts ./src",
-		"start": "npm run build && electron ./dist/main/main.js"
+		"start": "npm run install-local-packages && npm run build && electron ./dist/main/main.js",
+		"install-local-packages": "npm install C:\\Users\\Shlomi\\Desktop\\electron-chrome-tabs"
 	},
 	"repository": "https://github.com/ShlomiRex/e-xterm",
 	"author": "Shlomi Domnenko",

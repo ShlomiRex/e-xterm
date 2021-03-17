@@ -321,11 +321,6 @@ ipcMain.on("ShowError", (ev: any, message: string, title: string) => {
 	dialog.showErrorBox(title, message);
 });
 
-ipcMain.on("NewShell", () => {
-	console.log("Main - NewShell")
-	mainWindow.webContents.send("StartShell")
-})
-
 ipcMain.on("OpenContainingFolder", (ev, filepath: string) => {
 	console.log("Main - OpenContainingFolder")
 	shell.showItemInFolder(filepath)
