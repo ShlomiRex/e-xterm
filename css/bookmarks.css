@@ -1,0 +1,91 @@
+body.theme-dark {
+	--color-new: #28a745;
+	--color-deleted: #d73a49;
+	--color-modified: #dbab09;
+	--color-renamed: #0366d6;
+	--color-conflicted: #f66a0a;
+	--text-color: #d1d5da;
+	--text-secondary-color: #959da5;
+	--background-color: #24292e;
+	--box-border-color: #141414;
+	--background: var(--background-color);
+	--base-border: 1px solid var(--box-border-color);
+	--box-selected-background-color: #444d56;
+
+	--list-item-hover-background-color: #2f363d;
+	--box-selected-active-background-color: #0366d6;
+	--box-selected-active-text-color: #fff;
+	--box-selected-active-border-color: #959da5;
+}
+
+#bookmarks-container {
+	background: var(--background-color);
+	color: var(--text-color);
+}
+
+.list-item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: var(--base-border);
+	padding-left: 10px;
+	padding-right: 10px;
+	user-select: none;
+	font-size: var(--font-size-);
+}
+
+.list-item.selected {
+	--text-color: var(--box-selected-text-color);
+	--text-secondary-color: var(--box-selected-text-color);
+	color: var(--text-color);
+	background-color: var(--box-selected-background-color);
+}
+
+.list-item:not(.not-selectable):hover {
+	background: var(--list-item-hover-background-color);
+}
+
+.list-item:active {
+	background-color: var(--box-selected-active-background-color) !important;
+}
+
+
+
+
+
+
+
+/* The tab bar = "Bookmarks" and "Files" buttons */
+
+.tab-bar {
+	display: flex;
+	flex-direction: row;
+	height: 30px;
+}
+
+.tab-bar-item.selected {
+	box-shadow: inset 0 -3px 0px var(--tab-bar-active-color);
+}
+
+.tab-bar-item {
+	border-radius: 0;
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	box-shadow: none;
+	color: var(--text-color);
+	background: var(--background-color);
+	font-family: var(--font-family-sans-serif);
+	border-bottom: 1px solid var(--box-border-color);
+}
+
+.tab-bar-item:hover {
+	background: var(--list-item-hover-background-color);
+}
+
+.bookmarks-item {
+	display: flex !important;
+}

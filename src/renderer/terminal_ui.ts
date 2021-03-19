@@ -11,7 +11,7 @@ export class MyTerminalUI {
 
 	private fitAddon: FitAddon
 
-	constructor(fontSize: number = 18) {
+	constructor(fontSize: number = 16) {
 		this.xterm = new Terminal({
 			"cursorBlink": true,
 			"fontSize": fontSize
@@ -24,7 +24,7 @@ export class MyTerminalUI {
 	 * Initialize this terminal
 	 * @param parent 
 	 */
-	init(parent: any) {
+	init(parent: any, fit = false) {
 		console.log("Terminal ui init with parent: ", parent)
 		//Load addons
 		this.xterm.loadAddon(this.fitAddon);
@@ -32,18 +32,20 @@ export class MyTerminalUI {
 		//Attach to parent
 		this.xterm.open(parent)
 
-		//Fit container
-		this.fit()
+		if (fit) {
+			//Fit container
+			this.fit()
+		}
 	}
 
-    /**
-     * Fit the terminal to the parent container
-     */
+	/**
+	 * Fit the terminal to the parent container
+	 */
 	fit() {
 		this.fitAddon.fit()
 	}
 
-    getXTerm() {
-        return this.xterm
-    }
+	getXTerm() {
+		return this.xterm
+	}
 };

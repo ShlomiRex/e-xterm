@@ -17,25 +17,35 @@ document.querySelector('.btn-toggle-theme').addEventListener('click', function (
 })
 
 
-
+let js : any= [];
 
 
 BookmarksUI.createInstance();
 
+function addTabViewTerminal(tab: any, view: any, myTerminal: MyTerminal) {
+	console.debug("Added tab and view: ", tab, view)
+
+	js.push({
+		"MyTerminal": myTerminal,
+		"tab": tab,
+		"view": view
+	})	
+}
+
 function addShell() {
 	let res = electronBrowser.addTab("Shell", "../resources/terminal.png")
-	console.log("Added bookmark: ", res)
-
 	let myterminal = new MyTerminal()
 	myterminal.init_shell(res.view)
+
+	addTabViewTerminal(res.tab, res.view, myterminal)
 }
 
 function addSSH(tabTitle: string, sshSession: SSHSession, pass: string, eventEmitter: EventEmitter) {
 	let res = electronBrowser.addTab(tabTitle, "../resources/ssh.png")
-	console.log("Added bookmark: ", res)
-
 	let myterminal = new MyTerminal()
 	myterminal.init_ssh(res.view, sshSession, pass, eventEmitter)
+
+	addTabViewTerminal(res.tab, res.view, myterminal)
 }
 
 document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEvent) => {
@@ -43,7 +53,7 @@ document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEv
 });
 
 document.getElementById("btn_newShell").addEventListener("click", (ev: MouseEvent) => {
-	addShell()
+	addShell();
 });
 
 
@@ -57,44 +67,48 @@ let terminalIdTarget: string = undefined
 const bookmarkContextMenu = new Menu();
 const terminalContextMenu = new Menu();
 function setup_context_menu() {
-	bookmarkContextMenu.append(new MenuItem({
-		"label": 'Settings',
-		"id": "settings",
-		"click": (menuItem: any) => {
-			console.log("Clicked on settings", bookmarkIdTarget)
-			ipcRenderer.send("OpenBookmarkSettings", bookmarkIdTarget)
-		}
-	}));
-	bookmarkContextMenu.append(new MenuItem({
-		"type": "separator"
-	}));
-	bookmarkContextMenu.append(new MenuItem({
-		"label": "Delete bookmark",
-		"id": "delete",
-		"click": (menuItem: any) => {
-			console.log("Clicked on delete bookmark", bookmarkIdTarget)
-			ipcRenderer.send("DeleteBookmark", bookmarkIdTarget)
-		}
-	}));
+	function setupBookmarksContextMenu() {
+		bookmarkContextMenu.append(new MenuItem({
+			"label": 'Settings',
+			"id": "settings",
+			"click": (menuItem: any) => {
+				console.log("Clicked on settings", bookmarkIdTarget)
+				ipcRenderer.send("OpenBookmarkSettings", bookmarkIdTarget)
+			}
+		}));
+		bookmarkContextMenu.append(new MenuItem({
+			"type": "separator"
+		}));
+		bookmarkContextMenu.append(new MenuItem({
+			"label": "Delete bookmark",
+			"id": "delete",
+			"click": (menuItem: any) => {
+				console.log("Clicked on delete bookmark", bookmarkIdTarget)
+				ipcRenderer.send("DeleteBookmark", bookmarkIdTarget)
+			}
+		}));
+	}
+	function setupTerminalContextMenu() {
+		terminalContextMenu.append(new MenuItem({
+			"label": "Copy",
+			"id": "terminal_copy",
+			"role": "copy",
+			"click": (menuItem: any) => {
+				console.log("Terminal copy clicked", terminalIdTarget)
+			}
+		}));
+		terminalContextMenu.append(new MenuItem({
+			"label": "Paste",
+			"id": "terminal_paste",
+			"role": "paste",
+			"click": (menuItem: any) => {
+				console.log("Terminal paste clicked", terminalIdTarget)
+			}
+		}))
+	}
 
-
-
-	terminalContextMenu.append(new MenuItem({
-		"label": "Copy",
-		"id": "terminal_copy",
-		"role": "copy",
-		"click": (menuItem: any) => {
-			console.log("Terminal copy clicked", terminalIdTarget)
-		}
-	}));
-	terminalContextMenu.append(new MenuItem({
-		"label": "Paste",
-		"id": "terminal_paste",
-		"role": "paste",
-		"click": (menuItem: any) => {
-			console.log("Terminal paste clicked", terminalIdTarget)
-		}
-	}))
+	setupBookmarksContextMenu()
+	setupTerminalContextMenu()
 
 	window.addEventListener('contextmenu', (mouseEvent: MouseEvent) => {
 		mouseEvent.preventDefault()
@@ -122,8 +136,8 @@ function setup_context_menu() {
 			//maybe user clicked on terminal?
 			try {
 				for (let path of (mouseEvent as any).path) {
-					if (path.id.startsWith("terminal_")) {
-						let terminal_id = path.id;
+					if (path.classList.contains("eb-view")) {
+						let terminal_id = path.dataset.eb_view_id;
 						console.log("Found target is terminal", terminal_id);
 						terminalIdTarget = terminal_id
 						terminalContextMenu.popup({
@@ -235,6 +249,12 @@ window.addEventListener("DOMContentLoaded", () => {
 		BookmarksUI.getInstance().update(bookmarkId, text);
 	});
 
+});
+
+window.addEventListener('resize', () => {
+	js.forEach((element: any) => {
+		//element.MyTerminal.fit()
+	});
 });
 
 //Setup split.js

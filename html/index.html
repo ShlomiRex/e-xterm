@@ -4,10 +4,8 @@
 <head>
 	<title>e-xterm</title>
 
+	<!-- jQuery js -->
 	<script src="../third-party/jquery/jquery-3.5.1.min.js"></script>
-
-	<!-- index.css -->
-	<link rel="stylesheet" href="../css/index.css" />
 
 	<!-- xterm -->
 	<link rel="stylesheet" href="../node_modules/xterm/css/xterm.css" />
@@ -18,28 +16,31 @@
 
 	<!-- jQuery , used for resizing -->
 	<script src="../third-party/jquery/jquery-3.5.1.min.js"></script>
-  	<script src="../third-party/jquery/jquery-ui-1.12.1.min.js"></script>
-  	<link rel="stylesheet" type="text/css" href="../third-party/jquery/jquery-ui.min.css"/>
+	<script src="../third-party/jquery/jquery-ui-1.12.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../third-party/jquery/jquery-ui.min.css" />
 
 	<!-- electron-browser -->
 	<link rel="stylesheet" type="text/css" href="../node_modules/electron-browser/src/electron-browser.css">
-  <script>
-	$( function() {
-		//Only allow resize in south direction (bottom)
-	  $( "#collapseTwo" ).resizable({
-		  handles: "s"
-	  });
-	} );
+
+	<!-- my own css, comes as latest style, it can overwrite everything above -->
+	<link rel="stylesheet" href="../css/index.css" />
+	<link rel="stylesheet" href="../css/bookmarks.css" />
+	<script>
+		$(function () {
+			//Only allow resize in south direction (bottom)
+			$("#collapseTwo").resizable({
+				handles: "s"
+			});
+		});
 	</script>
 
 
 </head>
 
 <body class="theme-dark">
-	<div id="left-panel" class="split"
-		style="height: 100%; display: flex; flex-flow: column;">
+	<div id="left-panel" class="split">
 		<div id="buttons-pane">
-			<div style="padding: 10px">
+			<div>
 				<a id="btn_newSession" class="btn btn-primary" role="button">
 					New session
 				</a>
@@ -70,10 +71,10 @@
 				<div class="tabs-content"></div>
 				<div class="tab-add"></div>
 			</div>
-			<div style="padding: 5px;" class="tabs-bar">
+			<div class="tabs-bar">
 				<button class="btn-toggle-theme">TOGGLE DARK MODE</button>
-	
-				<label style="margin-left: 20px;">URL: </label>
+
+				<label>URL: </label>
 				<input id="url" type="url">
 			</div>
 			<div class="browser-views"></div>

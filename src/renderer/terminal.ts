@@ -26,7 +26,7 @@ export class MyTerminal {
 	private uiTerm: MyTerminalUI;
 
 	constructor() {
-		this.uiTerm = new  MyTerminalUI()
+		this.uiTerm = new MyTerminalUI()
 	}
 
 	init_shell(terminalContainer: HTMLElement) {
@@ -34,9 +34,9 @@ export class MyTerminal {
 
 		//Initialize node-pty with an appropriate shell
 		let shell;
-		if(WINDOWS) {
+		if (WINDOWS) {
 			shell = Shell.POWERSHELL
-		} else if(MAC) {
+		} else if (MAC) {
 			shell = Shell.ZSH
 		} else {
 			shell = Shell.BASH
@@ -46,18 +46,20 @@ export class MyTerminal {
 			name: 'xterm-color',
 			cwd: process.cwd(),
 			env: process.env,
-			encoding: "UTF-8"
+			cols: 80,
+			rows: 30
+		});
+
+		ptyProcess.onData((data: any) => {
+			this.uiTerm.getXTerm().write(data);
 		});
 
 		//When user types(input), write to node-pty
 		this.uiTerm.getXTerm().onData((data: any) => {
 			ptyProcess.write(data)
 		})
-		
-		//When receving output, write to terminal
-		ptyProcess.onData((data: any) => {
-			this.uiTerm.getXTerm().write(data);
-		});
+
+
 
 	}
 
@@ -73,7 +75,7 @@ export class MyTerminal {
 			console.debug("Writing to stream: ", arg.key)
 			myStream.write(arg.key);
 		});
-		
+
 
 		//We need to write to function because if we write this.write() it calls the internal function inside ssh2 and not our function
 		let write_to_terminal = (data: string) => {
@@ -100,7 +102,7 @@ export class MyTerminal {
 					console.log('Stream :: close');
 					conn.end();
 				})
-				
+
 				stream.on('data', function (data: string) {
 					//console.log('OUTPUT: ' + data);
 
@@ -108,22 +110,22 @@ export class MyTerminal {
 				});
 			});
 
-			conn.exec('xeyes', { x11: true }, function(err, stream) {
+			conn.exec('xeyes', { x11: true }, function (err, stream) {
 				if (err) throw err;
 				var code = 0;
-				stream.on('end', function() {
-				  if (code !== 0)
-					console.log('Do you have X11 forwarding enabled on your SSH server?');
-				  conn.end();
-				}).on('exit', function(exitcode) {
-				  code = exitcode;
+				stream.on('end', function () {
+					if (code !== 0)
+						console.log('Do you have X11 forwarding enabled on your SSH server?');
+					conn.end();
+				}).on('exit', function (exitcode) {
+					code = exitcode;
 				});
 			});
 
 
 		});
-		
-		if(sshSession.private_key) {
+
+		if (sshSession.private_key) {
 			let privateKeyFS = fs.readFileSync(sshSession.private_key_path)
 			//Connect with private key and passphrase
 			conn.connect({
@@ -162,19 +164,20 @@ export class MyTerminal {
 			eventEmitter.emit("close", hadError);
 		})
 
-		conn.on('x11', function(info, accept, reject) {
+		conn.on('x11', function (info, accept, reject) {
 			console.log("X11 CALLED @@@@@@@@@@@@")
 			var xserversock = new net.Socket();
-			xserversock.on('connect', function() {
-			  var xclientsock = accept();
-			  xclientsock.pipe(xserversock).pipe(xclientsock);
+			xserversock.on('connect', function () {
+				var xclientsock = accept();
+				xclientsock.pipe(xserversock).pipe(xclientsock);
 			});
 			// connects to localhost:0.0
 			xserversock.connect(6000, 'localhost');
-		  });
+		});
 	}
 
 	fit() {
+		console.debug("Terminal - Fit called")
 		this.uiTerm.fit()
 	}
 };
