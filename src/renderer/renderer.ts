@@ -1,23 +1,14 @@
 import { SSHSession } from "../shared/session";
-import { ipcRenderer, remote } from 'electron';
+import { ipcRenderer, remote, TouchBarScrubber } from 'electron';
 import { EventEmitter } from 'events';
 import * as Split from 'split.js';
-import { BookmarksUI } from './bookmarks_ui'
-import { MyTerminalUI } from './terminal_ui'
+import { BookmarksUI } from './bookmarks_ui';
+import { MyTerminal } from './terminal';
 
 const { Menu, MenuItem } = remote;
 
 const ElectronBrowser = require("electron-browser")
 const electronBrowser = new ElectronBrowser()
-
-let res = electronBrowser.addTab("Shell", "empty.html", "../resources/terminal.png")
-console.log("Added bookmark: ", res)
-console.log("Res = ", res)
-
-
-let myTerminalUI = new MyTerminalUI()
-let parent = document.getElementsByTagName("webview")[0];
-myTerminalUI.init(parent)
 
 
 document.querySelector('.btn-toggle-theme').addEventListener('click', function () {
@@ -31,13 +22,28 @@ document.querySelector('.btn-toggle-theme').addEventListener('click', function (
 
 BookmarksUI.createInstance();
 
+function addShell() {
+	let res = electronBrowser.addTab("Shell", "../resources/terminal.png")
+	console.log("Added bookmark: ", res)
+
+	let myterminal = new MyTerminal()
+	myterminal.init_shell(res.view)
+}
+
+function addSSH(tabTitle: string, sshSession: SSHSession, pass: string, eventEmitter: EventEmitter) {
+	let res = electronBrowser.addTab(tabTitle, "../resources/ssh.png")
+	console.log("Added bookmark: ", res)
+
+	let myterminal = new MyTerminal()
+	myterminal.init_ssh(res.view, sshSession, pass, eventEmitter)
+}
+
 document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEvent) => {
 	ipcRenderer.send("OpenNewSessionWindow")
 });
 
 document.getElementById("btn_newShell").addEventListener("click", (ev: MouseEvent) => {
-	let res = electronBrowser.addTab("Shell", "empty.html", "../resources/terminal.png")
-	console.log("Added bookmark: ", res)
+	addShell()
 });
 
 
@@ -198,23 +204,13 @@ window.addEventListener("DOMContentLoaded", () => {
 			console.log("Close emitted, hadError? ", hadError);
 			//Tabs.getInstance().removeTabContent(tab.id);
 		});
+
+		addSSH(title, session, password, eventEmitter);
 	});
-	register_ipcRenderer_listiners()
-
-});
-
-//Setup split.js
-Split(['#left-panel', '#main-panel'],
-	{
-		direction: "horizontal",
-		sizes: [25, 75]
-	}
-);
-
-function register_ipcRenderer_listiners() {
 
 	ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {
 		//tabs.fit_terminal()
+		
 	});
 
 	ipcRenderer.on("Renderer_BookmarksUI_AddBookmark", (ev, sshSession: SSHSession) => {
@@ -238,6 +234,14 @@ function register_ipcRenderer_listiners() {
 		let bookmarkId = session.uuid;
 		BookmarksUI.getInstance().update(bookmarkId, text);
 	});
-}
 
+});
+
+//Setup split.js
+Split(['#left-panel', '#main-panel'],
+	{
+		direction: "horizontal",
+		sizes: [25, 75]
+	}
+);
 
