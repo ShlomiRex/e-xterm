@@ -1,4 +1,6 @@
 import { SSHSession } from "../shared/session";
+import { ipcRenderer } from 'electron';
+
 
 function getBookmarkIdFromMouseEvent(ev: any): string {
 	//Traverse path and find the bookmarkId

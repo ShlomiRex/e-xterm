@@ -3,15 +3,21 @@ import { ipcRenderer, remote } from 'electron';
 import { EventEmitter } from 'events';
 import * as Split from 'split.js';
 import { BookmarksUI } from './bookmarks_ui'
+import { MyTerminalUI } from './terminal_ui'
 
 const { Menu, MenuItem } = remote;
 
 const ElectronBrowser = require("electron-browser")
 const electronBrowser = new ElectronBrowser()
 
-//let ret = electronBrowser.addTab("Test", "../html/terminal.html")
-let ret = electronBrowser.addTab("Test", "https://google.com")
-console.log("Ret = ", ret)
+let res = electronBrowser.addTab("Shell", "empty.html", "../resources/terminal.png")
+console.log("Added bookmark: ", res)
+console.log("Res = ", res)
+
+
+let myTerminalUI = new MyTerminalUI()
+let parent = document.getElementsByTagName("webview")[0];
+myTerminalUI.init(parent)
 
 
 document.querySelector('.btn-toggle-theme').addEventListener('click', function () {
@@ -30,9 +36,7 @@ document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEv
 });
 
 document.getElementById("btn_newShell").addEventListener("click", (ev: MouseEvent) => {
-	//The electron-browser context is "html" directory, not this renderer.ts directory!
-	//So we give it relative path relative to terminal.html
-	let res = electronBrowser.addTab("Shell", "terminal.html", "../resources/terminal.png")
+	let res = electronBrowser.addTab("Shell", "empty.html", "../resources/terminal.png")
 	console.log("Added bookmark: ", res)
 });
 

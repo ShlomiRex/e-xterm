@@ -24,7 +24,8 @@ export class MyTerminalUI {
 	 * Initialize this terminal
 	 * @param parent 
 	 */
-	init(parent: HTMLElement) {
+	init(parent: any) {
+		console.log("Terminal ui init with parent: ", parent)
 		//Load addons
 		this.xterm.loadAddon(this.fitAddon);
 

@@ -81,7 +81,6 @@ body.theme-dark {
 }
 
 #main-panel {
-	width: 100% !important;
 	margin-left: -5px;
 	/* Hide splitjs halfway */
 }
