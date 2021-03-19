@@ -42,6 +42,7 @@ export class MyTerminalUI {
 	 * Fit the terminal to the parent container
 	 */
 	fit() {
+		console.debug("Fit called")
 		this.fitAddon.fit()
 	}
 

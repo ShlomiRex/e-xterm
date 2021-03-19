@@ -3,3 +3,7 @@
 #private_key_btn:hover :first-child {
 	filter: invert(1);
 }
+
+.hidden {
+	display: none;
+}

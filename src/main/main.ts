@@ -234,6 +234,9 @@ ipcMain.on("OpenNewSessionWindow", () => {
 
 	newSessionWindow.loadFile(path.join(__dirname, "../../html/new_session.html"));
 
+	//Open dev tools
+	newSessionWindow.webContents.openDevTools();
+
 	newSessionWindow.on("close", (ev: any) => {
 		console.log("New session window closed");
 	});

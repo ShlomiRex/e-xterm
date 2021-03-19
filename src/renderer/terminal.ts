@@ -1,14 +1,15 @@
 import * as pty from 'node-pty';
 import * as os from 'os';
 import * as fs from "fs"
-
+import * as net from 'net';
 import * as ssh2 from 'ssh2';
-import { SSHSession } from '../shared/session';
+import * as wslpty from 'wslpty';
+
 import { EventEmitter } from 'events';
 
-import * as net from 'net';
-
+import { SSHSession } from '../shared/session';
 import { MyTerminalUI } from "./terminal_ui"
+
 
 const WINDOWS = os.platform() === 'win32';
 const MAC = os.platform() == "darwin";
@@ -18,8 +19,9 @@ console.info("Platform:", os.platform())
 enum Shell {
 	CMD = "COMSPEC",
 	BASH = "bash",
-	POWERSHELL = "powershell.exe",
-	ZSH = "zsh"
+	POWERSHELL = "powershell",
+	ZSH = "zsh",
+	WSL = "wsl"
 }
 
 export class MyTerminal {
@@ -45,9 +47,7 @@ export class MyTerminal {
 		const ptyProcess = pty.spawn(shell, [], {
 			name: 'xterm-color',
 			cwd: process.cwd(),
-			env: process.env,
-			cols: 80,
-			rows: 30
+			env: process.env
 		});
 
 		ptyProcess.onData((data: any) => {
@@ -176,8 +176,41 @@ export class MyTerminal {
 		});
 	}
 
+	init_wsl(terminalContainer: HTMLElement) {
+		this.uiTerm.init(terminalContainer)
+
+		// const ptyProcess = pty.spawn(shell, [], {
+		// 	name: 'xterm-color',
+		// 	cwd: process.cwd(),
+		// 	env: process.env
+		// });
+
+		// ptyProcess.onData((data: any) => {
+		// 	this.uiTerm.getXTerm().write(data);
+		// });
+
+		// //When user types(input), write to node-pty
+		// this.uiTerm.getXTerm().onData((data: any) => {
+		// 	ptyProcess.write(data)
+		// })
+
+		var ptyProcess = wslpty.spawn({
+			cwd: process.cwd(),
+			env: process.env
+		});
+
+		ptyProcess.on("data", (data) => {
+			this.uiTerm.getXTerm().write(data);
+
+		})
+		this.uiTerm.getXTerm().onData((data: any) => {
+			ptyProcess.write(data)
+		})
+
+
+	}
+
 	fit() {
-		console.debug("Terminal - Fit called")
 		this.uiTerm.fit()
 	}
 };

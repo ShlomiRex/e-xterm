@@ -10,32 +10,36 @@
 <body class="container">
 	<h1>Choose protocol</h1>
 	<div id="choose_protocol" class="btn-group" role="group" aria-label="Basic radio toggle button group">
-		<input type="radio" class="btn-check" name="btnradio" id="SSH" autocomplete="off">
-		<label class="btn btn-outline-primary" for="SSH">SSH</label>
 
-		<input type="radio" class="btn-check" name="btnradio" id="SFTP" autocomplete="off" disabled
+		<input type="radio" class="btn-check" name="btnradio" id="btn_SSH" autocomplete="off">
+		<label class="btn btn-outline-primary" for="btn_SSH">SSH</label>
+
+		<input type="radio" class="btn-check" name="btnradio" id="btn_SFTP" autocomplete="off" disabled
 			aria-disabled="true">
-		<label class="btn btn-outline-primary" for="SFTP">SFTP</label>
+		<label class="btn btn-outline-primary" for="btn_SFTP">SFTP</label>
 
-		<input type="radio" class="btn-check" name="btnradio" id="FTP" autocomplete="off" disabled aria-disabled="true">
-		<label class="btn btn-outline-primary" for="FTP">FTP</label>
-
-		<input type="radio" class="btn-check" name="btnradio" id="RDP" autocomplete="off" disabled aria-disabled="true">
-		<label class="btn btn-outline-primary" for="RDP">RDP</label>
-
-		<input type="radio" class="btn-check" name="btnradio" id="VNC" autocomplete="off" disabled aria-disabled="true">
-		<label class="btn btn-outline-primary" for="VNC">VNC</label>
-
-		<input type="radio" class="btn-check" name="btnradio" id="Telnet" autocomplete="off" disabled
+		<input type="radio" class="btn-check" name="btnradio" id="btn_FTP" autocomplete="off" disabled
 			aria-disabled="true">
-		<label class="btn btn-outline-primary" for="Telnet">Telnet</label>
+		<label class="btn btn-outline-primary" for="btn_FTP">FTP</label>
 
-		<input type="radio" class="btn-check" name="btnradio" id="WSL" autocomplete="off" disabled aria-disabled="true">
-		<label class="btn btn-outline-primary" for="WSL">WSL</label>
+		<input type="radio" class="btn-check" name="btnradio" id="btn_RDP" autocomplete="off" disabled
+			aria-disabled="true">
+		<label class="btn btn-outline-primary" for="btn_RDP">RDP</label>
+
+		<input type="radio" class="btn-check" name="btnradio" id="btn_VNC" autocomplete="off" disabled
+			aria-disabled="true">
+		<label class="btn btn-outline-primary" for="btn_VNC">VNC</label>
+
+		<input type="radio" class="btn-check" name="btnradio" id="btn_Telnet" autocomplete="off" disabled
+			aria-disabled="true">
+		<label class="btn btn-outline-primary" for="btn_Telnet">Telnet</label>
+
+		<input type="radio" class="btn-check" name="btnradio" id="btn_WSL" autocomplete="off">
+		<label class="btn btn-outline-primary" for="btn_WSL">WSL</label>
 	</div>
 
 	<div id="content" style="margin-top: 10px;">
-		<div id="hidden_content_SSH" style="display: none;">
+		<div id="SSH_settings" class="hidden settings">
 			<form id="form">
 				<div class="accordion">
 					<div class="accordion-item">
@@ -197,6 +201,9 @@
 				<button type="submit" class="btn btn-primary" id="submit">Submit</button>
 				<a id="cancel" name="cancel" class="btn btn-outline-danger">Cancel</a>
 			</form>
+		</div>
+		<div id="WSL_settings" class="hidden settings">
+			WSL Bookmark Settings
 		</div>
 	</div>
 

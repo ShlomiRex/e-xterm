@@ -48,6 +48,14 @@ function addSSH(tabTitle: string, sshSession: SSHSession, pass: string, eventEmi
 	addTabViewTerminal(res.tab, res.view, myterminal)
 }
 
+function addWSL(tabTitle: string) {
+	let res = electronBrowser.addTab(tabTitle, "../resources/tux.svg")
+	let myterminal = new MyTerminal()
+	myterminal.init_wsl(res.view)
+
+	addTabViewTerminal(res.tab, res.view, myterminal)	
+}
+
 document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEvent) => {
 	ipcRenderer.send("OpenNewSessionWindow")
 });
@@ -222,6 +230,10 @@ window.addEventListener("DOMContentLoaded", () => {
 		addSSH(title, session, password, eventEmitter);
 	});
 
+	ipcRenderer.on("StartWSL", (event) => {
+		addWSL("WSL")
+	});
+
 	ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {
 		//tabs.fit_terminal()
 		
@@ -253,7 +265,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 window.addEventListener('resize', () => {
 	js.forEach((element: any) => {
-		//element.MyTerminal.fit()
+		element.MyTerminal.fit()
 	});
 });
 

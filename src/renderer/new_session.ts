@@ -5,11 +5,23 @@ const { ipcRenderer } = require('electron')
 
 const PROTOCOLS = ["SSH", "SFTP", "FTP", "RDP", "VNC", "Telnet", "WSL"]
 
+let current_active_btn_protocol: string = undefined
 
 for(let protocol of PROTOCOLS) {
-	document.getElementById(protocol).addEventListener("click", () => {
+	console.log(protocol)
+	let DOM_btn = document.getElementById(`btn_${protocol}`)
+	DOM_btn.addEventListener("click", () => {
+		console.debug("Clicked on: ", protocol)
+
+		if(current_active_btn_protocol) {
+			//Hide current active protocol's content
+			document.getElementById(`${current_active_btn_protocol}_settings`).classList.add("hidden");
+		}
+
 		//Show hidden content for selected protocol
-		document.getElementById("hidden_content_" + protocol).style.display = "block";
+		document.getElementById(`${protocol}_settings`).classList.remove("hidden");
+
+		current_active_btn_protocol = protocol;
 	})
 }
 
