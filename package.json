@@ -7,16 +7,18 @@
 	"scripts": {
 		"build": "tsc",
 		"watch": "tsc -w",
+		"watch2": "nodemon -e ts -w ./src -x npm run watch:serve",
+		"watch:serve": "ts-node --inspect src/main/main.ts",
 		"lint": "eslint -c .eslintrc --ext .ts ./src",
 		"start": "npm run install-local-packages && npm run build && electron ./dist/main/main.js",
-		"install-local-packages": "npm install C:\\Users\\Shlomi\\Desktop\\electron-chrome-tabs"
+		"install-local-packages": "npm install C:\\Users\\Shlomi\\Desktop\\electron-browser"
 	},
 	"repository": "https://github.com/ShlomiRex/e-xterm",
 	"author": "Shlomi Domnenko",
 	"dependencies": {
 		"bootstrap": "^5.0.0-beta1",
 		"electron": "^11.2.0",
-		"electron-chrome-tabs": "file:../electron-chrome-tabs",
+		"electron-browser": "file:../electron-browser",
 		"electron-store": "^7.0.0",
 		"jquery": "^3.5.1",
 		"node-pty": "^0.9.0",
@@ -30,12 +32,12 @@
 		"xterm-addon-fit": "^0.4.0"
 	},
 	"devDependencies": {
-		"electron-rebuild": "^2.3.4",
-		"electron-reloader": "^1.2.0",
-		"electron-reload": "^1.5.0",
 		"@types/ssh2": "^0.5.46",
 		"@types/uuid": "^8.3.0",
 		"@types/w2ui": "^1.4.32",
-		"@types/websocket": "^1.0.1"
+		"@types/websocket": "^1.0.1",
+		"electron-rebuild": "^2.3.4",
+		"electron-reload": "^1.5.0",
+		"electron-reloader": "^1.2.0"
 	}
 }

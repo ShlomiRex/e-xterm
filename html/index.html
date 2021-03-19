@@ -21,8 +21,8 @@
   	<script src="../third-party/jquery/jquery-ui-1.12.1.min.js"></script>
   	<link rel="stylesheet" type="text/css" href="../third-party/jquery/jquery-ui.min.css"/>
 
-	<!-- electron-chrome-tabs -->
-	<link rel="stylesheet" type="text/css" href="../node_modules/electron-chrome-tabs/src/electron-chrome-tabs-dark-theme.css">
+	<!-- electron-browser -->
+	<link rel="stylesheet" type="text/css" href="../node_modules/electron-browser/src/electron-browser.css">
   <script>
 	$( function() {
 		//Only allow resize in south direction (bottom)
@@ -65,18 +65,19 @@
 	</div>
 
 	<div id="main-panel" class="split">
-		<div class="etabs-tabgroup">
-			<div class="chrome-tabs">
-				<div class="chrome-tabs-content"></div>
-				<div class="chrome-tabs-bottom-bar"></div>
+		<div class="browser">
+			<div class="tabs">
+				<div class="tabs-content"></div>
+				<div class="tab-add"></div>
 			</div>
+			<div style="padding: 5px;" class="tabs-bar">
+				<button class="btn-toggle-theme">TOGGLE DARK MODE</button>
+	
+				<label style="margin-left: 20px;">URL: </label>
+				<input id="url" type="url">
+			</div>
+			<div class="browser-views"></div>
 		</div>
-		<div class="chrome-tab-bar">
-			<label style="color: white;">
-				test tabs bar
-			</label>
-		</div>
-		<div class="ect-views"></div>
 	</div>
 
 

@@ -2,17 +2,22 @@ import { SSHSession } from "../shared/session";
 import { ipcRenderer, remote } from 'electron';
 import { EventEmitter } from 'events';
 import * as Split from 'split.js';
+import { BookmarksUI } from './bookmarks_ui'
 
 const { Menu, MenuItem } = remote;
 
-const ElectronChromeTabs = require("electron-chrome-tabs")
-const electronTabs = new ElectronChromeTabs()
+const ElectronBrowser = require("electron-browser")
+const electronBrowser = new ElectronBrowser()
 
-let ret = electronTabs.addTab("Test", "../html/terminal.html")
+//let ret = electronBrowser.addTab("Test", "../html/terminal.html")
+let ret = electronBrowser.addTab("Test", "https://google.com")
 console.log("Ret = ", ret)
 
 
-
+document.querySelector('.btn-toggle-theme').addEventListener('click', function () {
+	// Then toggle (add/remove) the .dark-theme class to the body
+	document.body.classList.toggle('dark-theme');
+})
 
 
 
@@ -25,7 +30,9 @@ document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEv
 });
 
 document.getElementById("btn_newShell").addEventListener("click", (ev: MouseEvent) => {
-	let res = electronTabs.addTab("Shell", "")
+	//The electron-browser context is "html" directory, not this renderer.ts directory!
+	//So we give it relative path relative to terminal.html
+	let res = electronBrowser.addTab("Shell", "terminal.html", "../resources/terminal.png")
 	console.log("Added bookmark: ", res)
 });
 
@@ -82,7 +89,7 @@ function setup_context_menu() {
 	window.addEventListener('contextmenu', (mouseEvent: MouseEvent) => {
 		mouseEvent.preventDefault()
 		console.log("Context menu fired!", mouseEvent)
-	
+
 		//Find if path is bookmark. Object may not have "hasAttribute" so try catch
 		try {
 			for (let path of (mouseEvent as any).path) {
@@ -123,8 +130,8 @@ function setup_context_menu() {
 				//user did not clicked on terminal
 			}
 		}
-	
-	
+
+
 	})
 }
 setup_context_menu()
