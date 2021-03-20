@@ -11,7 +11,20 @@ try {
 	console.warn("Production, not loading dev modules")
 }
 
-const isMac = process.platform === 'darwin'
+/*
+Available platforms: 
+'aix', 
+'darwin' (Mac), 
+'freebsd', 
+'linux' (Linux), 
+'openbsd', 
+'sunos' (Oracle), 
+'win32' (Windows)
+*/
+
+const PLATFORM = process.platform
+
+const isMac = PLATFORM === 'darwin'
 
 nativeTheme.themeSource = 'dark'
 
@@ -327,4 +340,8 @@ ipcMain.on("ShowError", (ev: any, message: string, title: string) => {
 ipcMain.on("OpenContainingFolder", (ev, filepath: string) => {
 	console.log("Main - OpenContainingFolder")
 	shell.showItemInFolder(filepath)
+})
+
+ipcMain.on("platform?", (event) => {
+	event.returnValue = PLATFORM
 })

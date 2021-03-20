@@ -1,5 +1,5 @@
 import { SSHSession } from "../shared/session";
-import { ipcRenderer, remote, TouchBarScrubber } from 'electron';
+import { ipcRenderer, remote } from 'electron';
 import { EventEmitter } from 'events';
 import * as Split from 'split.js';
 import { BookmarksUI } from './bookmarks_ui';
@@ -64,6 +64,9 @@ document.getElementById("btn_newShell").addEventListener("click", (ev: MouseEven
 	addShell();
 });
 
+document.getElementById("btn_newWSL").addEventListener("click", (ev: MouseEvent) => {
+	addWSL("WSL");
+})
 
 
 //These 2 variables help determined what is the target, when MenuItem's click() function is called

@@ -40,17 +40,17 @@
 
 	<div id="content" style="margin-top: 10px;">
 		<div id="SSH_settings" class="hidden settings">
-			<form id="form">
+			<form id="SSH_form">
 				<div class="accordion">
 					<div class="accordion-item">
 						<h2 class="accordion-header">
 							<button class="accordion-button" type="button" data-bs-toggle="collapse"
-								data-bs-target="#BasicSettings" aria-expanded="true">
+								data-bs-target="#SSH_BasicSettings" aria-expanded="true">
 								Basic Settings
 							</button>
 						</h2>
-						<div id="BasicSettings" class="accordion-collapse collapse show"
-							data-bs-parent="#BasicSettings">
+						<div id="SSH_BasicSettings" class="accordion-collapse collapse show"
+							data-bs-parent="#SSH_BasicSettings">
 							<div class="accordion-body">
 								<div class="list-group" id="list-tab" role="tablist">
 									<div class="row">
@@ -101,12 +101,12 @@
 					<div class="accordion-item">
 						<h2 class="accordion-header">
 							<button class="accordion-button" type="button" data-bs-toggle="collapse"
-								data-bs-target="#AdvancedSettings" aria-expanded="true">
+								data-bs-target="#SSH_AdvancedSettings" aria-expanded="true">
 								Advanced SSH Settings
 							</button>
 						</h2>
-						<div id="AdvancedSettings" class="accordion-collapse collapse show"
-							data-bs-parent="#AdvancedSettings">
+						<div id="SSH_AdvancedSettings" class="accordion-collapse collapse show"
+							data-bs-parent="#SSH_AdvancedSettings">
 							<div class="accordion-body">
 								<div class="list-group" role="tablist">
 									<div class="row">
@@ -159,14 +159,14 @@
 					<div class="accordion-item">
 						<h2 class="accordion-header">
 							<button class="accordion-button" type="button" data-bs-toggle="collapse"
-								data-bs-target="#BookmarkSettings" aria-expanded="true">
+								data-bs-target="#SSH_BookmarkSettings" aria-expanded="true">
 								Bookmark Settings
 							</button>
 						</h2>
-						<div id="BookmarkSettings" class="accordion-collapse collapse show"
-							data-bs-parent="#BookmarkSettings">
+						<div id="SSH_BookmarkSettings" class="accordion-collapse collapse show"
+							data-bs-parent="#SSH_BookmarkSettings">
 							<div class="accordion-body">
-								<div class="list-group" id="list-tab" role="tablist">
+								<div class="list-group" role="tablist">
 									<div class="row">
 										<div class="col">
 											<label for="session_name" class="form-label">
@@ -174,7 +174,7 @@
 											</label>
 										</div>
 										<div class="col">
-											<input type="text" class="form-control" id="session_name"
+											<input type="text" class="form-control" id="SSH_session_name"
 												title="Give meaningful name" placeholder="Example: Ubuntu 20.04 VM">
 										</div>
 									</div>
@@ -186,7 +186,7 @@
 											</label>
 										</div>
 										<div class="col">
-											<textarea class="form-control" id="session_description" rows="3"
+											<textarea class="form-control" id="SSH_session_description" rows="3"
 												title="Something to describe this session"
 												placeholder="Description..."></textarea>
 										</div>
@@ -196,14 +196,88 @@
 						</div>
 					</div>
 				</div>
-
 				<br>
-				<button type="submit" class="btn btn-primary" id="submit">Submit</button>
-				<a id="cancel" name="cancel" class="btn btn-outline-danger">Cancel</a>
+				<button type="submit" class="btn btn-primary">Submit</button>
+				<a id="SSH_cancel" name="cancel" class="btn btn-outline-danger">Cancel</a>
 			</form>
 		</div>
 		<div id="WSL_settings" class="hidden settings">
-			WSL Bookmark Settings
+			<form id="WSL_form">
+				<div class="accordion">
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+								data-bs-target="#WSL_Distros" aria-expanded="true">
+								Distrobutions
+							</button>
+						</h2>
+						<div id="WSL_Distros" class="accordion-collapse collapse show" data-bs-parent="#WSL_Distros">
+							<div class="accordion-body">
+								<div class="list-group" role="tablist">
+									<div class="row">
+										<div class="col">
+											<label for="WSL_distro" class="form-label">
+												<span style="color: red;">*</span>
+												Distrobution:
+											</label>
+										</div>
+										<div class="col">
+											<select id="WSL_distro_select" class="form-select" aria-label="Select distrobution" required>
+												<!-- Populate with distros -->
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="accordion">
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+								data-bs-target="#WSL_BookmarkSettings" aria-expanded="true">
+								Bookmark Settings
+							</button>
+						</h2>
+						<div id="WSL_BookmarkSettings" class="accordion-collapse collapse show"
+							data-bs-parent="#WSL_BookmarkSettings">
+							<div class="accordion-body">
+								<div class="list-group" role="tablist">
+									<div class="row">
+										<div class="col">
+											<label for="WSL_session_name" class="form-label">
+												Session name:
+											</label>
+										</div>
+										<div class="col">
+											<input type="text" class="form-control" id="WSL_session_name"
+												title="Give meaningful name" placeholder="Example: Ubuntu 20.04 VM">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<label for="WSL_session_description" class="form-label">
+												Session description:
+											</label>
+										</div>
+										<div class="col">
+											<textarea class="form-control" id="WSL_session_description" rows="3"
+												title="Something to describe this session"
+												placeholder="Description..."></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br>
+				<button type="submit" class="btn btn-primary">Submit</button>
+				<a id="WSL_cancel" name="cancel" class="btn btn-outline-danger">Cancel</a>
+			</form>
 		</div>
 	</div>
 
@@ -211,5 +285,7 @@
 	<script>var exports = { "__esModule": true };</script>
 	<script src="../dist/renderer/new_session.js"></script>
 </body>
+
+
 
 </html>
