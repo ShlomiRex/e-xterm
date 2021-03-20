@@ -1,4 +1,4 @@
-import { SSHSession } from "../shared/session";
+import { SSHSession, WSLSession } from "../shared/session";
 import { ipcRenderer } from 'electron';
 
 
@@ -44,24 +44,36 @@ export class BookmarksUI {
 		return BookmarksUI.instance;
 	}
 
-	static getBookmarkLabelFromSession(session: SSHSession) {
-		//If user did not give session name, use the hostname instead
-		if (!session.session_name) {
-			if (session.username) {
-				return session.username + "@" + session.remote_host;
+	static getBookmarkLabelFromSession(session: SSHSession | WSLSession) {
+		if (session.protocol == "SSH") {
+			session = session as SSHSession
+			//If user did not give session name, use the hostname instead
+			if (!session.session_name) {
+				if (session.username) {
+					return session.username + "@" + session.remote_host;
+				} else {
+					return session.remote_host;
+				}
 			} else {
-				return session.remote_host;
+				return session.session_name;
 			}
-		} else {
-			return session.session_name;
+		} else if (session.protocol == "WSL") {
+			session = session as WSLSession
+			//If user did not give session name, use distro name
+			if (!session.session_name) {
+				return `WSL: ${session.distro}`
+			} else {
+				return session.session_name;
+			}
 		}
+
 	}
 
 	/**
 	 * Create bookmark item (UI) and add it
 	 * @param session Session to populate
 	 */
-	populate(session: SSHSession) {
+	populate(session: SSHSession | WSLSession) {
 		let bookmark_label: string = BookmarksUI.getBookmarkLabelFromSession(session);
 		var protocol = session.protocol;
 

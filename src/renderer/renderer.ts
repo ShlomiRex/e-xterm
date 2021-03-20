@@ -1,4 +1,4 @@
-import { SSHSession } from "../shared/session";
+import { SSHSession, WSLSession } from "../shared/session";
 import { ipcRenderer, remote } from 'electron';
 import { EventEmitter } from 'events';
 import * as Split from 'split.js';
@@ -242,9 +242,9 @@ window.addEventListener("DOMContentLoaded", () => {
 		
 	});
 
-	ipcRenderer.on("Renderer_BookmarksUI_AddBookmark", (ev, sshSession: SSHSession) => {
+	ipcRenderer.on("Renderer_BookmarksUI_AddBookmark", (ev, session: SSHSession | WSLSession) => {
 		console.debug("Renderer - will add bookmark")
-		BookmarksUI.getInstance().populate(sshSession);
+		BookmarksUI.getInstance().populate(session);
 	});
 
 	ipcRenderer.on("Renderer_BookmarksUI_RemoveBookmark", (ev, bookmarkId: string) => {

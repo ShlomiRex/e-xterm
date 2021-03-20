@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain, dialog, shell, nativeTheme } from "electro
 import { IpcMainEvent } from "electron/main";
 import * as path from "path";
 import { MyBookmarks } from "./bookmarks";
-import { SSHSession } from "../shared/session";
+import { SSHSession, WSLSession } from "../shared/session";
 import * as Store from 'electron-store';
 
 try {
@@ -42,9 +42,9 @@ console.log("electron-store path: ", store.path)
 //give permission for renderer process to use electron-store
 Store.initRenderer();
 
-let uiPopulateCallback = (sshSession: SSHSession) => {
+let uiPopulateCallback = (session: SSHSession | WSLSession) => {
 	console.log("Populate callback called")
-	mainWindow.webContents.send("Renderer_BookmarksUI_AddBookmark", sshSession);
+	mainWindow.webContents.send("Renderer_BookmarksUI_AddBookmark", session);
 };
 
 let uiDeleteCallback = (bookmarkId: string) => {
@@ -73,7 +73,7 @@ function createMainWindow() {
 	// Open the DevTools.
 	mainWindow.webContents.openDevTools();
 
-	const sessions: Array<SSHSession> = MyBookmarks.getInstance().getSessions();
+	const sessions: Array<SSHSession | WSLSession> = MyBookmarks.getInstance().getSessions();
 
 	mainWindow.webContents.on("dom-ready", () => {
 		for(let s of sessions) {
@@ -171,7 +171,7 @@ app.on("window-all-closed", () => {
 
 ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
 	console.log("Main - got OpenLoginWindow with sessionId:", sessionUUID)
-	let session: SSHSession = MyBookmarks.getInstance().getBookmarkById(sessionUUID);
+	let session: SSHSession | WSLSession = MyBookmarks.getInstance().getBookmarkById(sessionUUID);
 
 	console.log("Opening session:", session)
 
@@ -191,16 +191,19 @@ ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
 	loginWindow.loadFile(path.join(__dirname, "../../html/login_window.html"));
 
 	loginWindow.webContents.once("did-finish-load", () => {
-		let ask_for_username = true
-		if(session.username != null && session.username.length > 0) {
-			ask_for_username = false
+		if(session.protocol == "SSH") {
+			let ask_for_username = true
+			if((session as SSHSession).username != null && (session as SSHSession).username.length > 0) {
+				ask_for_username = false
+			}
+	
+			let ask_for_passphrase = false
+			if((session as SSHSession).private_key) {
+				ask_for_passphrase = true
+			}
+			loginWindow.webContents.send("get-args", ask_for_username, ask_for_passphrase);
 		}
 
-		let ask_for_passphrase = false
-		if(session.private_key) {
-			ask_for_passphrase = true
-		}
-		loginWindow.webContents.send("get-args", ask_for_username, ask_for_passphrase);
 	});
 
 	loginWindow.once("ready-to-show", () => {
@@ -263,7 +266,7 @@ ipcMain.on("OpenNewSessionWindow", () => {
 ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 	console.log("Main - OpenBookmarkSettings")
 
-	let sshSession: SSHSession = MyBookmarks.getInstance().getBookmarkById(sessionUUID);
+	let session: SSHSession | WSLSession = MyBookmarks.getInstance().getBookmarkById(sessionUUID);
 
 	const bookmarkSettings = new BrowserWindow({
 		width: 800,
@@ -282,7 +285,7 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 	bookmarkSettings.loadFile(path.join(__dirname, "../../html/bookmark_settings.html"));
 
 	bookmarkSettings.webContents.once("did-finish-load", () => {
-		bookmarkSettings.webContents.send("get-args", sessionUUID, sshSession);
+		bookmarkSettings.webContents.send("get-args", sessionUUID, session);
 	});
 
 	bookmarkSettings.once("ready-to-show", () => {
@@ -294,7 +297,7 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 		mainWindow.webContents.send("Renderer_BookmarksUI_ClearBookmarks");
 
 		//Repopulate UI
-		const sessions: Array<SSHSession> = MyBookmarks.getInstance().getSessions();
+		const sessions: Array<SSHSession | WSLSession> = MyBookmarks.getInstance().getSessions();
 		for(let s of sessions) {
 			mainWindow.webContents.send("Renderer_BookmarksUI_AddBookmark", s)
 		}
@@ -307,12 +310,12 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 	 */
 	ipcMain.once("Renderer_BookmarksUI_UpdateBookmark", (ev, json: SSHSession) => {
 		console.log("Main - Renderer_BookmarksUI_UpdateBookmark");
-		MyBookmarks.getInstance().updateBookmark(sshSession.uuid, json);
+		MyBookmarks.getInstance().updateBookmark(session.uuid, json);
 		//refreshBookmarks(); //This will refresh entire ui, no need
 
 		//Add run time attribute
-		json.uuid = sshSession.uuid;
-		console.log("New json:", json, " Old session:", sshSession);
+		json.uuid = session.uuid;
+		console.log("New json:", json, " Old session:", session);
 		mainWindow.webContents.send("Renderer_BookmarksUI_UpdateBookmark", json);
 	});
 

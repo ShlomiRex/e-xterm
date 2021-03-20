@@ -14,3 +14,14 @@ export interface SSHSession {
 	private_key: boolean,
 	private_key_path?: string
 };
+
+export interface WSLSession {
+	// Internal ID, used for keeping track of bookmarks
+	uuid: string 
+
+	//Everything else is settings
+	protocol: string,
+	distro: string,
+	session_name: string,
+	session_description: string
+}

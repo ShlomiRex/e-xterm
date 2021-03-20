@@ -1,4 +1,4 @@
-import { SSHSession } from "../shared/session";
+import { SSHSession, WSLSession } from "../shared/session";
 import { ipcRenderer } from 'electron';
 
 var cmd = require('node-cmd');
@@ -83,8 +83,8 @@ function setup_SSH_form() {
 		const e_port = <HTMLInputElement>document.getElementById("port");
 		const e_x11_forwarding = <HTMLInputElement>document.getElementById("x11_forwarding");
 		const e_compression = <HTMLInputElement>document.getElementById("compression");
-		const e_session_name = <HTMLInputElement>document.getElementById("session_name");
-		const e_session_description = <HTMLInputElement>document.getElementById("session_description");
+		const e_session_name = <HTMLInputElement>document.getElementById("SSH_session_name");
+		const e_session_description = <HTMLInputElement>document.getElementById("SSH_session_description");
 
 		//Create template ssh session to send with uuid not set
 		let modal: SSHSession = {
@@ -154,7 +154,28 @@ function setup_WSL_form() {
 		console.log("Submit form: WSL")
 		console.log(WSL_form)
 
-		
+		const e_distro = <HTMLSelectElement>document.getElementById("WSL_distro_select");
+
+		const e_session_name = <HTMLInputElement>document.getElementById("WSL_session_name");
+		const e_session_description = <HTMLInputElement>document.getElementById("WSL_session_description");
+
+		// Take first word: We filter `Ubuntu-20.04 (Default)` for instance, we don't want `(Default)` to appear as a word
+		const selected_distro = e_distro.value.split(' ')[0];
+
+		const session_name = e_session_name.value;
+		const session_description = e_session_description.value;
+
+		let modal: WSLSession = {
+			uuid: null,      //uuid is not decided here.
+
+			protocol: "WSL",
+			distro: selected_distro,
+			session_name: e_session_name.value,
+			session_description: e_session_description.value
+		}
+
+		//Save bookmark
+		ipcRenderer.send("NewBookmark", modal)
 
 		closeWindow()
 	}

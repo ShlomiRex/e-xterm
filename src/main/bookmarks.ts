@@ -1,4 +1,4 @@
-import { SSHSession } from '../shared/session';
+import { SSHSession, WSLSession } from '../shared/session';
 import * as Store from 'electron-store';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -6,7 +6,7 @@ let store: Store = new Store();
 
 
 export class MyBookmarks {
-	private sessions: Array<SSHSession>
+	private sessions: Array<SSHSession | WSLSession>
 	private static instance: MyBookmarks
 
 	private uiPopulateCallback: any;
@@ -50,10 +50,9 @@ export class MyBookmarks {
 	 * Add new bookmark
 	 * @param session 
 	 */
-	newBookmark(session: SSHSession) {
+	newBookmark(session: SSHSession | WSLSession) {
 		session.uuid = uuidv4()
-
-		let bookmarks: Array<SSHSession> = undefined;
+		let bookmarks: Array<SSHSession | WSLSession> = undefined;
 		if (store.has("bookmarks")) {
 			bookmarks = store.get("bookmarks") as Array<SSHSession>;
 		} else {
@@ -94,11 +93,11 @@ export class MyBookmarks {
 		}
 	}
 
-	getSessions(): Array<SSHSession> {
+	getSessions(): Array<SSHSession | WSLSession> {
 		return this.sessions;
 	}
 
-	getBookmarkById(uuid: string): SSHSession {
+	getBookmarkById(uuid: string): SSHSession | WSLSession {
 		for (let s of this.sessions) {
 			if (s.uuid == uuid) {
 				return s
@@ -134,7 +133,7 @@ export class MyBookmarks {
 
 			//Store has bookmarks because of index >= 0
 			let bookmarks_json: any = store.get("bookmarks")
-			let bookmarks = new Array<SSHSession>(); //bookmarks from store
+			let bookmarks = new Array<SSHSession | WSLSession>(); //bookmarks from store
 	
 			//Just push everything onto stack
 			for (let bookmark of bookmarks_json) {
