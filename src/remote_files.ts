@@ -1,4 +1,4 @@
-//In renderer context
+
 
 export interface Row {
 	recid: number,              //unique id for the row

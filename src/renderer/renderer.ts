@@ -48,10 +48,16 @@ function addSSH(tabTitle: string, sshSession: SSHSession, pass: string, eventEmi
 	addTabViewTerminal(res.tab, res.view, myterminal)
 }
 
-function addWSL(tabTitle: string) {
+function addWSL(session: WSLSession) {
+	let tabTitle = undefined
+	if(session.session_name) {
+		tabTitle = session.session_name
+	} else {
+		tabTitle = `WSL: ${session.distro}`
+	}
 	let res = electronBrowser.addTab(tabTitle, "../resources/tux.svg")
 	let myterminal = new MyTerminal()
-	myterminal.init_wsl(res.view)
+	myterminal.init_wsl(res.view, session)
 
 	addTabViewTerminal(res.tab, res.view, myterminal)	
 }
@@ -63,10 +69,6 @@ document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEv
 document.getElementById("btn_newShell").addEventListener("click", (ev: MouseEvent) => {
 	addShell();
 });
-
-document.getElementById("btn_newWSL").addEventListener("click", (ev: MouseEvent) => {
-	addWSL("WSL");
-})
 
 
 //These 2 variables help determined what is the target, when MenuItem's click() function is called
@@ -233,8 +235,9 @@ window.addEventListener("DOMContentLoaded", () => {
 		addSSH(title, session, password, eventEmitter);
 	});
 
-	ipcRenderer.on("StartWSL", (event) => {
-		addWSL("WSL")
+	ipcRenderer.on("StartWSL", (event, session: WSLSession) => {
+		console.log("Renderer - StartWSL: ", event, session)
+		addWSL(session)
 	});
 
 	ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {

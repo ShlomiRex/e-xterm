@@ -95,7 +95,7 @@ export class BookmarksUI {
 		bookmark_item.addEventListener("dblclick", (ev: MouseEvent) => {
 			let bid = getBookmarkIdFromMouseEvent(ev)
 			console.log("Double click on bookmarkId: ", bid)
-			ipcRenderer.send("OpenLoginWindow", bid);
+			ipcRenderer.send("DoubleClickedOnBookmark", bid);
 		});
 
 		this.uiParent.appendChild(bookmark_item);

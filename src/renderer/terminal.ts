@@ -3,11 +3,10 @@ import * as os from 'os';
 import * as fs from "fs"
 import * as net from 'net';
 import * as ssh2 from 'ssh2';
-import * as wslpty from 'wslpty';
 
 import { EventEmitter } from 'events';
 
-import { SSHSession } from '../shared/session';
+import { SSHSession, WSLSession } from '../shared/session';
 import { MyTerminalUI } from "./terminal_ui"
 
 
@@ -19,9 +18,9 @@ console.info("Platform:", os.platform())
 enum Shell {
 	CMD = "COMSPEC",
 	BASH = "bash",
-	POWERSHELL = "powershell",
+	POWERSHELL = "powershell.exe",
 	ZSH = "zsh",
-	WSL = "wsl"
+	WSL = "wsl.exe"
 }
 
 export class MyTerminal {
@@ -176,25 +175,11 @@ export class MyTerminal {
 		});
 	}
 
-	init_wsl(terminalContainer: HTMLElement) {
+	init_wsl(terminalContainer: HTMLElement, session: WSLSession) {
 		this.uiTerm.init(terminalContainer)
 
-		// const ptyProcess = pty.spawn(shell, [], {
-		// 	name: 'xterm-color',
-		// 	cwd: process.cwd(),
-		// 	env: process.env
-		// });
-
-		// ptyProcess.onData((data: any) => {
-		// 	this.uiTerm.getXTerm().write(data);
-		// });
-
-		// //When user types(input), write to node-pty
-		// this.uiTerm.getXTerm().onData((data: any) => {
-		// 	ptyProcess.write(data)
-		// })
-
-		var ptyProcess = wslpty.spawn({
+		const ptyProcess = pty.spawn(Shell.WSL, ["-d", session.distro], {
+			name: 'xterm-color',
 			cwd: process.cwd(),
 			env: process.env
 		});

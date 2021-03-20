@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog, shell, nativeTheme } from "electron";
+import { app, BrowserWindow, ipcMain, dialog, shell, nativeTheme, session } from "electron";
 import { IpcMainEvent } from "electron/main";
 import * as path from "path";
 import { MyBookmarks } from "./bookmarks";
@@ -167,10 +167,7 @@ app.on("window-all-closed", () => {
 // code. You can also put them in separate files and require them here.
 
 
-
-
-ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
-	console.log("Main - got OpenLoginWindow with sessionId:", sessionUUID)
+function openLoginWindow(sessionUUID: string) {
 	let session: SSHSession | WSLSession = MyBookmarks.getInstance().getBookmarkById(sessionUUID);
 
 	console.log("Opening session:", session)
@@ -228,7 +225,21 @@ ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
 		//When window finishes, don't listen to result listiner anymore
 		ipcMain.removeAllListeners("LoginWindowResult");
 	});
+}
 
+ipcMain.on("OpenLoginWindow", (ev, sessionUUID: string) => {
+	console.log("Main - got OpenLoginWindow with sessionId:", sessionUUID)
+	openLoginWindow(sessionUUID);
+});
+
+ipcMain.on("DoubleClickedOnBookmark", (ev, sessionUUID: string) => {
+	//Check which session
+	const session = MyBookmarks.getInstance().getBookmarkById(sessionUUID)
+	if(session.protocol == "SSH") {
+		openLoginWindow(sessionUUID)
+	} else if(session.protocol == "WSL") {
+		mainWindow.webContents.send("StartWSL", session)
+	}
 });
 
 ipcMain.on("OpenNewSessionWindow", () => {
@@ -282,15 +293,20 @@ ipcMain.on("OpenBookmarkSettings", (ev, sessionUUID: string) => {
 		}
 	});
 
-	bookmarkSettings.loadFile(path.join(__dirname, "../../html/bookmark_settings.html"));
+	if(session.protocol == "SSH") {
+		bookmarkSettings.loadFile(path.join(__dirname, "../../html/bookmark_settings.html"));
 
-	bookmarkSettings.webContents.once("did-finish-load", () => {
-		bookmarkSettings.webContents.send("get-args", sessionUUID, session);
-	});
+		bookmarkSettings.webContents.once("did-finish-load", () => {
+			bookmarkSettings.webContents.send("get-args", sessionUUID, session);
+		});
+	
+		bookmarkSettings.once("ready-to-show", () => {
+			bookmarkSettings.show();
+		});	
+	} else if(session.protocol == "WSL") {
+		
+	}
 
-	bookmarkSettings.once("ready-to-show", () => {
-		bookmarkSettings.show();
-	});
 
 	function refreshBookmarks() {
 		//Clear UI
