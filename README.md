@@ -17,6 +17,20 @@ Note: This project is in the very early stages.
 
 ![](./README-resources/powershell.png "Powershell winfetch")
 
+# Supported protocols
+
+| Protocol | Support            | Options                                                                                 |
+| -------- | ------------------ | --------------------------------------------------------------------------------------- |
+| SSH      | :heavy_check_mark: | <ul><li>Compression</li><li>X11-Forwarding</li><li>Private key authentication</li></ul> |
+| WSL      | :heavy_check_mark: | All available distrobutions (Ubuntu, Debian, Kali, ...)                                 |
+| VNC      | :x:                | Currently in development                                                                |
+| FTP      | :x:                | Currently in development                                                                |
+| SFTP     | :x:                | Currently in development                                                                |
+| RDP      | :x:                | Currently in development                                                                |
+| Telnet   | :x:                | Currently in development                                                                |
+
+
+
 ## How to run
 ```
 $ npm start
