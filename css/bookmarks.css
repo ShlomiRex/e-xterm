@@ -33,6 +33,7 @@ body.theme-dark {
 	padding-right: 10px;
 	user-select: none;
 	font-size: var(--font-size-);
+	overflow-wrap: anywhere;
 }
 
 .list-item.selected {
