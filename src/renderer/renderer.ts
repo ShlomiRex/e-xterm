@@ -180,7 +180,9 @@ setup_context_menu()
 
 
 
-
+function remove_current_tab() {
+	electronBrowser.removeCurrentTab()
+}
 
 window.addEventListener("DOMContentLoaded", () => {
 	ipcRenderer.on("StartSSH", (event, session: SSHSession, username: string, password: string) => {
@@ -212,6 +214,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			let title = "SSH Error";
 			let message = ev.message;
 			ipcRenderer.send("ShowError", message, title);
+			remove_current_tab()
 		})
 
 		eventEmitter.once("greeting", (greetings: string) => {
