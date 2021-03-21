@@ -38,7 +38,7 @@
 </head>
 
 <body class="theme-dark">
-	<div id="left-panel" class="split">
+	<div id="left-panel" class="resizable-component">
 		<div id="buttons-pane">
 			<div>
 				<a id="btn_newSession" class="btn btn-primary" role="button">
@@ -63,9 +63,11 @@
 		<div id="bookmarks-container" class="list" role="listbox">
 			<!-- Will populate with bookmarks -->
 		</div>
+
+		<div id="left-panel-resize" class="resize-handle"></div>
 	</div>
 
-	<div id="main-panel" class="split">
+	<div id="main-panel" class="">
 		<div class="browser">
 			<div class="tabs">
 				<div class="tabs-content"></div>

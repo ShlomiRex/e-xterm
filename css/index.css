@@ -1,13 +1,12 @@
-
 :root {
 	--tab-bar-active-color: #0366d6;
 	--font-size-xs: 9px;
 	--font-size-sm: 11px;
 	--font-size: 14px;
-    --font-size-md: 18px;
-    --font-size-lg: 28px;
-    --font-size-xl: 32px;
-    --font-size-xxl: 42px;
+	--font-size-md: 18px;
+	--font-size-lg: 28px;
+	--font-size-xl: 32px;
+	--font-size-xxl: 42px;
 }
 
 body {
@@ -15,7 +14,6 @@ body {
 	overflow: hidden;
 	margin-right: 0px;
 	height: 100vh;
-
 	font-size: var(--font-size-md);
 }
 
@@ -32,26 +30,17 @@ body.theme-dark {
 	--background: var(--background-color);
 	--base-border: 1px solid var(--box-border-color);
 	--box-selected-background-color: #444d56;
-
 	--list-item-hover-background-color: #2f363d;
 	--box-selected-active-background-color: #0366d6;
 	--box-selected-active-text-color: #fff;
 	--box-selected-active-border-color: #959da5;
-
 	--background-color-brighter: rgb(47, 54, 61);
 }
-
 
 #left-panel {
 	background: var(--background-color);
 
-	/* margin-right: -5px; */
-	/* Hide splitjs halfway */
-}
-
-#main-panel {
-	/* margin-left: -5px; */
-	/* Hide splitjs halfway */
+	min-width: 265px;
 }
 
 .gutter-horizontal {
@@ -66,9 +55,6 @@ body.theme-dark {
 	height: 10px !important;
 	cursor: row-resize;
 }
-
-
-
 
 .hide {
 	display: none;
@@ -89,8 +75,6 @@ body.theme-dark {
 
 /* Fill remaining space of left-panel */
 
-
-
 .ui-resizable-handle {
 	height: 10px;
 }
@@ -99,16 +83,33 @@ body.theme-dark {
 	background-color: var(--background-color-brighter);
 }
 
-
 /* Fix flex display for electron-browser */
+
 .browser-views {
 	display: block !important;
 }
 
-.eb-view { 
+.eb-view {
 	display: none !important;
 }
 
-.eb-view.selected { 
+.eb-view.selected {
 	display: block !important;
+}
+
+.resizable-component {
+	position: relative;
+}
+
+.resize-handle {
+	position: absolute;
+	right: -5px;
+	top: 0px;
+	height: 100%;
+	width: 10px;
+	cursor: ew-resize;
+
+	z-index: 50;
+
+	background-color: transparent;
 }

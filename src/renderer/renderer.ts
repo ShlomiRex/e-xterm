@@ -1,7 +1,6 @@
 import { SSHSession, WSLSession } from "../shared/session";
 import { ipcRenderer, remote } from 'electron';
 import { EventEmitter } from 'events';
-import * as Split from 'split.js';
 import { BookmarksUI } from './bookmarks_ui';
 import { MyTerminal } from './terminal';
 
@@ -17,7 +16,7 @@ document.querySelector('.btn-toggle-theme').addEventListener('click', function (
 })
 
 
-let js : any= [];
+let js: any = [];
 
 
 BookmarksUI.createInstance();
@@ -29,7 +28,7 @@ function addTabViewTerminal(tab: any, view: any, myTerminal: MyTerminal) {
 		"MyTerminal": myTerminal,
 		"tab": tab,
 		"view": view
-	})	
+	})
 }
 
 function addShell() {
@@ -50,7 +49,7 @@ function addSSH(tabTitle: string, sshSession: SSHSession, pass: string, eventEmi
 
 function addWSL(session: WSLSession) {
 	let tabTitle = undefined
-	if(session.session_name) {
+	if (session.session_name) {
 		tabTitle = session.session_name
 	} else {
 		tabTitle = `WSL: ${session.distro}`
@@ -59,7 +58,7 @@ function addWSL(session: WSLSession) {
 	let myterminal = new MyTerminal()
 	myterminal.init_wsl(res.view, session)
 
-	addTabViewTerminal(res.tab, res.view, myterminal)	
+	addTabViewTerminal(res.tab, res.view, myterminal)
 }
 
 document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEvent) => {
@@ -245,7 +244,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {
 		//tabs.fit_terminal()
-		
+
 	});
 
 	ipcRenderer.on("Renderer_BookmarksUI_AddBookmark", (ev, session: SSHSession | WSLSession) => {
@@ -278,11 +277,32 @@ window.addEventListener('resize', () => {
 	});
 });
 
-//Setup split.js
-Split(['#left-panel', '#main-panel'],
-	{
-		direction: "horizontal",
-		sizes: [25, 75]
-	}
-);
+let left_panel = document.getElementById("left-panel");
+let left_panel_resize = document.getElementById("left-panel-resize");
 
+left_panel_resize.addEventListener("mousedown", (ev: MouseEvent) => {
+	let startX = ev.clientX
+
+	let startWidth = left_panel.offsetWidth
+
+	function handleDragMove(ev: MouseEvent) {
+		const deltaX = ev.clientX - startX;
+		const newWidth = startWidth + deltaX;
+
+		left_panel.style.width = `${newWidth}px`;
+
+		ev.preventDefault()
+	}
+
+	function handleDragStop(ev: MouseEvent) {
+		left_panel_resize.removeEventListener('mousemove', handleDragMove)
+		left_panel_resize.removeEventListener('mouseup', handleDragStop)
+
+		ev.preventDefault()
+	}
+
+	left_panel_resize.addEventListener("mousemove", handleDragMove);
+	left_panel_resize.addEventListener("mouseup", handleDragStop);
+
+	ev.preventDefault()
+})
