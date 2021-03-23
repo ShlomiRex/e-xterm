@@ -84,7 +84,7 @@ export class BookmarksUI {
 			<label> \
 				${bookmark_label} \
 			</label> \
-			<span class="badge rounded-pill" style="background-color:black; color: white;">${protocol}</span> \
+			<span class="badge rounded-pill ${protocol}">${protocol}</span> \
 		</div>\
 		`;
 
