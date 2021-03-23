@@ -3,6 +3,7 @@ import { ipcRenderer, remote } from 'electron';
 import { EventEmitter } from 'events';
 import { BookmarksUI } from './bookmarks_ui';
 import { MyTerminal } from './terminal';
+import * as Split from 'split.js';
 
 const { Menu, MenuItem } = remote;
 
@@ -277,6 +278,7 @@ window.addEventListener('resize', () => {
 	});
 });
 
+/*
 let left_panel = document.getElementById("left-panel");
 let left_panel_resize = document.getElementById("left-panel-resize");
 
@@ -305,4 +307,19 @@ left_panel_resize.addEventListener("mousedown", (ev: MouseEvent) => {
 	left_panel_resize.addEventListener("mouseup", handleDragStop);
 
 	ev.preventDefault()
+})
+*/
+
+Split(['#left-panel', '#main-panel'], {
+    sizes: [30, 75],
+	minSize: [270, 300],
+	gutterSize: 10,
+	elementStyle(dim, es, gs, index): Partial<CSSStyleDeclaration> {
+		let res = {
+			"width": `calc(${es}%)`
+		}
+		console.log(res)
+		return res
+	},
+	snapOffset: 0
 })

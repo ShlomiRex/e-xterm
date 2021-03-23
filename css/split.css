@@ -1,0 +1,6 @@
+.gutter {
+	/* background-color: var(--background-color-brighter); */
+	background-color: transparent;
+	cursor: ew-resize;
+	z-index: 1000;
+}

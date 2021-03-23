@@ -39,21 +39,11 @@ body.theme-dark {
 
 #left-panel {
 	background: var(--background-color);
-
-	min-width: 265px;
+	margin-right: -5px;
 }
 
-.gutter-horizontal {
-	cursor: ew-resize;
-	width: 10px !important;
-	z-index: 5;
-}
-
-.gutter-vertical {
-	width: 100%;
-	background: blue;
-	height: 10px !important;
-	cursor: row-resize;
+#main-panel {
+	margin-left: -5px;
 }
 
 .hide {
@@ -73,16 +63,6 @@ body.theme-dark {
 	display: flex;
 }
 
-/* Fill remaining space of left-panel */
-
-.ui-resizable-handle {
-	height: 10px;
-}
-
-.gutter {
-	background-color: var(--background-color-brighter);
-}
-
 /* Fix flex display for electron-browser */
 
 .browser-views {
@@ -95,21 +75,4 @@ body.theme-dark {
 
 .eb-view.selected {
 	display: block !important;
-}
-
-.resizable-component {
-	position: relative;
-}
-
-.resize-handle {
-	position: absolute;
-	right: -5px;
-	top: 0px;
-	height: 100%;
-	width: 10px;
-	cursor: ew-resize;
-
-	z-index: 50;
-
-	background-color: transparent;
 }
