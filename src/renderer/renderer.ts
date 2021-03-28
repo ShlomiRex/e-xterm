@@ -4,6 +4,7 @@ import { EventEmitter } from 'events';
 import { BookmarksUI } from './bookmarks_ui';
 import { MyTerminal } from './terminal';
 import * as Split from 'split.js';
+import { SFTPBrowser } from '../sftp_browser'
 
 const { Menu, MenuItem } = remote;
 
@@ -44,7 +45,9 @@ function addSSH(tabTitle: string, sshSession: SSHSession, pass: string, eventEmi
 	let res = electronBrowser.addTab(tabTitle, "../resources/ssh.png")
 	let myterminal = new MyTerminal()
 	myterminal.init_ssh(res.view, sshSession, pass, eventEmitter)
-
+	document.getElementById("btn_pwd").addEventListener("click", () => {
+		eventEmitter.emit("pwd")
+	})
 	addTabViewTerminal(res.tab, res.view, myterminal)
 }
 
@@ -62,13 +65,37 @@ function addWSL(session: WSLSession) {
 	addTabViewTerminal(res.tab, res.view, myterminal)
 }
 
-document.getElementById("btn_newSession").addEventListener("click", (ev: MouseEvent) => {
+document.getElementById("btn_newSession").addEventListener("click", () => {
 	ipcRenderer.send("OpenNewSessionWindow")
 });
 
-document.getElementById("btn_newShell").addEventListener("click", (ev: MouseEvent) => {
+document.getElementById("btn_newShell").addEventListener("click", () => {
 	addShell();
 });
+
+
+function setup_left_panel() {
+	let bookmarks_container = document.getElementById("bookmarks-container")
+	let files_container = document.getElementById("files-container")
+	
+	document.getElementById("btn_bookmarks").addEventListener("click", () => {
+		console.debug("Bookmarks btn clicked")
+		
+		files_container.style.display = "none"
+		bookmarks_container.style.display = "block"
+	})
+	
+	document.getElementById("btn_files").addEventListener("click", () => {
+		console.debug("Files btn clicked")
+
+		bookmarks_container.style.display = "none"
+		files_container.style.display = "block"
+
+		let sftp_browser = new SFTPBrowser("files-container")
+		
+	})
+}
+setup_left_panel()
 
 
 //These 2 variables help determined what is the target, when MenuItem's click() function is called
@@ -318,7 +345,6 @@ Split(['#left-panel', '#main-panel'], {
 		let res = {
 			"width": `calc(${es}%)`
 		}
-		console.log(res)
 		return res
 	},
 	snapOffset: 0

@@ -24,3 +24,4 @@ Long term goals:
 
 Materials:
 * xterm.js sequences: https://xtermjs.org/docs/api/vtfeatures/
+* w2ui demos: http://w2ui.com/web/demos/#!grid/grid-1

@@ -89,12 +89,12 @@ export class BookmarksUI {
 		`;
 
 		var bookmark_item = createElementFromHTML(template);
-		console.log("Bookmark item: \n", bookmark_item);
+		console.debug("Bookmark item: \n", bookmark_item);
 		bookmark_item.setAttribute("data-bookmark-id", "" + session.uuid);
 
 		bookmark_item.addEventListener("dblclick", (ev: MouseEvent) => {
 			let bid = getBookmarkIdFromMouseEvent(ev)
-			console.log("Double click on bookmarkId: ", bid)
+			console.debug("Double click on bookmarkId: ", bid)
 			ipcRenderer.send("DoubleClickedOnBookmark", bid);
 		});
 

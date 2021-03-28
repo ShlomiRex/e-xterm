@@ -76,3 +76,8 @@ body.theme-dark {
 .eb-view.selected {
 	display: block !important;
 }
+
+#left-panel-inner-content {
+	height: 100%;
+}
+

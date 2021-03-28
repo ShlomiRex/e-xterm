@@ -1,0 +1,13 @@
+#files-container {
+	width: 100%; 
+	height: 100%;
+	color: black;
+}
+
+.w2ui-grid-box {
+	width: inherit !important;
+}
+
+#w2ui-overlay-grid-searchFields {
+	color: black;
+}

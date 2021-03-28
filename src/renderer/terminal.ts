@@ -68,11 +68,11 @@ export class MyTerminal {
 		var Client = ssh2.Client
 		var conn = new Client();
 
-		let myStream: ssh2.ClientChannel = undefined;
+		let myChannel: ssh2.ClientChannel = undefined;
 
 		this.uiTerm.getXTerm().onKey((arg: any) => {
-			console.debug("Writing to stream: ", arg.key)
-			myStream.write(arg.key);
+			//console.debug("Writing to stream: ", arg.key)
+			myChannel.write(arg.key);
 		});
 
 
@@ -89,37 +89,54 @@ export class MyTerminal {
 			eventEmitter.emit("ready");
 			eventEmitter.removeAllListeners("error");
 
-			conn.shell(function (err: Error, stream: ssh2.ClientChannel) {
+			conn.shell(function (err: Error, channel: ssh2.ClientChannel) {
 				if (err) {
 					console.error("Error when trying to open shell")
 					throw err;
 				}
 
-				myStream = stream
+				myChannel = channel
 
-				stream.on('close', function () {
+				channel.on('close', function () {
 					console.log('Stream :: close');
 					conn.end();
 				})
 
-				stream.on('data', function (data: string) {
+				channel.on('data', function (data: string) {
 					//console.log('OUTPUT: ' + data);
-
 					write_to_terminal(data)
 				});
 			});
 
-			conn.exec('xeyes', { x11: true }, function (err, stream) {
-				if (err) throw err;
-				var code = 0;
-				stream.on('end', function () {
-					if (code !== 0)
-						console.log('Do you have X11 forwarding enabled on your SSH server?');
-					conn.end();
-				}).on('exit', function (exitcode) {
-					code = exitcode;
-				});
-			});
+			// conn.sftp((err: Error, sftp: ssh2.SFTPWrapper) => {
+			// 	if (err)
+			// 		throw err
+			// 	sftp.readdir('.', function (err, list) {
+			// 		if (err) throw err;
+			// 		console.dir("Directories: ", list);
+			// 	});
+			// })
+
+			// conn.sftp(function (err, sftp) {
+			// 	if (err) throw err;
+			// 	sftp.readdir('/home', function (err, list) {
+			// 		if (err) throw err;
+			// 		console.dir(list);
+			// 	});
+			// });
+
+			// conn.exec('xeyes', { x11: true }, function (err, channel) {
+			// 	if (err) throw err;
+			// 	var code = 0;
+			// 	console.log("inside exec xeyes")
+			// 	channel.on('end', function () {
+			// 		if (code !== 0)
+			// 			console.log('Do you have X11 forwarding enabled on your SSH server?');
+			// 		conn.end();
+			// 	}).on('exit', function (exitcode) {
+			// 		code = exitcode;
+			// 	});
+			// });
 
 
 		});

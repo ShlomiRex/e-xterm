@@ -1,6 +1,4 @@
-
-
-export interface Row {
+interface Row {
 	recid: number,              //unique id for the row
 
 	filename: string,          //file name
@@ -11,13 +9,17 @@ export interface Row {
 	access: string             //file permissions
 }
 
-class RemoteFilesGrid {
+export class FilesGrid {
 	private gridElement: JQuery<HTMLElement>
 
-	private static instance: RemoteFilesGrid
+	private static instance: FilesGrid;
+	private DOM_id: string;
 
-	private constructor(url: string) {
-		this.gridElement = $("#grid")
+	private constructor(DOM_id: string, url: string) {
+		console.log("remote files constructor called")
+
+		this.DOM_id = DOM_id
+		this.gridElement = $("#"+DOM_id)
 		
 		this.gridElement.w2grid({
 			name: 'grid',
@@ -57,21 +59,20 @@ class RemoteFilesGrid {
 	 * 
 	 * @param url URL to load at the start
 	 */
-	static createInstance(url: string = "") {
-		if (!RemoteFilesGrid.instance) {
+	static createInstance(DOM_id: string, url: string = "") {
+		if (!FilesGrid.instance) {
 			//no instance, create
-			RemoteFilesGrid.instance = new RemoteFilesGrid(url)
+			FilesGrid.instance = new FilesGrid(DOM_id, url)
 		}
 	}
 
-	static getInstance(): RemoteFilesGrid {
-		return RemoteFilesGrid.instance;
+	static getInstance(): FilesGrid {
+		return FilesGrid.instance;
 	}
 
 	loadURL(url: string) {
-		w2ui['grid'].load(url);
+		console.log("Loading url: ", url)
+		w2ui["grid"].load(url);
 	}
 }
 
-RemoteFilesGrid.createInstance()
-RemoteFilesGrid.getInstance().loadURL('../resources/examples/records.json')
