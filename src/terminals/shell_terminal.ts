@@ -1,8 +1,8 @@
 import * as pty from 'node-pty';
 import * as os from 'os';
 
-import { TextTerminal } from './text_terminal';
 import { Shell } from '../shared/shell'
+import { BasicTerminal } from './terminal';
 
 
 const WINDOWS = os.platform() === 'win32';
@@ -12,7 +12,7 @@ console.info("Platform:", os.platform())
 
 
 
-export class ShellTerminal extends TextTerminal {
+export class ShellTerminal extends BasicTerminal {
 	private ptyProcess: pty.IPty;
 
 	constructor(parent: HTMLElement) {
@@ -49,10 +49,9 @@ export class ShellTerminal extends TextTerminal {
 	}
 
 	fit() {
+		this._fit()	
 		
 		console.debug(`pty: rows: ${this.rows}, cols: ${this.cols}`);
 		this.ptyProcess.resize(this.cols, this.rows);
-
-		this._fit()	
 	}
 }

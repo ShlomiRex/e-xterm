@@ -1,11 +1,8 @@
 High Priority:
-* When typing wrong passphrase - show user error
 
 
 Medium Priority:
 * In macOS , creating new seesion window - it's frameless. No close or minimize buttons. Investigate (on windows - yes)
-* Instead of dynamically create bookmark, make it template, and somehow get that template and change it.
-* When typing "a" multiple times untill next line, and then removing them all, we can remove the prompt (but all of it, though)
 
 
 Low Priority:
@@ -19,7 +16,6 @@ Long term goals:
 * When right clicking on terminal and clipboard is text then paste to terminal
 * Add support for Dark Mode (like in macOS) (For now it's light force)
 * Think about UI and useability. Maybe we can make it better looking while having better productivity. Think what you would like to add to make it easier.
-* Remove preload script, other programs like Github Desktop don't have it!
 
 
 Materials:

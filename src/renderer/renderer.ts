@@ -6,10 +6,10 @@ import { SFTPBrowser } from '../sftp_browser'
 import { setup_context_menu } from './context_menu';
 import { setup_split } from './split';
 
-import { ShellTerminal } from './shell_terminal'
+import { ShellTerminal } from '../terminals/shell_terminal'
 import { Terminal } from 'xterm';
-import { SSHTerminal } from "./ssh_terminal";
-import { WSLTerminal } from "./wsl_terminal";
+import { SSHTerminal } from "../terminals/ssh_terminal";
+import { WSLTerminal } from "../terminals/wsl_terminal";
 
 const ElectronBrowser = require("electron-browser")
 const electronBrowser = new ElectronBrowser()
@@ -54,18 +54,6 @@ function addShell() {
 }
 
 function addSSH(tabTitle: string, sshSession: SSHSession, pass: string, eventEmitter: EventEmitter) {
-	// let res = electronBrowser.addTab(tabTitle, "../resources/ssh.png")
-	// let myterminal = new MyTerminal()
-	// let uiTerminal = myterminal.init_ssh(res.view, sshSession, pass, eventEmitter)
-	// document.getElementById("btn_pwd").addEventListener("click", () => {
-	// 	eventEmitter.emit("pwd")
-	// })
-	// addTabViewTerminal(res.tab, res.view, myterminal)
-
-	// myterminal.fit();
-
-	// return uiTerminal.getXTerm()
-
 	let res = electronBrowser.addTab(tabTitle, "../resources/ssh.png");
 	let term = new SSHTerminal(res.view, sshSession, pass, eventEmitter);
 	addTabViewTerminal(res.tab, res.view, term);
@@ -78,25 +66,10 @@ function addWSL(session: WSLSession) {
 	} else {
 		tabTitle = `WSL: ${session.distro}`
 	}
-	// let res = electronBrowser.addTab(tabTitle, "../resources/tux.svg")
-	// let myterminal = new MyTerminal()
-	// myterminal.init_wsl(res.view, session)
-
-	// addTabViewTerminal(res.tab, res.view, myterminal)
-
-
 	let res = electronBrowser.addTab(tabTitle, "../resources/ssh.png");
 	let term = new WSLTerminal(res.view, session);
 	addTabViewTerminal(res.tab, res.view, term);
 
-}
-
-function addTextTerminal() {
-	// let res = electronBrowser.addTab("Test", "../resources/terminal.png");
-	// let myterminal = new MyTerminal();
-	// myterminal.init_text_terminal(res.view);
-
-	// addTabViewTerminal(res.tab, res.view, myterminal);
 }
 
 function init_buttons_panel() {

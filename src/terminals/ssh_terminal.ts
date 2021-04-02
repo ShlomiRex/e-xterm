@@ -1,11 +1,11 @@
-import { TextTerminal } from './text_terminal';
 import { EventEmitter } from 'events';
 import * as ssh2 from 'ssh2';
 import { SSHSession } from '../shared/session';
 import * as fs from "fs"
+import { BasicTerminal } from './terminal';
 
 
-export class SSHTerminal extends TextTerminal {
+export class SSHTerminal extends BasicTerminal {
 	constructor(parent: HTMLElement, sshSession: SSHSession, pass: string, eventEmitter: EventEmitter) {
 		let rows = 20;
 		let cols = 80;
@@ -18,7 +18,8 @@ export class SSHTerminal extends TextTerminal {
 		let myChannel: ssh2.ClientChannel = undefined;
 
 		this.onKey((arg: any) => {
-			//console.debug("Writing to stream: ", arg.key)
+			console.debug("Writing to stream: ", arg.key)
+			console.debug(arg)
 			myChannel.write(arg.key);
 		});
 
@@ -120,6 +121,13 @@ export class SSHTerminal extends TextTerminal {
 		});
 
 		conn.once("banner", (message: string) => {
+			this.writeln("Banner start")
+			
+			for(let str of message.split("\n"))
+				this.writeln(str)
+			
+			this.writeln("Banner end")
+			
 			eventEmitter.emit("banner", message);
 		});
 

@@ -27,7 +27,7 @@ ipcRenderer.once("get-args", (ev: any, _username_required: boolean, _passphrase_
 	}
 });
 
-pass_input.addEventListener("keyup", (ev) => {
+pass_input.addEventListener("keydown", (ev) => {
 	console.log("Key pressed:", ev.keyCode)
 	if(ev.keyCode == 13) {
 		//Enter pressed

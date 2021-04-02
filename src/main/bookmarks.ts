@@ -18,7 +18,7 @@ export class MyBookmarks {
 	 * @param uiPopulateCallback Callback to UI to add and update bookmarks ui
 	 * @param uiDeleteCallback Callback to UI to delete and update bookmarks ui
 	 */
-	private constructor(sessions: Array<SSHSession>, uiPopulateCallback: any, uiDeleteCallback: any) {
+	private constructor(sessions: Array<SSHSession | WSLSession>, uiPopulateCallback: any, uiDeleteCallback: any) {
 		this.sessions = sessions;
 		this.uiPopulateCallback = uiPopulateCallback;
 		this.uiDeleteCallback = uiDeleteCallback;
@@ -30,7 +30,7 @@ export class MyBookmarks {
 
 			//Convert simple array of json object in js to Array<SSHSession>
 			let bookmarks_json: any = store.get("bookmarks")
-			let bookmarks = new Array<SSHSession>();
+			let bookmarks = new Array<SSHSession | WSLSession>();
 
 			if (bookmarks_json) {
 				for (let bookmark of bookmarks_json) {
