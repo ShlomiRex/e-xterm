@@ -1,12 +1,11 @@
 import { SSHSession, WSLSession } from "../shared/session";
-import { ipcRenderer, remote } from 'electron';
+import { ipcRenderer } from 'electron';
 import { EventEmitter } from 'events';
 import { BookmarksUI } from './bookmarks_ui';
 import { MyTerminal } from './terminal';
-import * as Split from 'split.js';
 import { SFTPBrowser } from '../sftp_browser'
-
-const { Menu, MenuItem } = remote;
+import { setup_context_menu } from './context_menu';
+import { setup_split } from './split';
 
 const ElectronBrowser = require("electron-browser")
 const electronBrowser = new ElectronBrowser()
@@ -22,6 +21,9 @@ let js: any = [];
 
 
 BookmarksUI.createInstance();
+setup_context_menu();
+setup_left_panel();
+setup_split();
 
 function addTabViewTerminal(tab: any, view: any, myTerminal: MyTerminal) {
 	console.debug("Added tab and view: ", tab, view)
@@ -77,128 +79,37 @@ document.getElementById("btn_newShell").addEventListener("click", () => {
 function setup_left_panel() {
 	let bookmarks_container = document.getElementById("bookmarks-container")
 	let files_container = document.getElementById("files-container")
+
+	let btn_bookmarks = document.getElementById("btn_bookmarks")
+	let btn_files = document.getElementById("btn_files")
 	
-	document.getElementById("btn_bookmarks").addEventListener("click", () => {
+	btn_bookmarks.addEventListener("click", () => {
 		console.debug("Bookmarks btn clicked")
 		
-		files_container.style.display = "none"
+		btn_bookmarks.classList.add("selected")
+		btn_files.classList.remove("selected")
+
 		bookmarks_container.style.display = "block"
+		files_container.style.display = "none"
 	})
 	
-	document.getElementById("btn_files").addEventListener("click", () => {
+	btn_files.addEventListener("click", () => {
 		console.debug("Files btn clicked")
+		
+		btn_files.classList.add("selected")
+		btn_bookmarks.classList.remove("selected")
 
-		bookmarks_container.style.display = "none"
 		files_container.style.display = "block"
+		bookmarks_container.style.display = "none"
 
 		let sftp_browser = new SFTPBrowser("files-container")
 		
 	})
 }
-setup_left_panel()
 
 
-//These 2 variables help determined what is the target, when MenuItem's click() function is called
-//So we know what is the target when we get to that function
-//They are set to null after contextmenu closes
-let bookmarkIdTarget: string = undefined
-let terminalIdTarget: string = undefined
-
-const bookmarkContextMenu = new Menu();
-const terminalContextMenu = new Menu();
-function setup_context_menu() {
-	function setupBookmarksContextMenu() {
-		bookmarkContextMenu.append(new MenuItem({
-			"label": 'Settings',
-			"id": "settings",
-			"click": (menuItem: any) => {
-				console.log("Clicked on settings", bookmarkIdTarget)
-				ipcRenderer.send("OpenBookmarkSettings", bookmarkIdTarget)
-			}
-		}));
-		bookmarkContextMenu.append(new MenuItem({
-			"type": "separator"
-		}));
-		bookmarkContextMenu.append(new MenuItem({
-			"label": "Delete bookmark",
-			"id": "delete",
-			"click": (menuItem: any) => {
-				console.log("Clicked on delete bookmark", bookmarkIdTarget)
-				ipcRenderer.send("DeleteBookmark", bookmarkIdTarget)
-			}
-		}));
-	}
-	function setupTerminalContextMenu() {
-		terminalContextMenu.append(new MenuItem({
-			"label": "Copy",
-			"id": "terminal_copy",
-			"role": "copy",
-			"click": (menuItem: any) => {
-				console.log("Terminal copy clicked", terminalIdTarget)
-			}
-		}));
-		terminalContextMenu.append(new MenuItem({
-			"label": "Paste",
-			"id": "terminal_paste",
-			"role": "paste",
-			"click": (menuItem: any) => {
-				console.log("Terminal paste clicked", terminalIdTarget)
-			}
-		}))
-	}
-
-	setupBookmarksContextMenu()
-	setupTerminalContextMenu()
-
-	window.addEventListener('contextmenu', (mouseEvent: MouseEvent) => {
-		mouseEvent.preventDefault()
-		console.log("Context menu fired!", mouseEvent)
-
-		//Find if path is bookmark. Object may not have "hasAttribute" so try catch
-		try {
-			for (let path of (mouseEvent as any).path) {
-				if (path.hasAttribute("data-bookmark-id")) {
-					let bookmarkId = path.getAttribute("data-bookmark-id");
-					bookmarkIdTarget = bookmarkId
-					console.log("Right clicked on bookmark id:", bookmarkId)
-					bookmarkContextMenu.popup({
-						"window": remote.getCurrentWindow(),
-						"callback": () => {
-							console.log("Bookmark ContextMenu closed")
-							bookmarkIdTarget = null
-						}
-					})
-					break
-				}
-			}
-		} catch (e: any) {
-			//did not find bookmark target
-			//maybe user clicked on terminal?
-			try {
-				for (let path of (mouseEvent as any).path) {
-					if (path.classList.contains("eb-view")) {
-						let terminal_id = path.dataset.eb_view_id;
-						console.log("Found target is terminal", terminal_id);
-						terminalIdTarget = terminal_id
-						terminalContextMenu.popup({
-							"window": remote.getCurrentWindow(),
-							"callback": () => {
-								console.log("Terminal ContextMenu closed")
-								terminalIdTarget = null
-							}
-						})
-						break;
-					}
-				}
-			} catch (e: any) {
-				//user did not clicked on terminal
-			}
-		}
 
 
-	})
-}
-setup_context_menu()
 
 
 
@@ -337,15 +248,3 @@ left_panel_resize.addEventListener("mousedown", (ev: MouseEvent) => {
 })
 */
 
-Split(['#left-panel', '#main-panel'], {
-    sizes: [30, 75],
-	minSize: [270, 300],
-	gutterSize: 10,
-	elementStyle(dim, es, gs, index): Partial<CSSStyleDeclaration> {
-		let res = {
-			"width": `calc(${es}%)`
-		}
-		return res
-	},
-	snapOffset: 0
-})
