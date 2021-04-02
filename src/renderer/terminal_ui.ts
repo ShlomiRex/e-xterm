@@ -39,11 +39,11 @@ export class MyTerminalUI {
 		this.xterm.loadAddon(this.searchAddon);
 
 		//Attach to parent
-		this.xterm.open(parent)
+		this.xterm.open(parent);
 
 		if (fit) {
 			//Fit container
-			this.fit()
+			this.fit();
 		}
 	}
 

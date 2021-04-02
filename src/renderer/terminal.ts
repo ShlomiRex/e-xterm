@@ -30,6 +30,16 @@ export class MyTerminal {
 		this.uiTerm = new MyTerminalUI()
 	}
 
+	init_text_terminal(terminalContainer: HTMLElement) {
+		this.uiTerm.init(terminalContainer, true)
+
+		const str = " Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!";
+		this.uiTerm.getXTerm().writeln(str);
+		this.uiTerm.getXTerm().writeln(str);
+		this.uiTerm.getXTerm().writeln(str);
+		this.uiTerm.getXTerm().writeln(str);
+	}
+
 	init_shell(terminalContainer: HTMLElement) {
 		this.uiTerm.init(terminalContainer)
 
@@ -57,9 +67,6 @@ export class MyTerminal {
 		this.uiTerm.getXTerm().onData((data: any) => {
 			ptyProcess.write(data)
 		})
-
-
-
 	}
 
 	init_ssh(terminalContainer: HTMLElement, sshSession: SSHSession, pass: string, eventEmitter: EventEmitter) {

@@ -17,22 +17,27 @@ document.querySelector('.btn-toggle-theme').addEventListener('click', function (
 })
 
 
-let js: any = [];
-
+let js: Array<MyElectronBrowserObject> = [];
+interface MyElectronBrowserObject {
+	MyTerminal: MyTerminal,
+	tab: any,
+	view: any
+}
 
 BookmarksUI.createInstance();
 setup_context_menu();
 setup_left_panel();
+init_buttons_panel();
 setup_split();
 
 function addTabViewTerminal(tab: any, view: any, myTerminal: MyTerminal) {
 	console.debug("Added tab and view: ", tab, view)
-
-	js.push({
-		"MyTerminal": myTerminal,
-		"tab": tab,
-		"view": view
-	})
+	const toPush : MyElectronBrowserObject = {
+		MyTerminal: myTerminal,
+		tab: tab,
+		view: view
+	}
+	js.push(toPush);
 }
 
 function addShell() {
@@ -51,6 +56,8 @@ function addSSH(tabTitle: string, sshSession: SSHSession, pass: string, eventEmi
 		eventEmitter.emit("pwd")
 	})
 	addTabViewTerminal(res.tab, res.view, myterminal)
+
+	myterminal.fit();
 }
 
 function addWSL(session: WSLSession) {
@@ -67,14 +74,27 @@ function addWSL(session: WSLSession) {
 	addTabViewTerminal(res.tab, res.view, myterminal)
 }
 
-document.getElementById("btn_newSession").addEventListener("click", () => {
-	ipcRenderer.send("OpenNewSessionWindow")
-});
+function addTextTerminal() {
+	let res = electronBrowser.addTab("Test", "../resources/terminal.png");
+	let myterminal = new MyTerminal();
+	myterminal.init_text_terminal(res.view);
 
-document.getElementById("btn_newShell").addEventListener("click", () => {
-	addShell();
-});
+	addTabViewTerminal(res.tab, res.view, myterminal);
+}
 
+function init_buttons_panel() {
+	document.getElementById("btn_newSession").addEventListener("click", () => {
+		ipcRenderer.send("OpenNewSessionWindow")
+	});
+	
+	document.getElementById("btn_newShell").addEventListener("click", () => {
+		addShell();
+	});
+	
+	document.getElementById("btn_test").addEventListener("click", () => {
+		addTextTerminal();
+	});
+}
 
 function setup_left_panel() {
 	let bookmarks_container = document.getElementById("bookmarks-container")
@@ -183,7 +203,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {
 		//tabs.fit_terminal()
-
+		console.debug("WindowResize called: ", size)
 	});
 
 	ipcRenderer.on("Renderer_BookmarksUI_AddBookmark", (ev, session: SSHSession | WSLSession) => {
@@ -211,7 +231,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 window.addEventListener('resize', () => {
-	js.forEach((element: any) => {
+	js.forEach((element) => {
 		element.MyTerminal.fit()
 	});
 });

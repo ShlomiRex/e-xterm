@@ -1,0 +1,19 @@
+/* Fix flex display for electron-browser */
+
+.browser-views {
+	display: block !important;
+}
+
+.eb-view {
+	display: none !important;
+	height: 100%;
+}
+
+.eb-view.selected {
+	display: block !important;
+}
+
+.browser {
+	resize: none;
+	overflow: hidden;
+}

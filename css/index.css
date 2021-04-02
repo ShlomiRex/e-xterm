@@ -63,21 +63,8 @@ body.theme-dark {
 	display: flex;
 }
 
-/* Fix flex display for electron-browser */
 
-.browser-views {
-	display: block !important;
-}
-
-.eb-view {
-	display: none !important;
-}
-
-.eb-view.selected {
-	display: block !important;
-}
 
 #left-panel-inner-content {
 	height: 100%;
 }
-

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog, shell, nativeTheme, session } from "electron";
+import { app, BrowserWindow, ipcMain, dialog, shell, nativeTheme } from "electron";
 import { IpcMainEvent } from "electron/main";
 import * as path from "path";
 import { MyBookmarks } from "./bookmarks";

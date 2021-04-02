@@ -7,9 +7,6 @@
 	"scripts": {
 		"build": "tsc",
 		"watch": "tsc -w",
-		"watch2": "nodemon -e ts -w ./src -x npm run watch:serve",
-		"watch:serve": "ts-node --inspect src/main/main.ts",
-		"lint": "eslint -c .eslintrc --ext .ts ./src",
 		"start": "npm run install-local-packages && npm run build && electron ./dist/main/main.js",
 		"install-local-packages": "npm install C:\\Users\\Shlomi\\Desktop\\electron-browser"
 	},
