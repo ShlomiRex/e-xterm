@@ -1,5 +1,7 @@
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
+import { WebLinksAddon } from 'xterm-addon-web-links';
+import { SearchAddon } from 'xterm-addon-search';
 
 /**
  * Terminal is special case, since it must be initialized in renderer context
@@ -7,9 +9,11 @@ import { FitAddon } from 'xterm-addon-fit';
 
 export class MyTerminalUI {
 	//The terminal Object
-	private xterm: Terminal
+	private xterm: Terminal;
 
-	private fitAddon: FitAddon
+	private fitAddon: FitAddon;
+	private webLinksAddon: WebLinksAddon;
+	private searchAddon: SearchAddon;
 
 	constructor(fontSize: number = 16) {
 		this.xterm = new Terminal({
@@ -18,6 +22,8 @@ export class MyTerminalUI {
 		});
 
 		this.fitAddon = new FitAddon();
+		this.webLinksAddon = new WebLinksAddon();
+		this.searchAddon = new SearchAddon();
 	}
 
 	/**
@@ -25,9 +31,12 @@ export class MyTerminalUI {
 	 * @param parent 
 	 */
 	init(parent: any, fit = false) {
-		console.log("Terminal ui init with parent: ", parent)
+		console.log("Terminal ui init with parent: ", parent);
+
 		//Load addons
 		this.xterm.loadAddon(this.fitAddon);
+		this.xterm.loadAddon(this.webLinksAddon);
+		this.xterm.loadAddon(this.searchAddon);
 
 		//Attach to parent
 		this.xterm.open(parent)
