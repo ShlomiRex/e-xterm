@@ -30,7 +30,7 @@ export class MyTerminalUI {
 	 * Initialize this terminal
 	 * @param parent 
 	 */
-	init(parent: any, fit = false) {
+	init(parent: HTMLElement) {
 		console.log("Terminal ui init with parent: ", parent);
 
 		//Load addons
@@ -40,11 +40,6 @@ export class MyTerminalUI {
 
 		//Attach to parent
 		this.xterm.open(parent);
-
-		if (fit) {
-			//Fit container
-			this.fit();
-		}
 	}
 
 	/**
@@ -59,3 +54,37 @@ export class MyTerminalUI {
 		return this.xterm
 	}
 };
+
+export class BasicTerminal extends Terminal {
+	private fitAddon: FitAddon;
+	private webLinksAddon: WebLinksAddon;
+	private searchAddon: SearchAddon;
+
+	constructor(parent: HTMLElement, rows: number, cols: number) {
+		super({
+			cursorBlink: true,
+			rows: rows,
+			cols: cols,
+			screenReaderMode: true,
+			logLevel: "info"
+		});
+		this.fitAddon = new FitAddon();
+		this.webLinksAddon = new WebLinksAddon();
+		this.searchAddon = new SearchAddon();
+
+		//Load addons
+		this.loadAddon(this.fitAddon);
+		this.loadAddon(this.webLinksAddon);
+		this.loadAddon(this.searchAddon);
+
+		//Attach to parent
+		this.open(parent);
+
+		this._fit();
+	}
+
+	_fit() {
+		console.debug(`xterm: rows: ${this.rows}, cols: ${this.cols}`)
+		this.fitAddon.fit();
+	}
+}

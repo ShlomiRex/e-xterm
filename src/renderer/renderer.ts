@@ -2,10 +2,14 @@ import { SSHSession, WSLSession } from "../shared/session";
 import { ipcRenderer } from 'electron';
 import { EventEmitter } from 'events';
 import { BookmarksUI } from './bookmarks_ui';
-import { MyTerminal } from './terminal';
 import { SFTPBrowser } from '../sftp_browser'
 import { setup_context_menu } from './context_menu';
 import { setup_split } from './split';
+
+import { ShellTerminal } from './shell_terminal'
+import { Terminal } from 'xterm';
+import { SSHTerminal } from "./ssh_terminal";
+import { WSLTerminal } from "./wsl_terminal";
 
 const ElectronBrowser = require("electron-browser")
 const electronBrowser = new ElectronBrowser()
@@ -19,7 +23,7 @@ document.querySelector('.btn-toggle-theme').addEventListener('click', function (
 
 let js: Array<MyElectronBrowserObject> = [];
 interface MyElectronBrowserObject {
-	MyTerminal: MyTerminal,
+	MyTerminal: Terminal,
 	tab: any,
 	view: any
 }
@@ -30,7 +34,7 @@ setup_left_panel();
 init_buttons_panel();
 setup_split();
 
-function addTabViewTerminal(tab: any, view: any, myTerminal: MyTerminal) {
+function addTabViewTerminal(tab: any, view: any, myTerminal: Terminal) {
 	console.debug("Added tab and view: ", tab, view)
 	const toPush : MyElectronBrowserObject = {
 		MyTerminal: myTerminal,
@@ -41,23 +45,30 @@ function addTabViewTerminal(tab: any, view: any, myTerminal: MyTerminal) {
 }
 
 function addShell() {
-	let res = electronBrowser.addTab("Shell", "../resources/terminal.png")
-	let myterminal = new MyTerminal()
-	myterminal.init_shell(res.view)
+	let res = electronBrowser.addTab("Shell", "../resources/terminal.png");
+	let term = new ShellTerminal(res.view);
 
-	addTabViewTerminal(res.tab, res.view, myterminal)
+	addTabViewTerminal(res.tab, res.view, term);
+
+	
 }
 
 function addSSH(tabTitle: string, sshSession: SSHSession, pass: string, eventEmitter: EventEmitter) {
-	let res = electronBrowser.addTab(tabTitle, "../resources/ssh.png")
-	let myterminal = new MyTerminal()
-	myterminal.init_ssh(res.view, sshSession, pass, eventEmitter)
-	document.getElementById("btn_pwd").addEventListener("click", () => {
-		eventEmitter.emit("pwd")
-	})
-	addTabViewTerminal(res.tab, res.view, myterminal)
+	// let res = electronBrowser.addTab(tabTitle, "../resources/ssh.png")
+	// let myterminal = new MyTerminal()
+	// let uiTerminal = myterminal.init_ssh(res.view, sshSession, pass, eventEmitter)
+	// document.getElementById("btn_pwd").addEventListener("click", () => {
+	// 	eventEmitter.emit("pwd")
+	// })
+	// addTabViewTerminal(res.tab, res.view, myterminal)
 
-	myterminal.fit();
+	// myterminal.fit();
+
+	// return uiTerminal.getXTerm()
+
+	let res = electronBrowser.addTab(tabTitle, "../resources/ssh.png");
+	let term = new SSHTerminal(res.view, sshSession, pass, eventEmitter);
+	addTabViewTerminal(res.tab, res.view, term);
 }
 
 function addWSL(session: WSLSession) {
@@ -67,19 +78,25 @@ function addWSL(session: WSLSession) {
 	} else {
 		tabTitle = `WSL: ${session.distro}`
 	}
-	let res = electronBrowser.addTab(tabTitle, "../resources/tux.svg")
-	let myterminal = new MyTerminal()
-	myterminal.init_wsl(res.view, session)
+	// let res = electronBrowser.addTab(tabTitle, "../resources/tux.svg")
+	// let myterminal = new MyTerminal()
+	// myterminal.init_wsl(res.view, session)
 
-	addTabViewTerminal(res.tab, res.view, myterminal)
+	// addTabViewTerminal(res.tab, res.view, myterminal)
+
+
+	let res = electronBrowser.addTab(tabTitle, "../resources/ssh.png");
+	let term = new WSLTerminal(res.view, session);
+	addTabViewTerminal(res.tab, res.view, term);
+
 }
 
 function addTextTerminal() {
-	let res = electronBrowser.addTab("Test", "../resources/terminal.png");
-	let myterminal = new MyTerminal();
-	myterminal.init_text_terminal(res.view);
+	// let res = electronBrowser.addTab("Test", "../resources/terminal.png");
+	// let myterminal = new MyTerminal();
+	// myterminal.init_text_terminal(res.view);
 
-	addTabViewTerminal(res.tab, res.view, myterminal);
+	// addTabViewTerminal(res.tab, res.view, myterminal);
 }
 
 function init_buttons_panel() {
@@ -92,7 +109,7 @@ function init_buttons_panel() {
 	});
 	
 	document.getElementById("btn_test").addEventListener("click", () => {
-		addTextTerminal();
+		console.log("Not implimented")
 	});
 }
 
@@ -186,6 +203,8 @@ window.addEventListener("DOMContentLoaded", () => {
 			let type = "info";
 			let detail = "Banner message";
 			ipcRenderer.send("ShowMessage", detail, title, type, message);
+
+			
 		});
 
 		eventEmitter.once("close", (hadError: boolean) => {
@@ -193,7 +212,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			//Tabs.getInstance().removeTabContent(tab.id);
 		});
 
-		addSSH(title, session, password, eventEmitter);
+		let xterm = addSSH(title, session, password, eventEmitter);
 	});
 
 	ipcRenderer.on("StartWSL", (event, session: WSLSession) => {
@@ -202,8 +221,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	});
 
 	ipcRenderer.on("WindowResize", (ev, size: Array<number>) => {
-		//tabs.fit_terminal()
-		console.debug("WindowResize called: ", size)
+		fit_all();
 	});
 
 	ipcRenderer.on("Renderer_BookmarksUI_AddBookmark", (ev, session: SSHSession | WSLSession) => {
@@ -230,10 +248,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
 });
 
-window.addEventListener('resize', () => {
+function fit_all() {
 	js.forEach((element) => {
-		element.MyTerminal.fit()
+		(element as any).MyTerminal.fit()
 	});
+}
+
+window.addEventListener('resize', () => {
+	fit_all()
 });
 
 /*

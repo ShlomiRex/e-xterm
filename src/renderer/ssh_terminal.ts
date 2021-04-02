@@ -1,83 +1,23 @@
-import * as pty from 'node-pty';
-import * as os from 'os';
-import * as fs from "fs"
-import * as net from 'net';
-import * as ssh2 from 'ssh2';
-
+import { TextTerminal } from './text_terminal';
 import { EventEmitter } from 'events';
+import * as ssh2 from 'ssh2';
+import { SSHSession } from '../shared/session';
+import * as fs from "fs"
 
-import { SSHSession, WSLSession } from '../shared/session';
-import { MyTerminalUI } from "./terminal_ui"
 
+export class SSHTerminal extends TextTerminal {
+	constructor(parent: HTMLElement, sshSession: SSHSession, pass: string, eventEmitter: EventEmitter) {
+		let rows = 20;
+		let cols = 80;
+		super(parent, rows, cols);
 
-const WINDOWS = os.platform() === 'win32';
-const MAC = os.platform() == "darwin";
-
-console.info("Platform:", os.platform())
-
-enum Shell {
-	CMD = "COMSPEC",
-	BASH = "bash",
-	POWERSHELL = "powershell.exe",
-	ZSH = "zsh",
-	WSL = "wsl.exe"
-}
-
-export class MyTerminal {
-	private uiTerm: MyTerminalUI;
-
-	constructor() {
-		this.uiTerm = new MyTerminalUI()
-	}
-
-	init_text_terminal(terminalContainer: HTMLElement) {
-		this.uiTerm.init(terminalContainer, true)
-
-		const str = " Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!";
-		this.uiTerm.getXTerm().writeln(str);
-		this.uiTerm.getXTerm().writeln(str);
-		this.uiTerm.getXTerm().writeln(str);
-		this.uiTerm.getXTerm().writeln(str);
-	}
-
-	init_shell(terminalContainer: HTMLElement) {
-		this.uiTerm.init(terminalContainer)
-
-		//Initialize node-pty with an appropriate shell
-		let shell;
-		if (WINDOWS) {
-			shell = Shell.POWERSHELL
-		} else if (MAC) {
-			shell = Shell.ZSH
-		} else {
-			shell = Shell.BASH
-		}
-
-		const ptyProcess = pty.spawn(shell, [], {
-			name: 'xterm-color',
-			cwd: process.cwd(),
-			env: process.env
-		});
-
-		ptyProcess.onData((data: any) => {
-			this.uiTerm.getXTerm().write(data);
-		});
-
-		//When user types(input), write to node-pty
-		this.uiTerm.getXTerm().onData((data: any) => {
-			ptyProcess.write(data)
-		})
-	}
-
-	init_ssh(terminalContainer: HTMLElement, sshSession: SSHSession, pass: string, eventEmitter: EventEmitter) {
-		this.uiTerm.init(terminalContainer)
-
+		
 		var Client = ssh2.Client
 		var conn = new Client();
 
 		let myChannel: ssh2.ClientChannel = undefined;
 
-		this.uiTerm.getXTerm().onKey((arg: any) => {
+		this.onKey((arg: any) => {
 			//console.debug("Writing to stream: ", arg.key)
 			myChannel.write(arg.key);
 		});
@@ -86,7 +26,7 @@ export class MyTerminal {
 		//We need to write to function because if we write this.write() it calls the internal function inside ssh2 and not our function
 		let write_to_terminal = (data: string) => {
 			//this.keyPressed(data)
-			this.uiTerm.getXTerm().write(data);
+			this.write(data);
 		}
 
 
@@ -187,40 +127,20 @@ export class MyTerminal {
 			eventEmitter.emit("close", hadError);
 		})
 
-		conn.on('x11', function (info, accept, reject) {
-			console.log("X11 CALLED @@@@@@@@@@@@")
-			var xserversock = new net.Socket();
-			xserversock.on('connect', function () {
-				var xclientsock = accept();
-				xclientsock.pipe(xserversock).pipe(xclientsock);
-			});
-			// connects to localhost:0.0
-			xserversock.connect(6000, 'localhost');
-		});
-	}
-
-	init_wsl(terminalContainer: HTMLElement, session: WSLSession) {
-		this.uiTerm.init(terminalContainer)
-
-		const ptyProcess = pty.spawn(Shell.WSL, ["-d", session.distro], {
-			name: 'xterm-color',
-			cwd: process.cwd(),
-			env: process.env
-		});
-
-		ptyProcess.on("data", (data) => {
-			this.uiTerm.getXTerm().write(data);
-
-		})
-		this.uiTerm.getXTerm().onData((data: any) => {
-			ptyProcess.write(data)
-		})
-
+		// conn.on('x11', function (info, accept, reject) {
+		// 	console.log("X11 CALLED @@@@@@@@@@@@")
+		// 	var xserversock = new net.Socket();
+		// 	xserversock.on('connect', function () {
+		// 		var xclientsock = accept();
+		// 		xclientsock.pipe(xserversock).pipe(xclientsock);
+		// 	});
+		// 	// connects to localhost:0.0
+		// 	xserversock.connect(6000, 'localhost');
+		// });
 
 	}
 
 	fit() {
-		this.uiTerm.fit()
+		this._fit();
 	}
-};
-
+}
