@@ -3,3 +3,4 @@ package-lock.json
 storage/sessions
 dist/
 stuff.txt
+*.lock
