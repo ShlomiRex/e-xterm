@@ -12,11 +12,9 @@
 	"repository": "https://github.com/ShlomiRex/e-xterm",
 	"author": "Shlomi Domnenko",
 	"dependencies": {
-		"@types/babel__core": "^7.1.14",
-		"@types/webpack": "^5.28.0",
 		"bootstrap": "^5.0.0-beta1",
 		"electron": "^11.2.0",
-		"electron-browser": "git+https://github.com/ShlomiRex/electron-browser",
+		"electron-browser": "git+https://github.com/ShlomiRex/electron-browser.git",
 		"electron-store": "^7.0.0",
 		"jquery": "^3.5.1",
 		"node-cmd": "^4.0.0",
