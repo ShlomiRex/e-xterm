@@ -68,3 +68,7 @@ body.theme-dark {
 #left-panel-inner-content {
 	height: 100%;
 }
+
+.no-outline {
+	outline: none !important;
+}
