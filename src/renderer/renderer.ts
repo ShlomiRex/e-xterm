@@ -13,6 +13,7 @@ import { WSLTerminal } from "../terminals/wsl_terminal";
 
 const ElectronBrowser = require("electron-browser")
 const electronBrowser = new ElectronBrowser()
+electronBrowser.hideTabsBar()
 
 
 document.querySelector('.btn-toggle-theme').addEventListener('click', function () {
