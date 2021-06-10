@@ -16,6 +16,7 @@ const electronBrowser = new ElectronBrowser()
 electronBrowser.hideTabsBar()
 
 
+
 document.querySelector('.btn-toggle-theme').addEventListener('click', function () {
 	// Then toggle (add/remove) the .dark-theme class to the body
 	document.body.classList.toggle('dark-theme');
@@ -29,11 +30,22 @@ interface MyElectronBrowserObject {
 	view: any
 }
 
+/* ----- Init ----- */
+
 BookmarksUI.createInstance();
 setup_context_menu();
 setup_left_panel();
 init_buttons_panel();
 setup_split();
+addWelcomePageTab()
+initBrowserHooks()
+
+function initBrowserHooks() {
+	document.getElementById("tab-add").addEventListener("click", () => {
+		console.log("Add tab clicked")
+		addWelcomePageTab()
+	});
+}
 
 function addTabViewTerminal(tab: any, view: any, myTerminal: Terminal) {
 	console.debug("Added tab and view: ", tab, view)
@@ -43,6 +55,11 @@ function addTabViewTerminal(tab: any, view: any, myTerminal: Terminal) {
 		view: view
 	}
 	js.push(toPush);
+}
+
+function addWelcomePageTab() {
+	let res = electronBrowser.addTab("Welcome", "../resources/house-fill.svg", "../html/welcome.html");
+	console.log("Added welcome page tab: ", res);
 }
 
 function addShell() {
