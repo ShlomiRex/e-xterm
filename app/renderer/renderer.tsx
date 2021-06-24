@@ -2,7 +2,7 @@
  * React renderer.
  */
 // Import the styles here to process them with webpack
-import '_public/style.css';
+import '../static/style.css';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -22,7 +22,7 @@ import RLDD from 'react-list-drag-and-drop/lib/RLDD';
 import './Examples.css';
 
 
-
+console.log("ENV: " + process.env.NODE_ENV)
 
 
 

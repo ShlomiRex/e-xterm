@@ -51,7 +51,7 @@ const commonConfig = {
 // #endregion
 
 const mainConfig = lodash.cloneDeep(commonConfig);
-mainConfig.entry = './src/main/main.ts';
+mainConfig.entry = './app/main/main.ts';
 mainConfig.target = 'electron-main';
 mainConfig.output.filename = 'main.bundle.js';
 mainConfig.plugins = [
@@ -79,12 +79,12 @@ mainConfig.plugins = [
 ];
 
 const rendererConfig = lodash.cloneDeep(commonConfig);
-rendererConfig.entry = './src/renderer/renderer.tsx';
+rendererConfig.entry = './app/renderer/renderer.tsx';
 rendererConfig.target = 'electron-renderer';
 rendererConfig.output.filename = 'renderer.bundle.js';
 rendererConfig.plugins = [
   new HtmlWebpackPlugin({
-    template: path.resolve(__dirname, './public/index.html'),
+    template: path.resolve(__dirname, './app/static/index.html'),
   }),
 ];
 
