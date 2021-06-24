@@ -7,13 +7,13 @@
 	"scripts": {
 		"build": "tsc",
 		"watch": "tsc -w",
-		"start": "npm run build && electron ./dist/main/main.js"
+		"start": "npm run build && electron ./dist/main/main.js",
+		"build-dev": "electron-builder"
 	},
 	"repository": "https://github.com/ShlomiRex/e-xterm",
 	"author": "Shlomi Domnenko",
 	"dependencies": {
 		"bootstrap": "^5.0.0-beta1",
-		"electron": "^11.2.0",
 		"electron-browser": "git+https://github.com/ShlomiRex/electron-browser.git",
 		"electron-store": "^7.0.0",
 		"jquery": "^3.5.1",
@@ -35,6 +35,8 @@
 		"xterm-addon-webgl": "^0.10.0"
 	},
 	"devDependencies": {
+		"electron": "^11.2.0",
+		"electron-builder": "^22.10.5",
 		"@types/ssh2": "^0.5.46",
 		"@types/uuid": "^8.3.0",
 		"@types/w2ui": "^1.4.32",
