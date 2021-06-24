@@ -19,7 +19,7 @@ import 'react-tabs/style/react-tabs.css';
 import RLDD from 'react-list-drag-and-drop/lib/RLDD';
 
 
-import './Examples.css';
+import '../static/Examples.css';
 
 
 console.log("ENV: " + process.env.NODE_ENV)
