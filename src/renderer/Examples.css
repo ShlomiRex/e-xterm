@@ -1,0 +1,57 @@
+
+  .example {
+	background-color: #aaaaaa;
+	margin: 0px;
+	padding: 0.5rem;
+	margin: 0.25rem;
+  }
+
+.examples {
+	border: 2px solid black;
+}
+  
+  .item {
+	border: 2px solid black;
+
+	font-family: sans-serif;
+	background-color: #eeeeee;
+	border-radius: 0.25rem;
+	margin-bottom: 0.2rem;
+	margin-right: 0.2rem;
+	padding: 0.5rem;
+	padding-left: 0.25rem;
+	opacity: 1;
+  }
+
+  
+  .item .small {
+	font-size: 66%;
+	text-align: right;
+	white-space: nowrap;
+  }
+  
+  .dragged .item {
+	opacity: 0.5;
+  }
+  
+  .floating .item {
+	background-color: #ffffff;
+	box-shadow: 0 0.2rem 2rem #666666;
+  }
+  
+  /* ******************** */
+  
+  .vertical .item {
+	display: flex;
+  }
+  
+  
+  .horizontal .item {
+	width: 7rem;
+	text-align: center;
+  }
+
+  
+  .horizontal .item .small {
+	text-align: center;
+  }
