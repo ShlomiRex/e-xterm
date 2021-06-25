@@ -20,6 +20,8 @@ Note: This project is in the very early stages.
 
 ![](./README-resources/new_ui_2.png)
 
+![](./README-resources/new_ui_3.png)
+
 ## Old UI
 
 ![](./README-resources/screenshot.png "Ubuntu VM and bookmark settings")
