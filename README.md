@@ -13,6 +13,15 @@ Note: This project is in the very early stages.
 
 # Screenshots
 
+
+## New UI
+
+![](./README-resources/new_ui_1.png)
+
+![](./README-resources/new_ui_2.png)
+
+## Old UI
+
 ![](./README-resources/screenshot.png "Ubuntu VM and bookmark settings")
 
 ![](./README-resources/powershell.png "Powershell winfetch")

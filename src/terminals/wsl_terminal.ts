@@ -15,7 +15,7 @@ export class WSLTerminal extends BasicTerminal {
 			env: process.env
 		});
 
-		this.ptyProcess.on("data", (data) => {
+		this.ptyProcess.on("data", (data: any) => {
 			this.write(data);
 
 		})
