@@ -6,8 +6,8 @@
 	"license": "MIT",
 	"scripts": {
 		"start": "electron ./dist/main.bundle.js",
-		"dev-watch": "rimraf dist && cross-env NODE_ENV=development webpack --watch --progress --color",
-		"prod-watch": "rimraf dist && cross-env NODE_ENV=production webpack --progress --color",
+		"watch:dev": "rimraf dist && cross-env NODE_ENV=development webpack --watch --progress --color",
+		"watch:prod": "rimraf dist && cross-env NODE_ENV=production webpack --progress --color",
 		"test": "mocha -r ts-node/register -r tsconfig-paths/register \"test/**/*.ts\"",
 		"build:win": "electron-builder build --win --x64",
 		"build:mac": "electron-builder build --mac --x64"
@@ -43,6 +43,7 @@
 		"react-dom": "^17.0.1",
 		"react-draggable-tab": "^0.10.1",
 		"react-draggable-tabs": "^1.0.8",
+		"react-headless-tabs": "^3.0.1",
 		"react-list-drag-and-drop": "^0.9.2",
 		"react-router": "^5.2.0",
 		"react-router-dom": "^5.2.0",
