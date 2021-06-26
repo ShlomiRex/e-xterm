@@ -8,7 +8,6 @@ import { Terminal } from 'xterm'
 import { XTerm } from 'xterm-for-react'
 
 import MyTerm from './components/term'
-import { Basic } from './Basic'
 
 const element = new Terminal()
 const myref = React.createRef<XTerm>()
@@ -27,7 +26,6 @@ function App() {
 			<p>Hello</p>
 			<h1>Shlomid</h1>
 			<MyTerm></MyTerm>
-			<Basic></Basic>
 		</div>
 	);
 }
