@@ -9,22 +9,17 @@ import { SearchAddon } from 'xterm-addon-search'
 const xTerminalRef: any = React.createRef();
 
 const onKeyPressed = (event: { key: string; domEvent: KeyboardEvent; }) => {
-	console.log(event.key)
-
 	xTerminalRef.current.terminal.write(event.key);
 };
 
 
-function render() {
-	//ReactDOM.render(<XTerm></XTerm>, document.body);
-	ReactDOM.render(
-		<XTerm
-			options={{ cursorBlink: true, disableStdin: false }}
-			onKey={(e: { key: string; domEvent: KeyboardEvent; }) => onKeyPressed(e)}
-			ref={xTerminalRef}
-		/>,
-		document.body);
-	console.log("ref = ", xTerminalRef.current);
+export default class MyTerminal extends React.Component {
+	render() {
+		console.log("ref = ", xTerminalRef.current);
+		return<XTerm
+				options={{ cursorBlink: true, disableStdin: false }}
+				onKey={(e: { key: string; domEvent: KeyboardEvent; }) => onKeyPressed(e)}
+				ref={xTerminalRef}
+			/>
+	}
 }
-
-render();

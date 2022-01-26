@@ -95,3 +95,7 @@ body.theme-dark {
 }
 
 
+.tabs button {
+	text-transform: none;
+	padding: 0px;
+}

@@ -5,9 +5,11 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import Chip from '@mui/material/Chip';
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
+import MyTerminal from './terminal';
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -42,6 +44,11 @@ function a11yProps(index: number) {
 	};
 }
 
+
+var default_tab: {
+	backgroundColor: 'rgba(255, 255, 255, 0.85)',
+}
+
 export default function BasicTabs() {
 	const [value, setValue] = React.useState(0);
 
@@ -49,35 +56,41 @@ export default function BasicTabs() {
 		setValue(newValue);
 	};
 
-	function closeTab() {
-		console.log("Close tab")
+	function handleDelete(e: any) {
+		console.log("Delete tab", e)
+	}
+
+	function handleClick(e: any) {
+		console.log("Click tab", e)
+	}
+
+	function tabFactory(label: string, index: number) {
+		return <Tab label={
+			<Chip label={label} variant="outlined" onDelete={handleDelete} onClick={handleClick} />
+		} {...a11yProps(index)}/>
 	}
 
 	return (
 		<Box sx={{ width: '100%' }}>
 			<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-				<Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-					<Tab label="Item One" {...a11yProps(0)} />
-					<Tab label={
-						<span>
-							title
-							<IconButton onClick={closeTab}>
-								<CloseIcon />
-							</IconButton>
-						</span>
-					} {...a11yProps(1)} />
-					<Tab label="Item Three" {...a11yProps(2)} />
+				<Tabs className="tabs" value={value} onChange={handleChange} aria-label="basic tabs example">
+					{tabFactory("Welcome", 0)}
+					{/* {tabFactory("Two", 1)}
+					{tabFactory("Three", 2)}
+					{tabFactory("Four", 3)} */}
 				</Tabs>
 			</Box>
 			<TabPanel value={value} index={0}>
-				Item One
+				<h1>Welcome to e-xterm!</h1>
+				{/* TODO: Insert terminal here, but we need a way to 'inject' terminal from diffirent file, NOT inside tabs */}
+				<MyTerminal></MyTerminal>
 			</TabPanel>
-			<TabPanel value={value} index={1}>
+			{/* <TabPanel value={value} index={1}>
 				Item Two
 			</TabPanel>
 			<TabPanel value={value} index={2}>
 				Item Three
-			</TabPanel>
+			</TabPanel> */}
 		</Box>
 	);
 }
