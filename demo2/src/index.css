@@ -77,7 +77,7 @@ body.theme-dark {
 }
 
 .gutter {
-	background: rgba(255, 255, 255, 0.05);
+	background: rgba(255, 255, 255, 0.301);
 	flex-shrink: 0;
 }
 
@@ -93,3 +93,5 @@ body.theme-dark {
 	display: flex;
 	height: inherit;
 }
+
+
