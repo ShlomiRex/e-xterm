@@ -25,8 +25,8 @@
  *  });
  * ```
  */
+ console.log('👋 This message is being logged by "renderer.js", included via webpack');
+import './app';
 
-import './index.css';
-import './terminal';
 
-console.log('👋 This message is being logged by "renderer.js", included via webpack');
+
