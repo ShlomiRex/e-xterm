@@ -29,8 +29,9 @@ function TabPanel(props: TabPanelProps) {
 			{...other}
 		>
 			{value === index && (
-				<Box sx={{ p: 3 }}>
-					<Typography>{children}</Typography>
+				<Box>
+					{/* <Typography>{children}</Typography> */}
+					{children}
 				</Box>
 			)}
 		</div>
@@ -81,7 +82,7 @@ export default function BasicTabs() {
 				</Tabs>
 			</Box>
 			<TabPanel value={value} index={0}>
-				<h1>Welcome to e-xterm!</h1>
+				<div><h1>Welcome to e-xterm!</h1></div>
 				{/* TODO: Insert terminal here, but we need a way to 'inject' terminal from diffirent file, NOT inside tabs */}
 				<MyTerminal></MyTerminal>
 			</TabPanel>

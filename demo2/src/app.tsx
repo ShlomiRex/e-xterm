@@ -6,6 +6,7 @@ import Split from "react-split";
 
 import "./index.css";
 import MainPanel from './main_panel';
+import LeftPanel from './left_panel';
 
 class App extends React.Component {
 	render() {
@@ -13,7 +14,7 @@ class App extends React.Component {
 			<Split className="split"
 				sizes={[30, 70]}
 				gutterSize={10}>
-					<div id="left-panel" className="comp">left panel</div>
+					<LeftPanel/>
 					<MainPanel/>
 			</Split>
 		);

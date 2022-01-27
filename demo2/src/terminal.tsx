@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from "react";
-import * as ReactDOM from 'react-dom';
 
 import "./index.css";
 
