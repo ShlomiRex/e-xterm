@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import DenseTable from './files';
-
+import Bookmarks from './bookmarks';
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -56,7 +56,7 @@ export default function LeftPanel() {
 				</Tabs>
 			</Box>
 			<TabPanel value={value} index={0}>
-				Bookmarks
+				<Bookmarks></Bookmarks>
 			</TabPanel>
 			<TabPanel value={value} index={1}>
 				<DenseTable></DenseTable>
