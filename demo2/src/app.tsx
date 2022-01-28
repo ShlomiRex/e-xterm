@@ -4,9 +4,9 @@ import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import Split from "react-split";
 
-import "./index.css";
-import MainPanel from './main_panel';
-import LeftPanel from './left_panel';
+import "./ui/index.css";
+import MainPanel from './ui/main_panel';
+import LeftPanel from './ui/left_panel';
 
 
 // const App = ({ }) => {
