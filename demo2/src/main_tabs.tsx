@@ -6,6 +6,10 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import AddIcon from "@mui/icons-material/Add";
+
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -45,11 +49,6 @@ function a11yProps(index: number) {
 	};
 }
 
-
-var default_tab: {
-	backgroundColor: 'rgba(255, 255, 255, 0.85)',
-}
-
 export default function BasicTabs() {
 	const [value, setValue] = React.useState(0);
 
@@ -68,17 +67,21 @@ export default function BasicTabs() {
 	function tabFactory(label: string, index: number) {
 		return <Tab label={
 			<Chip label={label} variant="outlined" onDelete={handleDelete} onClick={handleClick} />
-		} {...a11yProps(index)}/>
+		} {...a11yProps(index)} />
 	}
 
 	return (
 		<Box sx={{ width: '100%' }}>
 			<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-				<Tabs className="tabs" value={value} onChange={handleChange} aria-label="basic tabs example">
+				<Tabs className="tabs main-panel" value={value} onChange={handleChange} aria-label="basic tabs example">
+					{/* <Button variant="text">Sessions</Button> */}
 					{tabFactory("Welcome", 0)}
 					{/* {tabFactory("Two", 1)}
 					{tabFactory("Three", 2)}
 					{tabFactory("Four", 3)} */}
+					<Button>
+						<AddIcon color="secondary" />
+					</Button>
 				</Tabs>
 			</Box>
 			<TabPanel value={value} index={0}>

@@ -4,6 +4,9 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
+import DenseTable from './files';
+
+
 interface TabPanelProps {
 	children?: React.ReactNode;
 	index: number;
@@ -22,7 +25,7 @@ function TabPanel(props: TabPanelProps) {
 			{...other}
 		>
 			{value === index && (
-				<Box sx={{ p: 3 }}>
+				<Box>
 					<Typography>{children}</Typography>
 				</Box>
 			)}
@@ -47,16 +50,16 @@ export default function LeftPanel() {
 	return (
 		<Box sx={{ width: '100%' }}>
 			<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-				<Tabs value={value} onChange={handleChange} aria-label="basic tabs example" variant="scrollable" scrollButtons="auto">
-					<Tab label="Bookmarks" {...a11yProps(0)} />
-					<Tab label="Files" {...a11yProps(1)} />
+				<Tabs className="tabs left-panel" value={value} onChange={handleChange} aria-label="basic tabs example">
+					<Tab itemID="btn_bookmarks" label="Bookmarks" {...a11yProps(0)} />
+					<Tab itemID="btn_files" label="Files" {...a11yProps(1)} />
 				</Tabs>
 			</Box>
 			<TabPanel value={value} index={0}>
 				Bookmarks
 			</TabPanel>
 			<TabPanel value={value} index={1}>
-				Files
+				<DenseTable></DenseTable>
 			</TabPanel>
 		</Box>
 	);

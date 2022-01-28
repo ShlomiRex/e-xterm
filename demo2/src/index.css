@@ -30,6 +30,7 @@ body {
 	margin: 0px;
 	height: 100vh;
 	font-size: var(--font-size-md);
+	font-family: "Roboto","Helvetica","Arial",sans-serif;
 }
 
 
@@ -60,11 +61,13 @@ body.theme-dark {
 
 #left-panel {
 	background: var(--background-color);
-	margin-right: -5px; /* hide gutter */
+	/* hide gutter */
+	/* margin-right: -5px;  */
 }
 
 #main-panel {
-	margin-left: -5px; /* hide gutter */
+	/* hide gutter */
+	/*margin-left: -5px;*/ 
 }
 
 .hide {
@@ -77,7 +80,7 @@ body.theme-dark {
 }
 
 .gutter {
-	background: rgba(255, 255, 255, 0.301);
+	background: rgb(214 214 214);
 	flex-shrink: 0;
 }
 
