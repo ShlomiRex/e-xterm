@@ -1,19 +1,25 @@
 {
-  "compilerOptions": {
-    "allowJs": true,
-    "module": "commonjs",
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "noImplicitAny": false,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "outDir": "dist",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "paths": {
-      "*": ["node_modules/*"]
-    },
-	"jsx": "react"
-  },
-  "include": ["src/**/*", "decs.d.ts"]
+	"compilerOptions": {
+		"allowJs": true,
+		"module": "commonjs",
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"noImplicitAny": false,
+		"sourceMap": true,
+		"baseUrl": ".",
+		"outDir": "dist",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"paths": {
+			"*": [
+				"node_modules/*"
+			]
+		},
+		"jsx": "react",
+		"target": "ES6"
+	},
+	"include": [
+		"src/**/*",
+		"decs.d.ts"
+	]
 }

@@ -8,30 +8,6 @@ import "./ui/index.css";
 import MainPanel from './ui/main_panel';
 import LeftPanel from './ui/left_panel';
 
-
-// const App = ({ }) => {
-// 	useEffect(() => {
-// 		var tabs = document.getElementsByClassName("tabs left-panel")[0].getElementsByTagName("button");
-
-// 		// var tabs_width = window.getComputedStyle(tabs[0]).getPropertyValue("width") + 
-// 		// 	window.getComputedStyle(tabs[1]).getPropertyValue("width")
-
-// 		var tabs_width = tabs[0].clientWidth + tabs[1].clientWidth
-
-		
-// 	}, [])
-
-// 	console.log("Before initialized")
-// 	return (
-// 		<Split className="split"
-// 			sizes={[30, 70]}
-// 			gutterSize={10}>
-// 			<LeftPanel />
-// 			<MainPanel />
-// 		</Split>
-// 	);
-// }
-
 class App extends React.Component {
 	render() {
 		return (
@@ -48,14 +24,6 @@ class App extends React.Component {
 }
 
 export default App;
-
-
-
-// var a = window.getComputedStyle(btn_bookmarks).getPropertyValue("width")
-// var b = window.getComputedStyle(btn_files).getPropertyValue("width")
-
-// console.log(a);
-// console.log(b);
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
