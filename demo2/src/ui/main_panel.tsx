@@ -2,8 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 
 import MyTabs from './main_tabs';
-import MyTabPanels from './tabs_views';
-import BasicTabs from './test3';
+import TabsViews from './tabs_views';
 
 class ClockWithState extends React.Component<any, { date }> {
 	timerID: NodeJS.Timeout;
@@ -46,30 +45,9 @@ interface TabPanelProps {
 	value: number;
 }
 
-function TabPanel(props: TabPanelProps) {
-	const { children, value, index, ...other } = props;
-
-	return (
-		<div
-			role="tabpanel"
-			hidden={value !== index}
-			id={`simple-tabpanel-${index}`}
-			{...other}
-		>
-			{value === index && (
-				<Box>
-					{/* <Typography>{children}</Typography> */}
-					{children}
-				</Box>
-			)}
-		</div>
-	);
-}
-
-
 export class MainPanel extends React.Component<any, any> {
 	ref_mytabs: React.RefObject<MyTabs>;
-	ref_mytabpanels: React.RefObject<MyTabPanels>;
+	ref_mytabpanels: React.RefObject<TabsViews>;
 	constructor(props) {
 		super(props)
 
@@ -80,10 +58,6 @@ export class MainPanel extends React.Component<any, any> {
 		this.onTabSelect = this.onTabSelect.bind(this);
 	}
 
-	// componentDidMount(): void {
-	// 	this.ref_mytabpanels.current.addPanel();
-	// }
-
 	onTabAdded() {
 		this.ref_mytabpanels.current.addPanel();
 	}
@@ -93,6 +67,12 @@ export class MainPanel extends React.Component<any, any> {
 		this.ref_mytabpanels.current.selectPanel(id);
 	}
 
+	onComponentDidMount() {
+		console.log("Adding welcome")
+		this.ref_mytabs.current.addTab("Welcome!");
+		this.ref_mytabpanels.current.addPanel();
+	}
+
 	render() {
 		return (
 			<div id="main-panel">
@@ -100,10 +80,9 @@ export class MainPanel extends React.Component<any, any> {
 					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 						<MyTabs ref={this.ref_mytabs} onTabAdded={this.onTabAdded} onTabSelect={this.onTabSelect}></MyTabs>
 					</Box>
-					<MyTabPanels ref={this.ref_mytabpanels}></MyTabPanels>
+					<TabsViews ref={this.ref_mytabpanels}></TabsViews>
 					<ClockWithState></ClockWithState>
 				</Box>
-				<BasicTabs></BasicTabs>
 			</div>
 
 		);

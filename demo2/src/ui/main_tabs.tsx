@@ -71,11 +71,7 @@ export default class MyTabs extends React.Component<TabsProps, TabsState> {
 			key={index}
 			id={"simple-tab-" + index} />
 	}
-
-	componentDidMount() {
-		this.addTab("Welcome!");
-	}
-
+	
 	render() {
 
 		return <div>
