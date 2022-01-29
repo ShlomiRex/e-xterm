@@ -21,19 +21,25 @@ export default class MyTabs extends React.Component<any, TabsState> {
 
 		this.handleTabClick = this.handleTabClick.bind(this);
 		this.addTab = this.addTab.bind(this);
+		this.addDummyTab = this.addDummyTab.bind(this);
 	}
 
-	addTab() {
+	addTab(label: string) {
 		this.setState({
 			tabs: this.state.tabs.concat([{
 				id: this.state.id_aggregate,
-				label: "Tab " + (this.state.id_aggregate),
+				label: label
 			}]),
 			id_aggregate: this.state.id_aggregate + 1,
 			selectedTabId: this.state.id_aggregate
 		}, () => {
-			console.log("Selecting tab", this.state.selectedTabId)
+			console.log("Added tab:", this.state.selectedTabId)
 		});
+	}
+
+	addDummyTab() {
+		var label = "Tab " + (this.state.id_aggregate)
+		this.addTab(label)
 	}
 
 	handleTabDelete(e) {
@@ -41,7 +47,11 @@ export default class MyTabs extends React.Component<any, TabsState> {
 	}
 
 	handleTabClick(e) {
-		console.log("Click on tab:", e.target.id)
+		console.log("Click on tab:", e.target.tabIndex)
+
+		this.setState({
+			selectedTabId: e.target.tabIndex
+		})
 	}
 
 	tabFactory(label: string, index: number) {
@@ -53,17 +63,21 @@ export default class MyTabs extends React.Component<any, TabsState> {
 			id={"simple-tab-" + index} />
 	}
 
+	componentDidMount() {
+		this.addTab("Welcome!");
+	}
+
 	render() {
 
 		return <div>
 			<Tabs className="tabs main-panel" value={this.state.selectedTabId} aria-label="basic tabs example">
-				{/* {this.tabFactory("Welcome", 0)} */}
 				{
 					this.state.tabs.map((tab) => {
 						return this.tabFactory(tab.label, tab.id)
 					})
 				}
-				<Tab icon={<AddIcon />} onClick={this.addTab}></Tab>
+				{/* {this.tabFactory("Welcome", 0)} */}
+				<Tab icon={<AddIcon />} onClick={this.addDummyTab}></Tab>
 			</Tabs>
 		</div>
 	}
