@@ -1,18 +1,13 @@
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import AddIcon from "@mui/icons-material/Add";
 
 // import { MainPanel } from './main_tabs';
 import MyTerminal from './terminal';
 import MyTabs from './main_tabs';
+import MyTabPanels from './main_tab_panels';
 
 class ClockWithState extends React.Component<any, { date }> {
 	timerID: NodeJS.Timeout;
@@ -23,12 +18,12 @@ class ClockWithState extends React.Component<any, { date }> {
 	}
 	render() {
 		return (
-		  <div>
-			<h1>Clocks updates every second (this.setState)</h1>
-			<h2>It is {this.state.date.toLocaleTimeString()}.</h2>
-		  </div>
+			<div>
+				<h1>Clocks updates every second (this.setState)</h1>
+				<h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+			</div>
 		);
-	  }
+	}
 
 	componentDidMount() {
 		console.log("Mounted tabs2")
@@ -67,7 +62,6 @@ function TabPanel(props: TabPanelProps) {
 			role="tabpanel"
 			hidden={value !== index}
 			id={`simple-tabpanel-${index}`}
-			aria-labelledby={`simple-tab-${index}`}
 			{...other}
 		>
 			{value === index && (
@@ -83,18 +77,12 @@ function TabPanel(props: TabPanelProps) {
 
 export class MainPanel extends React.Component<any, any> {
 	ref_mytabs: React.RefObject<MyTabs>;
+	ref_mytabpanels: React.RefObject<MyTabPanels>;
 	constructor(props) {
 		super(props)
 
 		this.ref_mytabs = React.createRef();
-
-		//Bind callback to 'this' class so it has access to 'this.state'.
-		this.handleNewTab = this.handleNewTab.bind(this);
-	}
-
-
-	handleNewTab() {
-		this.ref_mytabs.current.addTab();
+		this.ref_mytabpanels = React.createRef();
 	}
 
 	render() {
@@ -102,24 +90,19 @@ export class MainPanel extends React.Component<any, any> {
 			<div id="main-panel">
 				<Box sx={{ width: '100%' }}>
 					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-						<Tabs className="tabs main-panel" value={0} aria-label="basic tabs example">
+						<MyTabs ref={this.ref_mytabs}></MyTabs>
+						{/* <Tabs className="tabs main-panel" value={1} aria-label="basic tabs example">
 							<MyTabs ref={this.ref_mytabs}></MyTabs>
 							<Button onClick={this.handleNewTab}>
 								<AddIcon color="secondary" />
 							</Button>
-						</Tabs>
+						</Tabs> */}
 					</Box>
-					<TabPanel value={0} index={0}>
+					{/* <TabPanel value={0} index={0}>
 						<div><h1>Welcome to e-xterm!</h1></div>
-						{/* TODO: Insert terminal here, but we need a way to 'inject' terminal from diffirent file, NOT inside tabs */}
 						<MyTerminal></MyTerminal>
-					</TabPanel>
-					{/* <TabPanel value={value} index={1}>
-					Item Two
-				</TabPanel>
-				<TabPanel value={value} index={2}>
-					Item Three
-				</TabPanel> */}
+					</TabPanel> */}
+					{/* <MyTabPanels ref={this.ref_mytabpanels}></MyTabPanels> */}
 					<ClockWithState></ClockWithState>
 				</Box>
 			</div>

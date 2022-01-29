@@ -8,6 +8,8 @@ import "./ui/index.css";
 import MainPanel from './ui/main_panel';
 import LeftPanel from './ui/left_panel';
 
+// import CustomTabs from './ui/test2';
+
 class App extends React.Component {
 	render() {
 		return (
