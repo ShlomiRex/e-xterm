@@ -36,6 +36,13 @@ interface PanelsState {
 }
 
 export default class MyTabPanels extends React.Component<any, PanelsState> {
+	selectPanel(id: number) {
+		console.log("Selecting panel:", id);
+		this.setState({
+			selectedPanelId: id
+		});
+	}
+
 	state = {
 		id_aggregate: 0,
 		panels: [],
@@ -56,7 +63,7 @@ export default class MyTabPanels extends React.Component<any, PanelsState> {
 		return <div>
 			{
 				this.state.panels.map(panel => {
-					return <TabPanel key={panel.id} value={panel.id} index={panel.id}>
+					return <TabPanel key={panel.id} value={this.state.selectedPanelId} index={panel.id}>
 						Panel Number {panel.id}
 					</TabPanel>
 				})

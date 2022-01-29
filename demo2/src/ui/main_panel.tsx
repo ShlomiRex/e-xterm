@@ -1,13 +1,9 @@
 import * as React from 'react';
-import Tabs from '@mui/material/Tabs';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import AddIcon from "@mui/icons-material/Add";
 
-// import { MainPanel } from './main_tabs';
-import MyTerminal from './terminal';
 import MyTabs from './main_tabs';
 import MyTabPanels from './tabs_views';
+import BasicTabs from './test3';
 
 class ClockWithState extends React.Component<any, { date }> {
 	timerID: NodeJS.Timeout;
@@ -81,6 +77,7 @@ export class MainPanel extends React.Component<any, any> {
 		this.ref_mytabpanels = React.createRef();
 
 		this.onTabAdded = this.onTabAdded.bind(this);
+		this.onTabSelect = this.onTabSelect.bind(this);
 	}
 
 	// componentDidMount(): void {
@@ -91,26 +88,22 @@ export class MainPanel extends React.Component<any, any> {
 		this.ref_mytabpanels.current.addPanel();
 	}
 
+	onTabSelect(id: number) {
+		console.log("Calling panels ref with id: ", id);
+		this.ref_mytabpanels.current.selectPanel(id);
+	}
+
 	render() {
 		return (
 			<div id="main-panel">
 				<Box sx={{ width: '100%' }}>
 					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-						<MyTabs ref={this.ref_mytabs} onTabAdded={this.onTabAdded}></MyTabs>
-						{/* <Tabs className="tabs main-panel" value={1} aria-label="basic tabs example">
-							<MyTabs ref={this.ref_mytabs}></MyTabs>
-							<Button onClick={this.handleNewTab}>
-								<AddIcon color="secondary" />
-							</Button>
-						</Tabs> */}
+						<MyTabs ref={this.ref_mytabs} onTabAdded={this.onTabAdded} onTabSelect={this.onTabSelect}></MyTabs>
 					</Box>
-					{/* <TabPanel value={0} index={0}>
-						<div><h1>Welcome to e-xterm!</h1></div>
-						<MyTerminal></MyTerminal>
-					</TabPanel> */}
 					<MyTabPanels ref={this.ref_mytabpanels}></MyTabPanels>
 					<ClockWithState></ClockWithState>
 				</Box>
+				<BasicTabs></BasicTabs>
 			</div>
 
 		);

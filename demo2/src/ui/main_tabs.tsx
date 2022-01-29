@@ -9,7 +9,12 @@ interface TabsState {
 	selectedTabId: number
 }
 
-export default class MyTabs extends React.Component<any, TabsState> {
+interface TabsProps {
+	onTabSelect: (id: number) => void
+	onTabAdded: (id: number) => void
+}
+
+export default class MyTabs extends React.Component<TabsProps, TabsState> {
 	constructor(props) {
 		super(props)
 
@@ -54,6 +59,8 @@ export default class MyTabs extends React.Component<any, TabsState> {
 		this.setState({
 			selectedTabId: e.target.tabIndex
 		})
+
+		this.props.onTabSelect(e.target.tabIndex);
 	}
 
 	tabFactory(label: string, index: number) {
