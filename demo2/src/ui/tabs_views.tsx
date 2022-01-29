@@ -31,19 +31,24 @@ TabPanel.propTypes = {
 
 interface PanelsState {
 	id_aggregate: number,
-	panels: { id: number }[]
+	panels: { id: number }[],
+	selectedPanelId: number
 }
 
 export default class MyTabPanels extends React.Component<any, PanelsState> {
 	state = {
 		id_aggregate: 0,
-		panels: []
+		panels: [],
+		selectedPanelId: 0
 	}
 
 	addPanel() {
 		this.setState({
-			panels: [...this.state.panels, { id: this.state.id_aggregate + 1 }],
-			id_aggregate: this.state.id_aggregate + 1
+			panels: [...this.state.panels, { id: this.state.id_aggregate }],
+			id_aggregate: this.state.id_aggregate + 1,
+			selectedPanelId: this.state.id_aggregate
+		}, () => {
+			console.log("Added panel with id:", this.state.selectedPanelId);
 		});
 	}
 

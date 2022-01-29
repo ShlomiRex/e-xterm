@@ -7,7 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 // import { MainPanel } from './main_tabs';
 import MyTerminal from './terminal';
 import MyTabs from './main_tabs';
-import MyTabPanels from './main_tab_panels';
+import MyTabPanels from './tabs_views';
 
 class ClockWithState extends React.Component<any, { date }> {
 	timerID: NodeJS.Timeout;
@@ -26,8 +26,6 @@ class ClockWithState extends React.Component<any, { date }> {
 	}
 
 	componentDidMount() {
-		console.log("Mounted tabs2")
-
 		this.timerID = setInterval(
 			() => this.tick(),
 			1000
@@ -35,8 +33,6 @@ class ClockWithState extends React.Component<any, { date }> {
 	}
 
 	componentWillUnmount() {
-		console.log("Un Mounted tabs2")
-
 		clearInterval(this.timerID);
 	}
 
@@ -83,6 +79,16 @@ export class MainPanel extends React.Component<any, any> {
 
 		this.ref_mytabs = React.createRef();
 		this.ref_mytabpanels = React.createRef();
+
+		this.onTabAdded = this.onTabAdded.bind(this);
+	}
+
+	// componentDidMount(): void {
+	// 	this.ref_mytabpanels.current.addPanel();
+	// }
+
+	onTabAdded() {
+		this.ref_mytabpanels.current.addPanel();
 	}
 
 	render() {
@@ -90,7 +96,7 @@ export class MainPanel extends React.Component<any, any> {
 			<div id="main-panel">
 				<Box sx={{ width: '100%' }}>
 					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-						<MyTabs ref={this.ref_mytabs}></MyTabs>
+						<MyTabs ref={this.ref_mytabs} onTabAdded={this.onTabAdded}></MyTabs>
 						{/* <Tabs className="tabs main-panel" value={1} aria-label="basic tabs example">
 							<MyTabs ref={this.ref_mytabs}></MyTabs>
 							<Button onClick={this.handleNewTab}>
@@ -102,7 +108,7 @@ export class MainPanel extends React.Component<any, any> {
 						<div><h1>Welcome to e-xterm!</h1></div>
 						<MyTerminal></MyTerminal>
 					</TabPanel> */}
-					{/* <MyTabPanels ref={this.ref_mytabpanels}></MyTabPanels> */}
+					<MyTabPanels ref={this.ref_mytabpanels}></MyTabPanels>
 					<ClockWithState></ClockWithState>
 				</Box>
 			</div>

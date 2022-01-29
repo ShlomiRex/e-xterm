@@ -34,6 +34,8 @@ export default class MyTabs extends React.Component<any, TabsState> {
 			selectedTabId: this.state.id_aggregate
 		}, () => {
 			console.log("Added tab:", this.state.selectedTabId)
+
+			this.props.onTabAdded(this.state.selectedTabId);
 		});
 	}
 
@@ -76,7 +78,6 @@ export default class MyTabs extends React.Component<any, TabsState> {
 						return this.tabFactory(tab.label, tab.id)
 					})
 				}
-				{/* {this.tabFactory("Welcome", 0)} */}
 				<Tab icon={<AddIcon />} onClick={this.addDummyTab}></Tab>
 			</Tabs>
 		</div>
