@@ -3,6 +3,9 @@ import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
+import { XTerm } from 'xterm-for-react';
+import MyTerminal from './terminal'
+
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
@@ -68,6 +71,7 @@ export default class TabsViews extends React.Component<any, PanelsState> {
 					value={this.state.selectedPanelId}
 					index={panel.id}>
 						Panel Number {panel.id}
+						<MyTerminal></MyTerminal>
 					</TabPanel>
 				})
 			}
