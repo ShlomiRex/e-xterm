@@ -5,10 +5,10 @@ var isRenderer = (process && process.type === 'renderer')
 console.log	('isRenderer', isRenderer)
 
 import { BasicTerminal, Shell } from './terminal';
-// console.debug("Platform:", os.platform())
+console.log("Platform:", os.platform())
 
-// const WINDOWS = os.platform() === 'win32';
-// const MAC = os.platform() == "darwin";
+const WINDOWS = os.platform() === 'win32';
+const MAC = os.platform() == "darwin";
 
 export class ShellTerminal extends BasicTerminal {
 	private ptyProcess: pty.IPty;
@@ -16,15 +16,15 @@ export class ShellTerminal extends BasicTerminal {
 	constructor() {
 		super();
 
-		// let shell;
-		// if (WINDOWS) {
-		// 	shell = Shell.POWERSHELL
-		// } else if (MAC) {
-		// 	shell = Shell.ZSH
-		// } else {
-		// 	shell = Shell.BASH
-		// }
-		// console.debug("Chosen shell:", shell);
+		let shell;
+		if (WINDOWS) {
+			shell = Shell.POWERSHELL
+		} else if (MAC) {
+			shell = Shell.ZSH
+		} else {
+			shell = Shell.BASH
+		}
+		console.log("Chosen shell:", shell);
 
 		// this.ptyProcess = pty.spawn(shell, [], {
 		// 	name: 'xterm-color',
