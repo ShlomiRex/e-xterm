@@ -1,1 +1,27 @@
-nodeIntegration=true and contextIsolation=false and the most important read webpack documentation to bundle nodejs with renderer process
+* Read Google Developers - Sources panel and understand deeply what it means
+* Use node-pty node module in shell_terminal.ts. Understand the problem and solve it.
+
+Problem with node-pty:
+
+WARNING in ./node_modules/node-pty/lib/unixTerminal.js 30:14-48
+Module not found: Error: Can't resolve '../build/Debug/pty.node' in 'C:\Users\Shlomi\Desktop\Projects\e-xterm\node_modules\node-pty\lib'
+ @ ./node_modules/node-pty/lib/index.js 13:19-57
+ @ ./src/shell_terminal.ts 38:23-42
+ @ ./src/app.tsx 24:23-50
+ @ ./src/renderer.ts 33:0-16
+
+WARNING in ./node_modules/node-pty/lib/windowsPtyAgent.js 40:39-76
+Module not found: Error: Can't resolve '../build/Debug/conpty.node' in 'C:\Users\Shlomi\Desktop\Projects\e-xterm\node_modules\node-pty\lib'
+ @ ./node_modules/node-pty/lib/windowsTerminal.js 22:24-52
+ @ ./node_modules/node-pty/lib/index.js 10:19-63
+ @ ./src/shell_terminal.ts 38:23-42
+ @ ./src/app.tsx 24:23-50
+ @ ./src/renderer.ts 33:0-16
+
+WARNING in ./node_modules/node-pty/lib/windowsPtyAgent.js 57:39-73
+Module not found: Error: Can't resolve '../build/Debug/pty.node' in 'C:\Users\Shlomi\Desktop\Projects\e-xterm\node_modules\node-pty\lib'
+ @ ./node_modules/node-pty/lib/windowsTerminal.js 22:24-52
+ @ ./node_modules/node-pty/lib/index.js 10:19-63
+ @ ./src/shell_terminal.ts 38:23-42
+ @ ./src/app.tsx 24:23-50
+ @ ./src/renderer.ts 33:0-16
