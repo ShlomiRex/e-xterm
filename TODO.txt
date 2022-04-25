@@ -1,0 +1,1 @@
+nodeIntegration=true and contextIsolation=false and the most important read webpack documentation to bundle nodejs with renderer process
