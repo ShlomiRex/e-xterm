@@ -15,15 +15,14 @@ export class WSLTerminal extends BasicTerminal {
 			env: process.env
 		});
 
-		this.ptyProcess.on("data", (data: any) => {
+		this.ptyProcess.onData((data: any) => {
 			this.write(data);
-
-		})
+		});
 		this.onData((data: any) => {
 			this.ptyProcess.write(data)
-		})
+		});
 
-		this.fit()
+		this.fit();
 	}
 
 	fit() {
